@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.velocity = new Vector2(direction * moveSpeed, _rigidbody.velocity.y);
 
-            if (direction != 0)
+            if (direction != 0 && IsGrounded)
             {
                 transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1);
                 animator.SetFloat("Speed", Mathf.Abs(direction)); // Cập nhật animation khi di chuyển
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         else if (IsJumping)
         {
             // ✅ Nếu trên không, roll nhưng không giữ nguyên velocity.y (thêm trọng lực)
-            _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, -0.2f);
+            _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, -0.1f);
         }
     }
     public void Jump()

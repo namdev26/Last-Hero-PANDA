@@ -12,7 +12,7 @@ public class RunState : PlayerState
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-        if (moveInput == 0)
+        if (moveInput == 0 && player.IsGrounded)
         {
             player.ChangeState(new IdleState(player)); // Không có input → quay về Idle
         }
