@@ -5,35 +5,25 @@ public class RunState : PlayerState
 
     public override void EnterState()
     {
-        Debug.Log("Enter RunState");
-        animator.SetFloat("Speed", 1f);
+        animator.SetFloat("Speed", 1f); // Bật animation chạy
     }
 
     public override void UpdateState()
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
-        Debug.Log($"RunState Update - MoveInput: {moveInput}, Velocity X: {player.Rigidbody.velocity.x}");
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("RunState: Nhấn Space, chuyển sang RollState");
-            player.ChangeState(new RollState(player));
-            return;
-        }
 
         if (moveInput == 0)
         {
-            Debug.Log("RunState: MoveInput = 0, chuyển sang IdleState");
-            player.ChangeState(new IdleState(player));
-            return;
+            player.ChangeState(new IdleState(player)); // Không có input → quay về Idle
         }
-
-        player.Move(moveInput);
+        else
+        {
+            player.Move(moveInput);
+            animator.SetFloat("Speed", Mathf.Abs(moveInput)); // Luôn cập nhật giá trị Speed
+        }
     }
-
     public override void ExitState()
     {
-        Debug.Log("Exit RunState");
         animator.SetFloat("Speed", 0f);
     }
 }

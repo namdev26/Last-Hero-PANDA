@@ -3,7 +3,13 @@
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private Transform groundCheck;
+    public bool canDoubleJump { get; private set; }
+    public bool IsGrounded { get; private set; } // Kiểm tra có chạm đất không
+    public bool IsJumping { get; private set; } // Kiểm tra có JUMp đất không
     public float MoveSpeed => moveSpeed;
+    public float JumpForce => jumpForce;
     [SerializeField] private Animator animator;
     private Rigidbody2D _rigidbody;
 
@@ -30,20 +36,32 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"Update - Input Space: {Input.GetKeyDown(KeyCode.Space)}, Horizontal: {Input.GetAxisRaw("Horizontal")}, Current State: {currentState?.GetType().Name}");
+        animator.SetFloat("VelocityY", Rigidbody.velocity.y);
+        animator.SetBool("IsGrounded", IsGrounded);
+
+        float moveInput = Input.GetAxisRaw("Horizontal");
+        Move(moveInput); // Đảm bảo nhân vật có thể di chuyển ngay cả khi ở IdleState
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (IsGrounded)
+                ChangeState(new JumpState(this));
+            else if (canDoubleJump)
+            {
+                canDoubleJump = false;
+                ChangeState(new JumpState(this));
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastRollTime > rollCooldown)
         {
             lastRollTime = Time.time;
             ChangeState(new RollState(this));
         }
+
         currentState.UpdateState();
     }
 
-    private void FixedUpdate()
-    {
-        Debug.Log($"FixedUpdate - Current State: {currentState?.GetType().Name}");
-        currentState.FixedUpdateState();
-    }
 
     public void ChangeState(PlayerState newState)
     {
@@ -57,14 +75,52 @@ public class PlayerController : MonoBehaviour
         if (!IsRolling)
         {
             _rigidbody.velocity = new Vector2(direction * moveSpeed, _rigidbody.velocity.y);
+
             if (direction != 0)
             {
                 transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1);
+                animator.SetFloat("Speed", Mathf.Abs(direction)); // Cập nhật animation khi di chuyển
             }
+            else
+            {
+                animator.SetFloat("Speed", 0); // Khi dừng, chuyển animation về Idle
+            }
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ground"))
+        {
+            Debug.Log("Đang va chạm với đất có thể jump"); // ✅ Debug sẽ xuất hiện
+            IsGrounded = true;
+            canDoubleJump = true; // Reset double jump khi chạm đất
+            IsJumping = false;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            IsGrounded = false;
+            IsJumping = true;
         }
     }
     public void Roll(float rollSpeed)
     {
-        _rigidbody.velocity = new Vector2(FacingDirection * rollSpeed, _rigidbody.velocity.y);
+        if (IsGrounded)
+        {
+            // ✅ Giữ nguyên velocity.y khi trên đất
+            _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, _rigidbody.velocity.y);
+        }
+        else if (IsJumping)
+        {
+            // ✅ Nếu trên không, roll nhưng không giữ nguyên velocity.y (thêm trọng lực)
+            _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, -0.2f);
+        }
+    }
+    public void Jump()
+    {
+        Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, jumpForce);
     }
 }
