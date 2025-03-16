@@ -5,6 +5,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private Transform groundCheck;
+    private float lastDownPressTime;
+    private bool canSlam = true;
     public bool canDoubleJump { get; private set; }
     public bool IsGrounded { get; private set; } // Kiểm tra có chạm đất không
     public bool IsJumping { get; private set; } // Kiểm tra có JUMp đất không
@@ -59,6 +61,19 @@ public class PlayerController : MonoBehaviour
             ChangeState(new RollState(this));
         }
 
+        // HeliSlam Attack - Nhấn DownArrow 2 lần liên tiếp khi trên không
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (Time.time - lastDownPressTime < 0.3f && !IsGrounded && canSlam)
+            {
+                ChangeState(new HeliSlamState(this));
+                canSlam = false;
+            }
+            lastDownPressTime = Time.time;
+        }
+
+        if (IsGrounded) canSlam = true; // Reset khả năng thực hiện HeliSlam khi chạm đất
+
         currentState.UpdateState();
     }
 
@@ -76,7 +91,7 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.velocity = new Vector2(direction * moveSpeed, _rigidbody.velocity.y);
 
-            if (direction != 0 && IsGrounded)
+            if (direction != 0)
             {
                 transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1);
                 animator.SetFloat("Speed", Mathf.Abs(direction)); // Cập nhật animation khi di chuyển
@@ -123,4 +138,5 @@ public class PlayerController : MonoBehaviour
     {
         Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, jumpForce);
     }
+
 }

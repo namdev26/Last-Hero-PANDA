@@ -178,7 +178,7 @@ TextureImporter:
         width: 41
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -186,6 +186,27 @@ TextureImporter:
       bones: []
       spriteID: 180bac3702cbe9247b87b30e2bffa519
       internalID: 1570549716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Empty Frame
+      rect:
+        serializedVersion: 2
+        x: 1538
+        y: 1138
+        width: 307
+        height: 246
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 744a7627801598b4cb951b41e7f9ae45
+      internalID: -1955382095
       vertices: []
       indices: 
       edges: []
@@ -201,6 +222,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Empty Frame: -1955382095
       Ground: -1133376987
       Under: 1570549716
   mipmapLimitGroupName: 
