@@ -2,7 +2,7 @@
 
 public class HeliSlamState : PlayerState
 {
-    private float slamSpeed = 25f;
+    private float slamSpeed = 30f;
     private bool hasExploded = false;
 
     public HeliSlamState(PlayerController player) : base(player) { }

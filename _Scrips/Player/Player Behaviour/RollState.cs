@@ -3,7 +3,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class RollState : PlayerState
 {
-    private float rollSpeed = 17f;
+    private float rollSpeed = 20f;
     private int rollHash = Animator.StringToHash("Roll");
     //private bool wasAirborne;
 
@@ -35,7 +35,7 @@ public class RollState : PlayerState
 
     public override void ExitState()
     {
-        player.Rigidbody.gravityScale = 2f; // Khôi phục trọng lực bình thường
+        player.Rigidbody.gravityScale = 5f; // Khôi phục trọng lực bình thường
         player.IsRolling = false;
     }
 }

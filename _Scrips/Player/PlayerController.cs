@@ -2,18 +2,20 @@
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private Transform groundCheck;
+
     private float lastDownPressTime;
+
     private bool canSlam = true;
     public bool canDoubleJump { get; private set; }
     public bool IsGrounded { get; private set; } // Kiểm tra có chạm đất không
-    public bool IsJumping { get; private set; } // Kiểm tra có JUMp đất không
+    public bool IsJumping { get; private set; } // Kiểm tra có JUMp không
     public float MoveSpeed => moveSpeed;
     public float JumpForce => jumpForce;
-    [SerializeField] private Animator animator;
-    private Rigidbody2D _rigidbody;
 
     public Rigidbody2D Rigidbody => _rigidbody;
     public float FacingDirection => transform.localScale.x;
@@ -23,12 +25,6 @@ public class PlayerController : MonoBehaviour
     private PlayerState currentState;
     private float rollCooldown = 0.1f;
     private float lastRollTime;
-
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-    }
 
     private void Start()
     {
