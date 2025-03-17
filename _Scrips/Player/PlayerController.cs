@@ -8,15 +8,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
 
+    public bool isAttacking = false;
     private float lastDownPressTime;
-
     private bool canSlam = true;
     public bool canDoubleJump { get; private set; }
-    public bool IsGrounded { get; private set; } // Kiểm tra có chạm đất không
-    public bool IsJumping { get; private set; } // Kiểm tra có JUMp không
+    public bool IsGrounded { get; private set; }
+    public bool IsJumping { get; private set; }
     public float MoveSpeed => moveSpeed;
     public float JumpForce => jumpForce;
-
     public Rigidbody2D Rigidbody => _rigidbody;
     public float FacingDirection => transform.localScale.x;
     public Animator Animator => animator;
@@ -36,10 +35,32 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetFloat("VelocityY", Rigidbody.velocity.y);
         animator.SetBool("IsGrounded", IsGrounded);
-
         float moveInput = Input.GetAxisRaw("Horizontal");
-        Move(moveInput); // Đảm bảo nhân vật có thể di chuyển ngay cả khi ở IdleState
+        Move(moveInput);
 
+        // Kiểm tra nếu đang tấn công và nhấn nút tấn công
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!isAttacking)
+            {
+                ChangeState(new QuickAttackState(this));
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (!isAttacking)
+            {
+                ChangeState(new JabAttackState(this));
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!isAttacking)
+            {
+                ChangeState(new JumpSpinAttackState(this));
+            }
+        }
+        // Các hành động khác vẫn có thể ngắt tấn công
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (IsGrounded)
@@ -57,7 +78,6 @@ public class PlayerController : MonoBehaviour
             ChangeState(new RollState(this));
         }
 
-        // HeliSlam Attack - Nhấn DownArrow 2 lần liên tiếp khi trên không
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             if (Time.time - lastDownPressTime < 0.3f && !IsGrounded && canSlam)
@@ -68,11 +88,9 @@ public class PlayerController : MonoBehaviour
             lastDownPressTime = Time.time;
         }
 
-        if (IsGrounded) canSlam = true; // Reset khả năng thực hiện HeliSlam khi chạm đất
-
+        if (IsGrounded) canSlam = true;
         currentState.UpdateState();
     }
-
 
     public void ChangeState(PlayerState newState)
     {
@@ -90,49 +108,48 @@ public class PlayerController : MonoBehaviour
             if (direction != 0)
             {
                 transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1);
-                animator.SetFloat("Speed", Mathf.Abs(direction)); // Cập nhật animation khi di chuyển
+                animator.SetFloat("Speed", Mathf.Abs(direction));
             }
             else
             {
-                animator.SetFloat("Speed", 0); // Khi dừng, chuyển animation về Idle
+                animator.SetFloat("Speed", 0);
             }
         }
     }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Monster"))
         {
-            Debug.Log("Đang va chạm với đất có thể jump"); // ✅ Debug sẽ xuất hiện
             IsGrounded = true;
-            canDoubleJump = true; // Reset double jump khi chạm đất
+            canDoubleJump = true;
             IsJumping = false;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.CompareTag("Monster"))
         {
             IsGrounded = false;
             IsJumping = true;
         }
     }
+
     public void Roll(float rollSpeed)
     {
         if (IsGrounded)
         {
-            // ✅ Giữ nguyên velocity.y khi trên đất
             _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, _rigidbody.velocity.y);
         }
         else if (IsJumping)
         {
-            // ✅ Nếu trên không, roll nhưng không giữ nguyên velocity.y (thêm trọng lực)
             _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, -0.1f);
         }
     }
+
     public void Jump()
     {
         Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, jumpForce);
     }
-
 }
