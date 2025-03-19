@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -42,7 +41,6 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsGrounded", IsGrounded);
         float moveInput = Input.GetAxisRaw("Horizontal");
         Move(moveInput);
-        // Kiểm tra nếu đang tấn công và nhấn nút tấn công
         if (Input.GetMouseButtonDown(0))
         {
             if (!isAttacking)

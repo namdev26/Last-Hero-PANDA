@@ -13,7 +13,6 @@ public class HeliSlamState : PlayerState
     {
         player.Rigidbody.velocity = new Vector2(0, -slamSpeed);
         hasExploded = false;
-        player.HeliSlamAttack(this.damage, this.attackRange);
     }
 
     public override void UpdateState()
@@ -22,6 +21,7 @@ public class HeliSlamState : PlayerState
         {
             hasExploded = true;
             player.Animator.SetTrigger("HeliSlamAttack");
+            player.HeliSlamAttack(this.damage, this.attackRange);
         }
 
         // Kiểm tra xem Animator đã thực sự chuyển sang HeliSlamAttack chưa
