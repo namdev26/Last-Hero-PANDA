@@ -4,6 +4,8 @@ public class HeliSlamState : PlayerState
 {
     private float slamSpeed = 30f;
     private bool hasExploded = false;
+    private int damage = 50; // Dame chiêu
+    private float attackRange = 1.4f; // Tầm xa chiêu
 
     public HeliSlamState(PlayerController player) : base(player) { }
 
@@ -11,6 +13,7 @@ public class HeliSlamState : PlayerState
     {
         player.Rigidbody.velocity = new Vector2(0, -slamSpeed);
         hasExploded = false;
+        player.HeliSlamAttack(this.damage, this.attackRange);
     }
 
     public override void UpdateState()

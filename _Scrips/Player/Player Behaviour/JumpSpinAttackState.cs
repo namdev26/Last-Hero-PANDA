@@ -3,7 +3,9 @@
 public class JumpSpinAttackState : PlayerState
 {
     private float attackStartTime;
-    private float attackDuration = 1f; // Điều chỉnh theo thời gian animation
+    private float attackDuration = 1f; // Thời gian hồi chiêu
+    private int damage = 30; // Dame chiêu
+    private float attackRange = 0.9f; // Tầm xa chiêu
 
     public JumpSpinAttackState(PlayerController player) : base(player) { }
 
@@ -12,6 +14,7 @@ public class JumpSpinAttackState : PlayerState
         player.isAttacking = true;
         attackStartTime = Time.time;
         player.Animator.SetTrigger("JumpSpinAttack");
+        player.PerformAttack(this.damage, this.attackRange);
     }
 
     public override void UpdateState()

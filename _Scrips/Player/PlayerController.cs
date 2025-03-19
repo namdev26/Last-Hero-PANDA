@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,6 +8,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
+
+    public Transform attackPoint;
+    public Transform heliSlamPoint;
+    public float attackRange;
+    public LayerMask enemyLayers;
 
     public bool isAttacking = false;
     private float lastDownPressTime;
@@ -30,14 +36,12 @@ public class PlayerController : MonoBehaviour
         currentState = new IdleState(this);
         currentState.EnterState();
     }
-
     private void Update()
     {
         animator.SetFloat("VelocityY", Rigidbody.velocity.y);
         animator.SetBool("IsGrounded", IsGrounded);
         float moveInput = Input.GetAxisRaw("Horizontal");
         Move(moveInput);
-
         // Kiểm tra nếu đang tấn công và nhấn nút tấn công
         if (Input.GetMouseButtonDown(0))
         {
@@ -152,4 +156,29 @@ public class PlayerController : MonoBehaviour
     {
         Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, jumpForce);
     }
+
+    public void PerformAttack(int damage, float attackRange)
+    {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            enemy.GetComponent<MonsterHealth>().TakeDamage(damage);
+        }
+    }
+
+    public void HeliSlamAttack(int damage, float attackRange)
+    {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(heliSlamPoint.position, attackRange, enemyLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            enemy.GetComponent<MonsterHealth>().TakeDamage(damage);
+        }
+    }
+
+    //public void OnDrawGizmosSelected()
+    //{
+    //    if (attackPoint == null)
+    //        return;
+    //    Gizmos.DrawWireSphere(heliSlamPoint.position, attackRange);
+    //}
 }

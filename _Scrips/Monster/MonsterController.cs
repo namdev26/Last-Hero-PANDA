@@ -106,21 +106,4 @@ public abstract class MonsterController : MonoBehaviour
         if (health <= 0) ChangeState(dieState);
         else ChangeState(hurtState);
     }
-
-    //protected virtual void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag("Bullet"))
-    //    {
-    //        Bullet bullet = collision.GetComponent<Bullet>();
-    //        if (bullet != null)
-    //        {
-    //            TakeDamage(bullet.damage);
-    //            Destroy(collision.gameObject);
-    //        }
-    //    }
-    //    else if (collision.CompareTag("MeleeHitbox"))
-    //    {
-    //        TakeDamage(30); // Sát th??ng t? melee
-    //    }
-    //}
 }

@@ -6,7 +6,7 @@ public class NextScene : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            ApplicationVariables.LoadingSceneName = " Dark Area";
+            ApplicationVariables.LoadingSceneName = "Dark Area";
             SceneController.instance.LoadScene("Loading Scene");
         }
     }

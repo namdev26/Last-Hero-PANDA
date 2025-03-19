@@ -25,7 +25,6 @@ public class ShakeFlower : MonoBehaviour
         while (time < shakeTime)
         {
             time += Time.deltaTime;
-            // Sử dụng Mathf.PingPong để tạo dao động nghiêng rõ hơn
             float angle = Mathf.Sin(time * shakeSpeed * Mathf.PI * 2) * shakeAngle;
             transform.localRotation = originQuaternion * Quaternion.Euler(0, 0, angle);
             yield return null;

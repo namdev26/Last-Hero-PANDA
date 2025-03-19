@@ -3,7 +3,9 @@
 public class QuickAttackState : PlayerState
 {
     private float attackStartTime;
-    private float attackDuration = 0.33f; // Điều chỉnh theo thời gian animation
+    private float attackDuration = 0.33f; // Thời gian hồi chiêu
+    private int damage = 10; // Dame chiêu
+    private float attackRange = 0.5f; // Tầm xa chiêu
 
     public QuickAttackState(PlayerController player) : base(player) { }
 
@@ -12,6 +14,7 @@ public class QuickAttackState : PlayerState
         player.isAttacking = true;
         attackStartTime = Time.time;
         player.Animator.SetTrigger("QuickAttack");
+        player.PerformAttack(damage, attackRange);
     }
 
     public override void UpdateState()
