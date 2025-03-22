@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (Time.time - lastDownPressTime < 0.3f && !IsGrounded && canSlam)
+            if (Time.time - lastDownPressTime < 0.3f && canSlam)
             {
                 ChangeState(new HeliSlamState(this));
                 canSlam = false;

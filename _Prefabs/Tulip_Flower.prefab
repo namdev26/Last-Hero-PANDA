@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.055362765, y: -0, z: -0, w: 0.9984664}
   m_LocalPosition: {x: -2, y: -3, z: 0}
-  m_LocalScale: {x: 0.08, y: 0.08, z: 0}
+  m_LocalScale: {x: 0.16, y: 0.16, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -173,4 +173,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shakeSpeed: 3
   shakeTime: 1
-  shakeAngle: 5
+  shakeAngle: 7
