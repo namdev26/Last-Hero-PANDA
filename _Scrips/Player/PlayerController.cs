@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerStats playerStats;
 
     public Transform attackPoint;
     public Transform heliSlamPoint;
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+
         animator.SetFloat("VelocityY", Rigidbody.velocity.y);
         animator.SetBool("IsGrounded", IsGrounded);
         float moveInput = Input.GetAxisRaw("Horizontal");
@@ -155,23 +158,33 @@ public class PlayerController : MonoBehaviour
         Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, jumpForce);
     }
 
-    public void PerformAttack(int damage, float attackRange)
+    public void PerformAttack(float damage, float attackRange)
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<MonsterHealth>().TakeDamage(damage);
+            enemy.GetComponent<MonsterHealth>().TakeDamage(damage + playerStats.damage);
         }
     }
 
-    public void HeliSlamAttack(int damage, float attackRange)
+    public void HeliSlamAttack(float damage, float attackRange)
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(heliSlamPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<MonsterHealth>().TakeDamage(damage);
+            enemy.GetComponent<MonsterHealth>().TakeDamage(damage + playerStats.damage);
         }
     }
+
+    //public void HealthRecoveryFromItems(Collider2D collider2D)
+    //{
+    //    if (collider2D.CompareTag("ItemHealth"))
+    //    {
+    //        playerHealth.Heal(HealthPickup.healAmount);
+    //        Debug.Log("Player đã nhặt vật phẩm hồi máu: +20 HP");
+    //        Destroy(collider2D.gameObject);
+    //    }
+    //}
 
     //public void OnDrawGizmosSelected()
     //{
