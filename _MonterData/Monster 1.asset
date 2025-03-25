@@ -15,8 +15,8 @@ MonoBehaviour:
   monsterName: Monster 1
   patrolSpeed: 1
   chaseSpeed: 2
-  detectionRange: 2
-  attackRange: 1
+  detectionRange: 5
+  attackRange: 1.5
   patrolDistance: 6
   maxIdleTime: 2
   maxHealth: 10

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StatItem : MonoBehaviour
 {
@@ -9,21 +9,15 @@ public class StatItem : MonoBehaviour
         Defence
     }
 
-    public ItemType itemType;
-    public int value;
+    [SerializeField] private ItemType itemType;
+    [SerializeField] private int value;
 
-    public void UseItem(PlayerStats player)
+    public void UseItem(PlayerStats playerStats)
     {
         switch (itemType)
         {
             case ItemType.Health:
-                player.IncreseMaxHP(value);
-                break;
-            case ItemType.Attack:
-                player.IncreseAttack(value);
-                break;
-            case ItemType.Defence:
-                player.IncreseDefence(value);
+                playerStats.IncreaseMaxHP(value);
                 break;
         }
 

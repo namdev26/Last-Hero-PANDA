@@ -1,32 +1,50 @@
 ﻿using UnityEngine;
+using System;
 
+[Serializable]
 public class PlayerStats : MonoBehaviour
 {
-    public float maxHealth = 100; // Máu tối đa
-    public float currentHealth; // Máu hiện tại
-    public float damage = 20; // Sát thương
-    public float defence = 20;
+    [SerializeField] private float baseMaxHealth = 100f;
+    [SerializeField] private float baseDamage = 20f;
+    [SerializeField] private float baseDefence = 20f;
 
+    public float MaxHealth { get; private set; }
+    public float CurrentHealth { get; private set; }
+    public float Damage { get; private set; }
+    public float Defence { get; private set; }
 
-    private void Start()
+    public event Action<float> OnMaxHealthChanged;
+    public event Action<float> OnHealthChanged;
+
+    public PlayerStats()
     {
-        currentHealth = maxHealth;
+        ResetStats();
     }
 
-    public void IncreseMaxHP(int amount)
+    private void ResetStats()
     {
-        maxHealth += amount;
-        currentHealth = maxHealth;
+        MaxHealth = baseMaxHealth;
+        CurrentHealth = MaxHealth;
+        Damage = baseDamage;
+        Defence = baseDefence;
+
+        // Trigger initial health change
+        OnMaxHealthChanged?.Invoke(MaxHealth);
+        OnHealthChanged?.Invoke(CurrentHealth / MaxHealth);
     }
 
-    public void IncreseAttack(int amount)
+    public void IncreaseMaxHP(float amount)
     {
-        damage += amount;
+        MaxHealth += amount;
+        CurrentHealth += amount;
+
+        OnMaxHealthChanged?.Invoke(MaxHealth);
+        OnHealthChanged?.Invoke(CurrentHealth / MaxHealth);
     }
 
-    public void IncreseDefence(int amount)
+    public void ReduceHealth(float damage)
     {
-        defence += amount;
+        CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
+        OnHealthChanged?.Invoke(CurrentHealth / MaxHealth);
     }
-
 }

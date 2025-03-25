@@ -1,42 +1,55 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.InputSystem;
-
+using System;
 
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image healthBarFillImage;
     [SerializeField] private Image healthBarTrailFillImage;
     [SerializeField] private float trailDelay = 0.4f;
-    [SerializeField] private PlayerStats player;
+    [SerializeField] private PlayerHealth playerHealth;
+    private Tween healthTween;
 
     private void Awake()
     {
-        player.currentHealth = player.maxHealth;
-        healthBarFillImage.fillAmount = 1f;
-        healthBarTrailFillImage.fillAmount = 1f;
+        if (playerHealth == null)
+            playerHealth = FindObjectOfType<PlayerHealth>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Keyboard.current.ctrlKey.wasPressedThisFrame)
+        if (playerHealth != null)
         {
-            DrainHealthBar();
+            playerHealth.OnHealthChanged += UpdateHealthBar;
+            playerHealth.OnMaxHealthChanged += UpdateHealthBarMax;
         }
     }
 
-    void DrainHealthBar()
+    private void OnDisable()
     {
-        player.currentHealth -= 10;
-        float ratio = player.currentHealth / player.maxHealth;
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(healthBarFillImage.DOFillAmount(ratio, 0.25f))
-        .SetEase(Ease.InOutSine);
-        sequence.AppendInterval(trailDelay);
-        sequence.Append(healthBarTrailFillImage.DOFillAmount(ratio, 0.3f))
-        .SetEase(Ease.InOutSine);
+        if (playerHealth != null)
+        {
+            playerHealth.OnHealthChanged -= UpdateHealthBar;
+            playerHealth.OnMaxHealthChanged -= UpdateHealthBarMax;
+        }
+    }
 
-        sequence.Play();
+    private void UpdateHealthBar(float healthRatio)
+    {
+        healthTween?.Kill();
+        healthTween = DOTween.Sequence()
+            .Append(healthBarFillImage.DOFillAmount(healthRatio, 0.25f).SetEase(Ease.InOutSine))
+            .AppendInterval(trailDelay)
+            .Append(healthBarTrailFillImage.DOFillAmount(healthRatio, 0.3f).SetEase(Ease.InOutSine))
+            .Play();
+    }
+
+    private void UpdateHealthBarMax(float maxHealth)
+    {
+        // Cập nhật thanh máu khi max health thay đổi
+        float healthRatio = playerHealth.CurrentHealth / maxHealth;
+        healthBarFillImage.fillAmount = healthRatio;
+        healthBarTrailFillImage.fillAmount = healthRatio;
     }
 }

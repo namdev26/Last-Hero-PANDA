@@ -109,13 +109,13 @@ public abstract class MonsterController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, flip ? 0 : 180, 0);
     }
 
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
-        //healthBar.SetHealth(health, data.maxHealth);
-        if (health <= 0) ChangeState(dieState);
-        else ChangeState(hurtState);
-    }
+    //public void TakeDamage(float damage)
+    //{
+    //    health -= damage;
+    //    //healthBar.SetHealth(health, data.maxHealth);
+    //    if (health <= 0) ChangeState(dieState);
+    //    else ChangeState(hurtState);
+    //}
 
     public void OnDrawGizmosSelected()
     {
