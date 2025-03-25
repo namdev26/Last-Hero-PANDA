@@ -3,7 +3,8 @@
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
-    private int currentHealth;
+    [SerializeField] private int currentHealth;
+    [SerializeField] private PlayerController player;
 
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
@@ -15,9 +16,18 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (currentHealth <= 0) return;
+        if (currentHealth <= 0)
+        {
+            player.ChangeState(new DieState(player));
+            return;
+
+        }
+
 
         currentHealth -= damage;
+
+        player.ChangeState(new HurtState(player));
+
         currentHealth = Mathf.Max(currentHealth, 0);
 
         Debug.Log($"Player bị tấn công! Máu còn lại: {currentHealth}");

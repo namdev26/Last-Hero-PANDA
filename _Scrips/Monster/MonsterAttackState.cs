@@ -17,6 +17,7 @@ public class MonsterAttackState : MonsterState
         animator.Play("Attack");
         lastAttackTime = 0f;
         monster.StartAttack(); // Bắt đầu tấn công khi vào trạng thái Attack
+        //monster.Attack(10, 0.7f);
     }
 
     public override void UpdateState()

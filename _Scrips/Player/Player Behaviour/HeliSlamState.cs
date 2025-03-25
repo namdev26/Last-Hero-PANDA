@@ -5,7 +5,7 @@ public class HeliSlamState : PlayerState
     private float slamSpeed = 60;
     private bool hasExploded = false;
     private float damage = 50; // Dame chiêu
-    private float attackRange = 1.4f; // Tầm xa chiêu
+    private float attackRange = 2f; // Tầm xa chiêu
 
     public HeliSlamState(PlayerController player) : base(player) { }
 

@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-
         animator.SetFloat("VelocityY", Rigidbody.velocity.y);
         animator.SetBool("IsGrounded", IsGrounded);
         float moveInput = Input.GetAxisRaw("Horizontal");
