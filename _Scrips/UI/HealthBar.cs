@@ -19,6 +19,7 @@ public class HealthBar : MonoBehaviour
 
     private void OnEnable()
     {
+        // Đăng kí sự kiện theo dõi máu từ bên Player Health : 2 thằng nghe
         if (playerHealth != null)
         {
             playerHealth.OnHealthChanged += UpdateHealthBar;
@@ -28,6 +29,7 @@ public class HealthBar : MonoBehaviour
 
     private void OnDisable()
     {
+        // Hủy không nghe nữa tránh crash
         if (playerHealth != null)
         {
             playerHealth.OnHealthChanged -= UpdateHealthBar;

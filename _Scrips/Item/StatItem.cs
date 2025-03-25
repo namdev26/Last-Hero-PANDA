@@ -19,6 +19,12 @@ public class StatItem : MonoBehaviour
             case ItemType.Health:
                 playerStats.IncreaseMaxHP(value);
                 break;
+            //case ItemType.Attack:
+            //    playerStats.IncreaseDamage(value);
+            //    break;
+            //case ItemType.Defence:
+            //    playerStats.IncreaseDefence(value);
+            //    break;
         }
 
         Destroy(gameObject);
