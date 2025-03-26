@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class FallThrough : MonoBehaviour
 {
-    [SerializeField] private Collider2D collider; // Thay Collider2D bằng CompositeCollider2D
+    [SerializeField] private Collider2D _collider; // Collider của Map
     private bool playerOnPlatform;
     private float lastDownPressTime;
 
     private void Start()
     {
-        collider = GetComponent<Collider2D>(); // Lấy CompositeCollider2D
+        _collider = GetComponent<Collider2D>(); // Lấy Collider của map auto
     }
 
     private void Update()
@@ -18,7 +18,7 @@ public class FallThrough : MonoBehaviour
         {
             if (Time.time - lastDownPressTime < 0.3f && playerOnPlatform)
             {
-                collider.enabled = false; // Tắt va chạm của CompositeCollider2D
+                _collider.enabled = false; // Tắt va chạm của Collider2D
                 StartCoroutine(EnableCollider());
             }
             lastDownPressTime = Time.time;
@@ -30,7 +30,7 @@ public class FallThrough : MonoBehaviour
     private IEnumerator EnableCollider()
     {
         yield return new WaitForSeconds(0.07f);
-        collider.enabled = true; // Bật va chạm của CompositeCollider2D
+        _collider.enabled = true; // Bật va chạm của Collider2D
     }
 
     private void SetPlayerOnPlatform(Collider2D collider, bool value)

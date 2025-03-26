@@ -51,9 +51,9 @@ public abstract class MonsterController : MonoBehaviour
     public void StartAttack() => isAttacking = true;
     public void EndAttack() => isAttacking = false;
     public void ResumeMovement() => isStunned = false;
-    //public bool IsStunned() => isStunned;
-    //public bool IsAttacking => isAttacking;
-    //public void StopMovement() => isStunned = true;
+    public bool IsStunned() => isStunned;
+    public bool IsAttacking => isAttacking;
+    public void StopMovement() => isStunned = true;
 
     protected virtual void Start()
     {

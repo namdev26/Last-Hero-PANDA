@@ -2,7 +2,6 @@
 
 public class MonsterHurtState : MonsterState
 {
-    //private MonsterController monster;
 
     public MonsterHurtState(MonsterController monster) : base(monster)
     {
@@ -13,7 +12,7 @@ public class MonsterHurtState : MonsterState
     {
         //Debug.Log("Bắt đầu trạng thái Hurt");
         animator.Play("Hurt"); // Phát animation bị trúng
-        //monster.StopMovement(); // Dừng quái vật ngay khi vào trạng thái
+        monster.StopMovement(); // Dừng quái vật ngay khi vào trạng thái
     }
 
     public override void UpdateState()

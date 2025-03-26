@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3592ca24bbc6a3418e086fc28f3733d, type: 3}
+  m_Name: Zarokh
+  m_EditorClassIdentifier: 
+  NPCName: Zarokh
+  paragraps:
+  - "\xC1nh s\xE1ng trong ng\u01B0\u01A1i\u2026 c\xF2n qu\xE1 y\u1EBFu \u1EDBt \u0111\u1EC3
+    \u0111\u1ED1i m\u1EB7t v\u1EDBi b\xF3ng t\u1ED1i v\u0129nh c\u1EEDu. C\xE1nh
+    c\u1EEDa n\xE0y d\u1EABn \u0111\u1EBFn m\u1ED9t n\u01A1i m\xE0 ngay c\u1EA3 nh\u1EEFng
+    linh h\u1ED3n d\u0169ng c\u1EA3m nh\u1EA5t c\u0169ng ph\u1EA3i run r\u1EA9y."
+  - "L\xE2u \u0111\xE0i n\xE0y v\u1EABn c\xF2n nh\u1EEFng th\u1EED th\xE1ch cho ng\u01B0\u01A1i.
+    L\u0169 qu\xE1i v\u1EADt \u0111ang r\xECnh r\u1EADp, v\xE0 s\u1EE9c m\u1EA1nh
+    ch\xFAng n\u1EAFm gi\u1EEF c\xF3 th\u1EC3 gi\xFAp ng\u01B0\u01A1i. H\xE3y t\xECm
+    ch\xFAng, ti\xEAu di\u1EC7t ch\xFAng, v\xE0 tr\u1EDF l\u1EA1i \u0111\xE2y khi
+    ng\u01B0\u01A1i \u0111\xE3 m\u1EA1nh h\u01A1n."
+  - "\u0110i hay \u1EDF, s\u1ED1ng hay ch\u1EBFt\u2026 t\u1EA5t c\u1EA3 l\xE0 \u0111\u1ECBnh
+    m\u1EC7nh c\u1EE7a ng\u01B0\u01A1i. Ta ch\u1EC9 l\xE0 k\u1EBB d\u1EABn \u0111\u01B0\u1EDDng,
+    kh\xF4ng ph\u1EA3i k\u1EBB quy\u1EBFt \u0111\u1ECBnh. H\xE3y ch\u1ECDn c\u1EA9n
+    th\u1EADn."
