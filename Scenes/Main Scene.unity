@@ -549,7 +549,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &488935999
 Transform:
   m_ObjectHideFlags: 0
@@ -1805,7 +1805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1228832205
 Transform:
   m_ObjectHideFlags: 0
@@ -2418,7 +2418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1570362090
 Transform:
   m_ObjectHideFlags: 0
@@ -2866,6 +2866,7 @@ MonoBehaviour:
   moveSpeed: 3
   jumpForce: 13
   playerHealth: {fileID: 0}
+  playerStats: {fileID: 0}
   attackPoint: {fileID: 0}
   heliSlamPoint: {fileID: 0}
   attackRange: 0

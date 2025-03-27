@@ -5,7 +5,7 @@ public class JabAttackState : PlayerState
     private float attackStartTime;
     private float attackDuration = 0.5f; // Thời gian hồi chiêu
     private float damage = 20; // Dame chiêu
-    private float attackRange = 1.5f; // Tầm xa chiêu
+    private float attackRange = 2.2f; // Tầm xa chiêu
 
     public JabAttackState(PlayerController player) : base(player) { }
 

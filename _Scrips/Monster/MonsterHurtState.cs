@@ -2,7 +2,6 @@
 
 public class MonsterHurtState : MonsterState
 {
-
     public MonsterHurtState(MonsterController monster) : base(monster)
     {
         this.monster = monster;
@@ -10,25 +9,27 @@ public class MonsterHurtState : MonsterState
 
     public override void EnterState()
     {
-        //Debug.Log("Bắt đầu trạng thái Hurt");
-        animator.Play("Hurt"); // Phát animation bị trúng
-        monster.StopMovement(); // Dừng quái vật ngay khi vào trạng thái
+        Debug.Log("Entering HurtState");
+        monster.StopMovement(); // Dừng di chuyển
+        // Không cần Play("Hurt") vì Animator sẽ tự động vào state Hurt qua trigger
     }
 
     public override void UpdateState()
     {
-        // Kiểm tra nếu animation "Hurt" đã kết thúc
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt") &&
-            animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+        AnimatorStateInfo stateInfo = monster.Animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName("Hurt") && stateInfo.normalizedTime >= 1f)
         {
-            //Debug.Log("Animation Hurt kết thúc, quay lại trạng thái trước đó");
-            monster.ResumeMovement(); // Tiếp tục di chuyển
-            monster.ChangeState(monster.PatrolState); // Quay lại Patrol (hoặc trạng thái trước đó)
+            Debug.Log("Hurt animation finished");
+            if (!monster.Animator.GetBool("IsDie")) // Nếu không chết
+            {
+                monster.Animator.SetTrigger("ExitHurt"); // Trigger để thoát Hurt
+            }
         }
     }
 
     public override void ExitState()
     {
-        //Debug.Log("Thoát trạng thái Hurt");
+        Debug.Log("Exiting HurtState");
+        monster.ResumeMovement(); // Tiếp tục di chuyển
     }
 }

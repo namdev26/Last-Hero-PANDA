@@ -1,12 +1,12 @@
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public abstract class MonsterController : MonoBehaviour
 {
-    [SerializeField] protected MonsterData data; // D? li?u c?u h�nh
+    [SerializeField] protected MonsterData data;
     public MonsterData MonsterData => data;
     protected MonsterState currentState;
     protected Animator animator;
+    protected Rigidbody2D rb;
     public Animator Animator => animator;
     public Transform player;
     public Vector2 startPos;
@@ -14,21 +14,11 @@ public abstract class MonsterController : MonoBehaviour
     protected bool isStunned;
     protected bool isAttacking;
 
-
-
-
     public Transform attackPoint;
     public float attackRange;
     public LayerMask playerLayers;
 
-
-
-
-    //[SerializeField] protected GameObject attackHitbox;
-    //[SerializeField] protected MonsterAttackHitbox attackHitboxScript;
-    //[SerializeField] protected HealthBar healthBar;
-
-    // C�c tr?ng th�i
+    // States
     protected MonsterState idleState;
     protected MonsterState patrolState;
     protected MonsterState chaseState;
@@ -57,6 +47,8 @@ public abstract class MonsterController : MonoBehaviour
 
     protected virtual void Start()
     {
+        rb = GetComponent<Rigidbody2D>(); // Lấy Rigidbody2D
+        if (rb == null) Debug.LogError("Rigidbody2D missing!");
         animator = GetComponent<Animator>();
         if (animator == null) Debug.LogError("Animator missing on " + gameObject.name);
 
@@ -68,17 +60,14 @@ public abstract class MonsterController : MonoBehaviour
 
         InitializeStates();
         ChangeState(idleState);
-        //healthBar.SetHealth(health, data.maxHealth);
-
     }
 
     protected virtual void Update()
     {
-        if (currentState != null && !isStunned)
+        if (currentState != null && !isStunned) // Chỉ chạy state logic nếu không bị stun
         {
             currentState.UpdateState();
         }
-        //healthBar.SetHealth(health, data.maxHealth);
     }
 
     protected abstract void InitializeStates();
@@ -98,8 +87,12 @@ public abstract class MonsterController : MonoBehaviour
 
     public virtual void Move(Vector2 direction, float speed)
     {
-        //if (data.moveHorizontallyOnly)
-        direction = new Vector2(direction.x, 0f); // Qu�i ??t ch? di chuy?n ngang
+        if (isStunned)
+        {
+            Debug.Log("Stunned, should not move!");
+            return;
+        }
+        Debug.Log("Moving: " + direction);
         transform.position += (Vector3)direction * speed * Time.deltaTime;
     }
 
@@ -109,18 +102,27 @@ public abstract class MonsterController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, flip ? 0 : 180, 0);
     }
 
-    //public void TakeDamage(float damage)
-    //{
-    //    health -= damage;
-    //    //healthBar.SetHealth(health, data.maxHealth);
-    //    if (health <= 0) ChangeState(dieState);
-    //    else ChangeState(hurtState);
-    //}
+    public virtual void TakeDamage(float damage)
+    {
+        Debug.Log("TakeDamage called with damage: " + damage);
+        health -= damage;
+        if (health <= 0)
+        {
+            Debug.Log("Health <= 0, setting IsDie = true");
+            animator.SetBool("IsDie", true); // Set parameter để vào DieState
+            ChangeState(dieState);
+        }
+        else if (!isStunned)
+        {
+            Debug.Log("Setting Hurt trigger");
+            animator.SetTrigger("Hurt"); // Set trigger để vào HurtState
+                                         // ChangeState(hurtState);
+        }
+    }
 
     public void OnDrawGizmosSelected()
     {
-        if (attackPoint == null)
-            return;
+        if (attackPoint == null) return;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
@@ -130,11 +132,8 @@ public abstract class MonsterController : MonoBehaviour
         foreach (Collider2D player in hitPlayer)
         {
             if (player.GetComponent<PlayerHealth>() != null)
-                player.GetComponent<PlayerHealth>().TakeDamage((10));
-            else
-            {
-                Debug.Log("Player not found!");
-            }
+                player.GetComponent<PlayerHealth>().TakeDamage(10);
+            else Debug.Log("Player not found!");
         }
     }
 }

@@ -29,7 +29,7 @@ public class FallThrough : MonoBehaviour
 
     private IEnumerator EnableCollider()
     {
-        yield return new WaitForSeconds(0.07f);
+        yield return new WaitForSeconds(0.05f);
         _collider.enabled = true; // Bật va chạm của Collider2D
     }
 

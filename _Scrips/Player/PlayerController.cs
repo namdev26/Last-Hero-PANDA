@@ -185,10 +185,10 @@ public class PlayerController : MonoBehaviour
     //    }
     //}
 
-    //public void OnDrawGizmosSelected()
-    //{
-    //    if (attackPoint == null)
-    //        return;
-    //    Gizmos.DrawWireSphere(heliSlamPoint.position, attackRange);
-    //}
+    public void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
 }
