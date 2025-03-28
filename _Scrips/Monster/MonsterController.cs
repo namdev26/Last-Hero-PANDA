@@ -14,9 +14,11 @@ public abstract class MonsterController : MonoBehaviour
     protected bool isStunned;
     protected bool isAttacking;
 
+
     public Transform attackPoint;
     public float attackRange;
     public LayerMask playerLayers;
+
 
     // States
     protected MonsterState idleState;

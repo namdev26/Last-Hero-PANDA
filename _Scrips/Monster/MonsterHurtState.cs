@@ -11,7 +11,7 @@ public class MonsterHurtState : MonsterState
     {
         Debug.Log("Entering HurtState");
         monster.StopMovement(); // Dừng di chuyển
-        // Không cần Play("Hurt") vì Animator sẽ tự động vào state Hurt qua trigger
+
     }
 
     public override void UpdateState()
