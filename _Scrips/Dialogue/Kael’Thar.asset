@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3592ca24bbc6a3418e086fc28f3733d, type: 3}
+  m_Name: "Kael\u2019Thar"
+  m_EditorClassIdentifier: 
+  NPCName: "Kael\u2019Thar"
+  paragraps:
+  - "Ta c\u1EA3m nh\u1EADn \u0111\u01B0\u1EE3c ng\u01B0\u01A1i \u0111\xE3 h\u1EA5p
+    th\u1EE5 s\u1EE9c m\u1EA1nh t\u1EEB nh\u1EEFng k\u1EBB g\u1EE5c ng\xE3. S\u1EF1
+    y\u1EBFu \u1EDBt trong ng\u01B0\u01A1i \u0111\xE3 d\u1EA7n bi\u1EBFn m\u1EA5t,
+    nh\u01B0ng li\u1EC7u \u0111\xE3 \u0111\u1EE7 \u0111\u1EC3 \u0111\u1ED1i m\u1EB7t
+    v\u1EDBi b\xF3ng t\u1ED1i ph\xEDa tr\u01B0\u1EDBc?"
+  - "C\xE1nh c\u1ED5ng n\xE0y\u2026 kh\xF4ng gi\u1ED1ng nh\u01B0 c\xE1nh c\u1ED5ng
+    d\u01B0\u1EDBi kia. N\xF3 kh\xF4ng d\u1EABn ng\u01B0\u01A1i v\xE0o l\xE2u \u0111\xE0i
+    m\xE0 d\u1EABn ng\u01B0\u01A1i \u0111\u1EBFn c\xE1nh c\u1EEDa cu\u1ED1i c\xF9ng,
+    n\u01A1i ng\u01B0\u01A1i kh\xF4ng th\u1EC3 quay l\u1EA1i m\u1ED9t khi \u0111\xE3
+    b\u01B0\u1EDBc qua.\r"
+  - "Qu\xE1i v\u1EADt ng\u01B0\u01A1i t\u1EEBng chi\u1EBFn \u0111\u1EA5u ch\u1EC9
+    l\xE0 nh\u1EEFng k\u1EBB canh gi\u1EEF. Ch\u1EE7 nh\xE2n c\u1EE7a n\u01A1i n\xE0y\u2026
+    kh\xF4ng ph\u1EA3i l\xE0 th\u1EE9 c\xF3 th\u1EC3 b\u1ECB \u0111\xE1nh b\u1EA1i
+    ch\u1EC9 b\u1EDFi s\u1EE9c m\u1EA1nh."
+  - "Nh\u1EEFng con qu\xE1i v\u1EADt m\xE0 ng\u01B0\u01A1i v\u1EEBa \u0111\u1ED1i
+    m\u1EB7t ch\u1EC9 l\xE0 b\xF3ng ma l\u1EA9n khu\u1EA5t trong l\xE2u \u0111\xE0i.
+    Nh\u01B0ng th\u1EE9 \u0111ang ch\u1EDD ph\xEDa tr\u01B0\u1EDBc\u2026 l\xE0 m\u1ED9t
+    th\u1EF1c th\u1EC3 kh\xF4ng c\xF3 l\xF2ng th\u01B0\u01A1ng x\xF3t."
+  - "\rQuy\u1EBFt \u0111\u1ECBnh trong tay ng\u01B0\u01A1i. Nh\u01B0ng ng\u01B0\u01A1i
+    h\xE3y nh\u1EDB \u2026 c\xF3 nh\u1EEFng c\xE1nh c\u1EEDa ch\u1EC9 m\u1EDF ra
+    m\u1ED9t l\u1EA7n."
