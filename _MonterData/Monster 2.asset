@@ -17,6 +17,6 @@ MonoBehaviour:
   chaseSpeed: 4
   detectionRange: 7
   attackRange: 3
-  patrolDistance: 15
+  patrolDistance: 10
   maxIdleTime: 2
-  maxHealth: 10
+  maxHealth: 2000

@@ -13,7 +13,7 @@ public class SceneCameraManager : MonoBehaviour
         {
             GameObject cam = new GameObject("Cinemachine Camera");
             cinemachineCamera = cam.AddComponent<CinemachineVirtualCamera>();
-            cinemachineCamera.Priority = 10; // Đảm bảo nó là camera chính
+            cinemachineCamera.Priority = 10; // Đảm bảo nó là _camera chính
         }
     }
 }
