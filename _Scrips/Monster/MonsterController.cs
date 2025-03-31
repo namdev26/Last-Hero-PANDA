@@ -13,6 +13,7 @@ public abstract class MonsterController : MonoBehaviour
     [SerializeField] protected float health;
     protected bool isStunned;
     protected bool isAttacking;
+    public float knockbackForce = 10f;
 
 
     public Transform attackPoint;
@@ -104,10 +105,12 @@ public abstract class MonsterController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, flip ? 0 : 180, 0);
     }
 
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, Vector2 attackerPos)
     {
-        Debug.Log("TakeDamage called with damage: " + damage);
         health -= damage;
+
+        Vector2 knockbackDir = (transform.position - (Vector3)attackerPos).normalized;
+        rb.velocity = knockbackDir * knockbackForce; // Đẩy lùi
         if (health <= 0)
         {
             Debug.Log("Health <= 0, setting IsDie = true");
