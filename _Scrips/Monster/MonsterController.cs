@@ -95,7 +95,6 @@ public abstract class MonsterController : MonoBehaviour
             Debug.Log("Stunned, should not move!");
             return;
         }
-        //Debug.Log("Moving: " + direction);
         transform.position += (Vector3)direction * speed * Time.deltaTime;
     }
 

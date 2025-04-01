@@ -20,6 +20,8 @@ public class FallState : PlayerState
         {
             player.ChangeState(new FallState(player));
         }
+
+
     }
     public override void ExitState()
     {

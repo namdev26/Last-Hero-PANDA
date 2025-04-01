@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private Transform groundCheck;
+    [SerializeField] private Transform wallCheck;
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
@@ -20,11 +21,11 @@ public class PlayerController : MonoBehaviour
     private bool canSlam = true;
     public bool canDoubleJump { get; private set; }
     public bool IsGrounded { get; private set; }
+    public bool InWall { get; private set; }
     public bool IsJumping { get; private set; }
     public float MoveSpeed => moveSpeed;
     public float JumpForce => jumpForce;
     public Rigidbody2D Rigidbody => _rigidbody;
-    public float FacingDirection => transform.localScale.x;
     public Animator Animator => animator;
     public bool IsRolling { get; set; }
 
@@ -43,6 +44,11 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsGrounded", IsGrounded);
         float moveInput = Input.GetAxisRaw("Horizontal");
         Move(moveInput);
+        //if (InWall && !IsGrounded && Rigidbody.velocity.y < 0) // Rơi + chạm tường
+        //{
+        //    ChangeState(new WallSlideState(this)); // Chuyển sang WallSlideState
+        //    transform.localScale = new Vector3(-Mathf.Sign(moveInput), 1, 1);
+        //}
         if (Input.GetMouseButtonDown(0))
         {
             if (!isAttacking)
@@ -119,6 +125,10 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("Speed", 0);
             }
         }
+        //if (InWall)
+        //{
+        //    //transform.localScale = new Vector3(-Mathf.Sign(direction), 1, 1);
+        //}
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -129,6 +139,10 @@ public class PlayerController : MonoBehaviour
             canDoubleJump = true;
             IsJumping = false;
         }
+        if (collision.CompareTag("Wall"))
+        {
+            InWall = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -138,7 +152,12 @@ public class PlayerController : MonoBehaviour
             IsGrounded = false;
             IsJumping = true;
         }
+        if (collision.CompareTag("Wall"))
+        {
+            InWall = false;
+        }
     }
+
 
     public void Roll(float rollSpeed)
     {
