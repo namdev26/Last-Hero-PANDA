@@ -22,6 +22,8 @@ public class PlayerHealth : MonoBehaviour
         playerStats.OnMaxHealthChanged += HandleMaxHealthChanged;
     }
 
+
+
     public void TakeDamage(int damage)
     {
         // Áp dụng phòng thủ, đảm bảo ít nhất 1 sát thương

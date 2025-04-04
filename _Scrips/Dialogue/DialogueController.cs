@@ -46,6 +46,7 @@ public class DialogueController : MonoBehaviour
             FinishDialogueEarly();
         }
 
+
         // cập nhật danh sách queue nói
         //NPCDialogueText.text = p;
 

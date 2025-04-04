@@ -11,6 +11,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerStats playerStats;
 
+    [SerializeField] private ParticleSystem movementParticle;
+    [Range(0, 10)]
+    [SerializeField] private float occurAfterVelocity = 1f; // Ngưỡng vận tốc để phát bụi
+    [Range(0, 0.2f)]
+    [SerializeField] private float dustFormationPeriod = 0.1f; // Khoảng thời gian giữa các lần phát bụi
+    private float counter = 0f; // Đếm thời gian để phát bụi định kỳ
+
+
+
     public Transform attackPoint;
     public Transform heliSlamPoint;
     public float attackRange;
@@ -37,18 +46,37 @@ public class PlayerController : MonoBehaviour
     {
         currentState = new IdleState(this);
         currentState.EnterState();
+
+
     }
     private void Update()
     {
         animator.SetFloat("VelocityY", Rigidbody.velocity.y);
         animator.SetBool("IsGrounded", IsGrounded);
-        float moveInput = Input.GetAxisRaw("Horizontal");
+        float moveInput = 0f;
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            moveInput = -1f;
+        }
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            moveInput = 1f;
+        }
         Move(moveInput);
-        //if (InWall && !IsGrounded && Rigidbody.velocity.y < 0) // Rơi + chạm tường
-        //{
-        //    ChangeState(new WallSlideState(this)); // Chuyển sang WallSlideState
-        //    transform.localScale = new Vector3(-Mathf.Sign(moveInput), 1, 1);
-        //}
+
+        if (movementParticle != null && IsGrounded)
+        {
+            counter += Time.deltaTime;
+
+            if (Mathf.Abs(_rigidbody.velocity.x) > occurAfterVelocity)
+            {
+                if (counter >= dustFormationPeriod)
+                {
+                    movementParticle.Emit(5); // phát ra 1 hạt bụi
+                    counter = 0;
+                }
+            }
+        }
         if (Input.GetMouseButtonDown(0))
         {
             if (!isAttacking)
@@ -71,7 +99,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         // Các hành động khác vẫn có thể ngắt tấn công
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             if (IsGrounded)
                 ChangeState(new JumpState(this));
@@ -88,7 +116,7 @@ public class PlayerController : MonoBehaviour
             ChangeState(new RollState(this));
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             if (Time.time - lastDownPressTime < 0.3f && canSlam)
             {
@@ -114,7 +142,6 @@ public class PlayerController : MonoBehaviour
         if (!IsRolling)
         {
             _rigidbody.velocity = new Vector2(direction * moveSpeed, _rigidbody.velocity.y);
-
             if (direction != 0)
             {
                 transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1);
@@ -125,10 +152,6 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("Speed", 0);
             }
         }
-        //if (InWall)
-        //{
-        //    //transform.localScale = new Vector3(-Mathf.Sign(direction), 1, 1);
-        //}
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -181,7 +204,7 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<MonsterController>().TakeDamage(damage + playerStats.Damage, transform.position);
+            //enemy.GetComponent<MonsterController>().TakeDamage(damage + playerStats.Damage, transform.position);
         }
     }
 
@@ -190,7 +213,7 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(heliSlamPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<MonsterController>().TakeDamage(damage + playerStats.Damage, transform.position);
+            //enemy.GetComponent<MonsterController>().TakeDamage(damage + playerStats.Damage, transform.position);
         }
     }
 

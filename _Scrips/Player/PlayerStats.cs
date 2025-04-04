@@ -8,7 +8,6 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float baseDamage = 20f;
     [SerializeField] private float baseDefence = 20f;
     [SerializeField] private int gold = 0;
-
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
     public float Damage { get; private set; }

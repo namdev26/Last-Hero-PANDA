@@ -19,4 +19,4 @@ MonoBehaviour:
   attackRange: 2
   patrolDistance: 6
   maxIdleTime: 2
-  maxHealth: 10
+  maxHealth: 2000
