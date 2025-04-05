@@ -9967,6 +9967,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 486479774}
   _rigidbody: {fileID: 486479777}
+  player: {fileID: 1488643010}
+  rb: {fileID: 486479777}
+  maxHP: 1000
+  currentHP: 0
+  attackDamage: 10
+  defense: 5
+  moveSpeed: 5
+  hasBuff: 0
 --- !u!1 &653104493
 GameObject:
   m_ObjectHideFlags: 0
