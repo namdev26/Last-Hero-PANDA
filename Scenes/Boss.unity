@@ -9862,9 +9862,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1823087715
+  m_SortingLayer: 6
+  m_SortingOrder: 3
   m_Sprite: {fileID: -2013190351, guid: 6a6a9bb8b14e25b45a37473cad4f6ae8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9975,6 +9975,7 @@ MonoBehaviour:
   defense: 5
   moveSpeed: 5
   hasBuff: 0
+  isAttacking: 0
 --- !u!1 &653104493
 GameObject:
   m_ObjectHideFlags: 0

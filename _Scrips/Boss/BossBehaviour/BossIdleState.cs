@@ -14,6 +14,7 @@ public class BossIdleState : BossState
         boss.animator.Play("Idle");
         idleTime = Random.Range(1f, 2f);
         timer = 0f;
+        boss.FlipTowardsPlayer();
     }
     public override void UpdateState()
     {
@@ -38,10 +39,10 @@ public class BossIdleState : BossState
             {
                 boss.TransitionToState(new BossRangeAttackState(boss));
             }
-            //else if (distanceToPlayer <= 4f)
-            //{
-            //    boss.TransitionToState(new BossBasicAttackState(boss));
-            //}
+            else if (distanceToPlayer <= 4f)
+            {
+                boss.TransitionToState(new BossBasicAttackState(boss));
+            }
             //else if (distanceToPlayer <= 6f)
             //{
             //    boss.TransitionToState(new BossChainAttackState(boss));
@@ -50,10 +51,10 @@ public class BossIdleState : BossState
             //{
             //    boss.TransitionToState(new BossDashAttackState(boss));
             //}
-            //else
-            //{
-            //    boss.TransitionToState(new BossMoveState(boss));
-            //}
+            else if (distanceToPlayer > 12f)
+            {
+                boss.TransitionToState(new BossMoveState(boss));
+            }
         }
     }
 

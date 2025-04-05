@@ -4,7 +4,6 @@ public class BossRangeAttackState : BossState
 {
     private float attackCooldown = 0.9f;
     private float timer = 0f;
-    private bool isAttacking = false;
     public BossRangeAttackState(BossController boss) : base(boss)
     {
     }
@@ -14,15 +13,15 @@ public class BossRangeAttackState : BossState
         boss.animator.Play("RangeAttack");
         boss.rb.velocity = Vector2.zero;
         timer = 0f;
-        isAttacking = false;
+        boss.isAttacking = false;
     }
     public override void UpdateState()
     {
         timer += Time.deltaTime;
-        if (!isAttacking && timer >= 0.5f)
+        if (!boss.isAttacking && timer >= 0.5f)
         {
             PerformRangeAttack();
-            isAttacking = true;
+            boss.isAttacking = true;
         }
 
         if (timer >= attackCooldown)
@@ -33,6 +32,7 @@ public class BossRangeAttackState : BossState
 
     public override void ExitState()
     {
+        boss.isAttacking = false;
     }
 
     private void PerformRangeAttack()

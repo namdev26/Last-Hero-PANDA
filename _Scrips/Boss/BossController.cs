@@ -16,7 +16,7 @@ public class BossController : MonoBehaviour
 
     //bien check boss
     public bool hasBuff = false;
-
+    public bool isAttacking = false;
 
     public BossState currentState;
 
@@ -36,5 +36,23 @@ public class BossController : MonoBehaviour
         currentState?.ExitState();
         currentState = newState;
         currentState.EnterState();
+    }
+
+    public void MoveTowardsPlayer()
+    {
+        Vector2 direction = (player.position - transform.position).normalized;
+        rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
+        FlipTowardsPlayer();
+    }
+
+    public void FlipTowardsPlayer()
+    {
+        if ((player.position.x > transform.position.x && transform.localScale.x < 0) ||
+            (player.position.x < transform.position.x && transform.localScale.x > 0))
+        {
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
     }
 }
