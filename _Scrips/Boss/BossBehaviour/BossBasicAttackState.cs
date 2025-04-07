@@ -1,43 +1,40 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
 
 public class BossBasicAttackState : BossState
 {
-    private float attackCooldown = 1.5f;
-    private float timer = 0f;
+    BossActionManager actionManager;
+
     public BossBasicAttackState(BossController boss) : base(boss)
     {
+        actionManager = new BossActionManager(boss);
     }
-
 
     public override void EnterState()
     {
         boss.animator.Play("BasicAttack");
         boss.isAttacking = false;
-        timer = 0f;
         boss.FlipTowardsPlayer();
     }
+
     public override void UpdateState()
     {
-        timer += Time.deltaTime;
-        if (boss.currentHP <= 0)
+
+        if (!boss.isAttacking && boss.IsAnimationComplete("BasicAttack"))
+        {
+            actionManager.ChooseRandomAttack(boss.distanceToPlayer);
+        }
+
+        // Kiểm tra điều kiện kết thúc của boss (chết hoặc buff)
+        if (boss.IsDeath())
         {
             boss.TransitionToState(new BossDieState(boss));
             return;
         }
-        if (boss.currentHP <= boss.maxHP * 0.3f && !boss.hasBuff)
+
+        if (boss.CanBuff())
         {
             boss.TransitionToState(new BossBuffState(boss));
             return;
-        }
-        if (!boss.isAttacking && timer >= 0.5f)
-        {
-            PerformBasicAttack();
-            boss.isAttacking = true;
-        }
-        if (timer >= attackCooldown)
-        {
-            boss.TransitionToState(new BossIdleState(boss));
         }
     }
 
@@ -46,13 +43,18 @@ public class BossBasicAttackState : BossState
         boss.isAttacking = false;
     }
 
-    void PerformBasicAttack()
-    {
-        float distanseToPlayer = Vector2.Distance(boss.transform.position, boss.player.position);
-        if (distanseToPlayer <= 2f)
-        {
-            Debug.Log("Boss đang gây sát thương cho Player");
-        }
-    }
-
+    //void PerformBasicAttack()
+    //{
+    //    float distanceToPlayer = Vector2.Distance(boss.transform.position, boss.player.position);
+    //    if (distanceToPlayer <= 2f)  // Kiểm tra khoảng cách với player
+    //    {
+    //        Debug.Log("Boss đang gây sát thương cho Player");
+    //        // Gây sát thương thực tế tại đây, có thể thêm logic cho việc giảm HP của player
+    //        PlayerHealth player = boss.player.GetComponent<PlayerHealth>();
+    //        if (player != null)
+    //        {
+    //            player.TakeDamage(boss.attackDamage);
+    //        }
+    //    }
+    //}
 }

@@ -8,7 +8,10 @@ public class PlayerHealth : MonoBehaviour
     public float CurrentHealth => playerStats.CurrentHealth;
     public event Action<float> OnHealthChanged;
     public event Action<float> OnMaxHealthChanged;
-    public event Action OnPlayerDied;
+    //public event Action OnPlayerDied;
+    public GameObject bloodEffect;
+    public Transform transformBloodEffect;
+    public PlayerController player;
 
     private void Awake()
     {
@@ -16,24 +19,22 @@ public class PlayerHealth : MonoBehaviour
         {
             playerStats = new PlayerStats();
         }
-
-        // Đăng ký sự kiện
         playerStats.OnHealthChanged += HandleHealthChanged;
         playerStats.OnMaxHealthChanged += HandleMaxHealthChanged;
     }
 
-
-
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool attackFromRight = false)
     {
-        // Áp dụng phòng thủ, đảm bảo ít nhất 1 sát thương
-        float finalDamage = Mathf.Max(damage);
+        if (player.isInvincible) return; // né đòn nếu đang invincible
+        GameObject blood = Instantiate(bloodEffect, transformBloodEffect.position, Quaternion.identity);
 
-        playerStats.ReduceHealth(finalDamage);
-
-        if (playerStats.CurrentHealth <= 0)
+        if (attackFromRight)
         {
-            OnPlayerDied?.Invoke();
+            blood.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        if (playerStats.CurrentHealth > 0)
+        {
+            playerStats.ReduceHealth(damage);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private GameObject monster;
+    [SerializeField] private Collider2D playerCollider;
 
     [SerializeField] private ParticleSystem movementParticle;
     [Range(0, 10)]
@@ -18,7 +21,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dustFormationPeriod = 0.1f; // Khoảng thời gian giữa các lần phát bụi
     private float counter = 0f; // Đếm thời gian để phát bụi định kỳ
 
-
+    public bool isInvincible = false; // biến bất tử khi roll không nhận damage
+    public float rollInvincibleTime = 0.4f; // Thời gian invincible khi roll
 
     public Transform attackPoint;
     public Transform heliSlamPoint;
@@ -72,7 +76,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (counter >= dustFormationPeriod)
                 {
-                    movementParticle.Emit(5); // phát ra 1 hạt bụi
+                    movementParticle.Emit(5); // phát ra 5 hạt bụi
                     counter = 0;
                 }
             }
@@ -181,9 +185,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     public void Roll(float rollSpeed)
     {
+
         if (IsGrounded)
         {
             _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, _rigidbody.velocity.y);
@@ -192,28 +196,37 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, -0.1f);
         }
+        StartCoroutine(EnableInvincibilityForSeconds(rollInvincibleTime));
+    }
+
+    private IEnumerator EnableInvincibilityForSeconds(float duration)
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(duration);
+        isInvincible = false;
     }
 
     public void Jump()
     {
         Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, jumpForce);
     }
-
-    public void PerformAttack(float damage, float attackRange)
+    public void PerformAttack(int damage, float attackRange)
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            //enemy.GetComponent<MonsterController>().TakeDamage(damage + playerStats.Damage, transform.position);
+            bool attackFromRight = transform.position.x > monster.transform.position.x;
+            enemy.GetComponent<BossController>().TakeDamage(damage + playerStats.Damage, attackFromRight);
         }
     }
 
-    public void HeliSlamAttack(float damage, float attackRange)
+    public void HeliSlamAttack(int damage, float attackRange)
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(heliSlamPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            //enemy.GetComponent<MonsterController>().TakeDamage(damage + playerStats.Damage, transform.position);
+            bool attackFromRight = transform.position.x > monster.transform.position.x;
+            enemy.GetComponent<BossController>().TakeDamage(damage + playerStats.Damage, attackFromRight);
         }
     }
 

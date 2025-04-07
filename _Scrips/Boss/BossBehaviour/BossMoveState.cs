@@ -2,9 +2,11 @@
 
 public class BossMoveState : BossState
 {
+    private BossActionManager actionManager;
 
     public BossMoveState(BossController boss) : base(boss)
     {
+        actionManager = new BossActionManager(boss);
     }
 
     public override void EnterState()
@@ -13,41 +15,20 @@ public class BossMoveState : BossState
     }
     public override void UpdateState()
     {
-        if (boss.currentHP <= 0)
+        if (boss.IsDeath())
         {
             boss.TransitionToState(new BossDieState(boss));
             return;
         }
-        if (boss.currentHP <= boss.maxHP * 0.3f && !boss.hasBuff)
+        if (boss.CanBuff())
         {
             boss.TransitionToState(new BossBuffState(boss));
             return;
         }
+
         boss.MoveTowardsPlayer();
 
-        float distanceToPlayer = Vector2.Distance(boss.transform.position, boss.player.position);
-
-
-        if (distanceToPlayer > 3.5f && distanceToPlayer <= 4f)
-        {
-            boss.TransitionToState(new BossRangeAttackState(boss));
-        }
-        //else if (distanceToPlayer <= 4f)
-        //{
-        //    boss.TransitionToState(new BossBasicAttackState(boss));
-        //}
-        //else if (distanceToPlayer <= 6f)
-        //{
-        //    boss.TransitionToState(new BossChainAttackState(boss));
-        //}
-        //else if (distanceToPlayer > 4f && distanceToPlayer <= 7f)
-        //{
-        //    boss.TransitionToState(new BossDashAttackState(boss));
-        //}
-        else if (distanceToPlayer > 12f)
-        {
-            boss.TransitionToState(new BossMoveState(boss));
-        }
+        actionManager.ChooseRandomAttack(boss.distanceToPlayer);
     }
 
 

@@ -4,7 +4,7 @@ public class JumpSpinAttackState : PlayerState
 {
     private float attackStartTime;
     private float attackDuration = 1f; // Thời gian hồi chiêu
-    private float damage = 30; // Dame chiêu
+    private int damage = 30; // Dame chiêu
     private float attackRange = 2.2f; // Tầm xa chiêu
 
     public JumpSpinAttackState(PlayerController player) : base(player) { }

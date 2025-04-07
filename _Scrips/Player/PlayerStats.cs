@@ -4,14 +4,14 @@ using System;
 [Serializable]
 public class PlayerStats : MonoBehaviour
 {
-    [SerializeField] private float baseMaxHealth = 100f;
-    [SerializeField] private float baseDamage = 20f;
-    [SerializeField] private float baseDefence = 20f;
+    [SerializeField] private int baseMaxHealth = 100;
+    [SerializeField] private int baseDamage = 20;
+    [SerializeField] private int baseDefence = 20;
     [SerializeField] private int gold = 0;
-    public float MaxHealth { get; private set; }
-    public float CurrentHealth { get; private set; }
-    public float Damage { get; private set; }
-    public float Defence { get; private set; }
+    public int MaxHealth { get; private set; }
+    public int CurrentHealth { get; private set; }
+    public int Damage { get; private set; }
+    public int Defence { get; private set; }
     public int Gold { get { return gold; } } // Getter cho gold
 
     public event Action<float> OnMaxHealthChanged;
@@ -36,7 +36,7 @@ public class PlayerStats : MonoBehaviour
         OnGoldChanged?.Invoke(gold);
     }
 
-    public void IncreaseMaxHP(float amount)
+    public void IncreaseMaxHP(int amount)
     {
         MaxHealth += amount;
         CurrentHealth += amount;
@@ -44,7 +44,7 @@ public class PlayerStats : MonoBehaviour
         OnHealthChanged?.Invoke(CurrentHealth / MaxHealth);
     }
 
-    public void ReduceHealth(float damage)
+    public void ReduceHealth(int damage)
     {
         CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
         OnHealthChanged?.Invoke(CurrentHealth / MaxHealth);

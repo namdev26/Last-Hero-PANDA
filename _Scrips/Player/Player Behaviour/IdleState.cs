@@ -5,7 +5,7 @@ public class IdleState : PlayerState
 
     public override void EnterState()
     {
-        animator.SetFloat("Speed", 0f);
+        animator.Play("Idle");
         player.Move(0); // Reset velocity để tránh giữ trạng thái cũ
     }
 

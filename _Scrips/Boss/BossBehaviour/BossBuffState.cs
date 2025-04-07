@@ -3,7 +3,7 @@ using UnityEngine;
 public class BossBuffState : BossState
 {
     public bool applyBuff;
-    public float buffDuration = 2f;
+    public float buffDuration = 1.3f;
     public float timer = 0f;
     public BossBuffState(BossController boss) : base(boss)
     {
@@ -40,7 +40,5 @@ public class BossBuffState : BossState
         boss.defense *= 2f;
         boss.moveSpeed *= 1.5f;
         boss.hasBuff = true;
-        Debug.Log("Boss has been buffed!");
-
     }
 }
