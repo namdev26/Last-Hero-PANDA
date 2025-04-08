@@ -12,15 +12,16 @@ public class PlayerHealth : MonoBehaviour, IHealth
 
     public float CurrentHealth => playerStats.CurrentHealth;
 
-    public float MaxHealth => throw new NotImplementedException();
+    public float MaxHealth => playerStats.MaxHealth;
+
 
     public event Action<float> OnHealthChanged;
     public event Action<float> OnMaxHealthChanged;
 
     private void Awake()
     {
-        playerStats.OnHealthChanged += ratio => OnHealthChanged?.Invoke(ratio);
-        playerStats.OnMaxHealthChanged += max => OnMaxHealthChanged?.Invoke(max);
+        playerStats.OnHealthChanged += HandleHealthChanged;
+        playerStats.OnMaxHealthChanged += HandleMaxHealthChanged;
     }
     private void HandleHealthChanged(float ratio)
     {

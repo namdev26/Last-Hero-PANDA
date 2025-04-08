@@ -10800,7 +10800,7 @@ MonoBehaviour:
   healthBarFillImage: {fileID: 1982222246}
   healthBarTrailFillImage: {fileID: 287327094}
   trailDelay: 0.4
-  targetHealthScript: {fileID: 0}
+  targetHealthScript: {fileID: 1488643003}
 --- !u!1 &643962332
 GameObject:
   m_ObjectHideFlags: 0
