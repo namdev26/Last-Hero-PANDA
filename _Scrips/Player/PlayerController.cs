@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private GameObject monster;
     [SerializeField] private Collider2D playerCollider;
+    [SerializeField] private Transform bloodEffectTranform;
 
     [SerializeField] private ParticleSystem movementParticle;
     [Range(0, 10)]
@@ -216,7 +217,7 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             bool attackFromRight = transform.position.x > monster.transform.position.x;
-            enemy.GetComponent<BossController>().TakeDamage(damage + playerStats.Damage, attackFromRight);
+            enemy.GetComponent<BossHealth>().TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
         }
     }
 
@@ -226,7 +227,7 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             bool attackFromRight = transform.position.x > monster.transform.position.x;
-            enemy.GetComponent<BossController>().TakeDamage(damage + playerStats.Damage, attackFromRight);
+            enemy.GetComponent<BossHealth>().TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
         }
     }
 
@@ -246,4 +247,5 @@ public class PlayerController : MonoBehaviour
             return;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
+
 }

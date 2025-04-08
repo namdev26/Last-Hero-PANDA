@@ -5,8 +5,10 @@ public class BossBuffState : BossState
     public bool applyBuff;
     public float buffDuration = 1.3f;
     public float timer = 0f;
+    private BossHealth bossHealth;
     public BossBuffState(BossController boss) : base(boss)
     {
+        bossHealth = boss.GetComponent<BossHealth>();
     }
 
     public override void EnterState()
@@ -39,6 +41,6 @@ public class BossBuffState : BossState
         boss.attackDamage *= 2;
         boss.defense *= 2f;
         boss.moveSpeed *= 1.5f;
-        boss.hasBuff = true;
+        bossHealth.hasBuff = true;
     }
 }

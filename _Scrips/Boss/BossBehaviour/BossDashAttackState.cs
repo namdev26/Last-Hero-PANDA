@@ -5,8 +5,12 @@ public class BossDashAttackState : BossState
     private float dashSpeed = 10f;
     private float dashDuration = 0.9f;
     private float timer = 0f;
+    private BossHealth bossHealth;
 
-    public BossDashAttackState(BossController boss) : base(boss) { }
+    public BossDashAttackState(BossController boss) : base(boss)
+    {
+        bossHealth = boss.GetComponent<BossHealth>();
+    }
 
     public override void EnterState()
     {

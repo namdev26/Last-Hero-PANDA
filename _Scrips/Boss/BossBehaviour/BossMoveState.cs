@@ -3,10 +3,11 @@
 public class BossMoveState : BossState
 {
     private BossActionManager actionManager;
-
+    private BossHealth bossHealth;
     public BossMoveState(BossController boss) : base(boss)
     {
         actionManager = new BossActionManager(boss);
+        bossHealth = boss.GetComponent<BossHealth>();
     }
 
     public override void EnterState()
@@ -15,12 +16,12 @@ public class BossMoveState : BossState
     }
     public override void UpdateState()
     {
-        if (boss.IsDeath())
+        if (bossHealth.IsDeath())
         {
             boss.TransitionToState(new BossDieState(boss));
             return;
         }
-        if (boss.CanBuff())
+        if (bossHealth.CanBuff())
         {
             boss.TransitionToState(new BossBuffState(boss));
             return;

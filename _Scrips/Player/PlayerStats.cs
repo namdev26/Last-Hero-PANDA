@@ -8,20 +8,20 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int baseDamage = 20;
     [SerializeField] private int baseDefence = 20;
     [SerializeField] private int gold = 0;
+
     public int MaxHealth { get; private set; }
     public int CurrentHealth { get; private set; }
     public int Damage { get; private set; }
     public int Defence { get; private set; }
-    public int Gold { get { return gold; } } // Getter cho gold
+    public int Gold => gold;
 
     public event Action<float> OnMaxHealthChanged;
     public event Action<float> OnHealthChanged;
-    public event Action<int> OnGoldChanged; // Event cho vàng
+    public event Action<int> OnGoldChanged;
 
-    void Awake()
-    {
-        ResetStats(); // Chuyển từ constructor sang Awake
-    }
+    void Awake() => ResetStats();
+
+    public float GetHealthRatio() => MaxHealth > 0 ? (float)CurrentHealth / MaxHealth : 0f;
 
     private void ResetStats()
     {
@@ -29,10 +29,9 @@ public class PlayerStats : MonoBehaviour
         CurrentHealth = MaxHealth;
         Damage = baseDamage;
         Defence = baseDefence;
-        gold = 0; // Reset vàng luôn nếu cần
+        gold = 0;
 
-        OnMaxHealthChanged?.Invoke(MaxHealth);
-        OnHealthChanged?.Invoke(CurrentHealth / MaxHealth);
+        NotifyHealthChanged();
         OnGoldChanged?.Invoke(gold);
     }
 
@@ -40,30 +39,32 @@ public class PlayerStats : MonoBehaviour
     {
         MaxHealth += amount;
         CurrentHealth += amount;
-        OnMaxHealthChanged?.Invoke(MaxHealth);
-        OnHealthChanged?.Invoke(CurrentHealth / MaxHealth);
+        NotifyHealthChanged();
     }
 
     public void ReduceHealth(int damage)
     {
         CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
-        OnHealthChanged?.Invoke(CurrentHealth / MaxHealth);
+        OnHealthChanged?.Invoke(GetHealthRatio());
     }
 
     public void AddGold(int amount)
     {
         gold += amount;
-        OnGoldChanged?.Invoke(gold); // Thông báo khi vàng thay đổi
+        OnGoldChanged?.Invoke(gold);
     }
 
-    public bool SpendGold(int cost) // Trả về bool để báo thành công/thất bại
+    public bool SpendGold(int cost)
     {
-        if (gold >= cost)
-        {
-            gold -= cost;
-            OnGoldChanged?.Invoke(gold);
-            return true;
-        }
-        return false;
+        if (gold < cost) return false;
+        gold -= cost;
+        OnGoldChanged?.Invoke(gold);
+        return true;
+    }
+
+    private void NotifyHealthChanged()
+    {
+        OnMaxHealthChanged?.Invoke(MaxHealth);
+        OnHealthChanged?.Invoke(GetHealthRatio());
     }
 }

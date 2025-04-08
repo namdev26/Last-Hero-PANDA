@@ -5,10 +5,12 @@ public class BossIdleState : BossState
     private float idleTime;
     private float timer;
     private BossActionManager actionManager;
+    private BossHealth bossHealth;
 
     public BossIdleState(BossController boss) : base(boss)
     {
         actionManager = new BossActionManager(boss);
+        bossHealth = boss.GetComponent<BossHealth>();
     }
 
     public override void EnterState()
@@ -23,13 +25,13 @@ public class BossIdleState : BossState
     {
         timer += Time.deltaTime;
 
-        if (boss.IsDeath())
+        if (bossHealth.IsDeath())
         {
             boss.TransitionToState(new BossDieState(boss));
             return;
         }
 
-        if (boss.CanBuff())
+        if (bossHealth.CanBuff())
         {
             boss.TransitionToState(new BossBuffState(boss));
             return;

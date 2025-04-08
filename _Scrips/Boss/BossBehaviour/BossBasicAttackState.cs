@@ -3,10 +3,11 @@
 public class BossBasicAttackState : BossState
 {
     BossActionManager actionManager;
-
+    private BossHealth bossHealth;
     public BossBasicAttackState(BossController boss) : base(boss)
     {
         actionManager = new BossActionManager(boss);
+        bossHealth = boss.GetComponent<BossHealth>();
     }
 
     public override void EnterState()
@@ -25,13 +26,13 @@ public class BossBasicAttackState : BossState
         }
 
         // Kiểm tra điều kiện kết thúc của boss (chết hoặc buff)
-        if (boss.IsDeath())
+        if (bossHealth.IsDeath())
         {
             boss.TransitionToState(new BossDieState(boss));
             return;
         }
 
-        if (boss.CanBuff())
+        if (bossHealth.CanBuff())
         {
             boss.TransitionToState(new BossBuffState(boss));
             return;
@@ -42,19 +43,4 @@ public class BossBasicAttackState : BossState
     {
         boss.isAttacking = false;
     }
-
-    //void PerformBasicAttack()
-    //{
-    //    float distanceToPlayer = Vector2.Distance(boss.transform.position, boss.player.position);
-    //    if (distanceToPlayer <= 2f)  // Kiểm tra khoảng cách với player
-    //    {
-    //        Debug.Log("Boss đang gây sát thương cho Player");
-    //        // Gây sát thương thực tế tại đây, có thể thêm logic cho việc giảm HP của player
-    //        PlayerHealth player = boss.player.GetComponent<PlayerHealth>();
-    //        if (player != null)
-    //        {
-    //            player.TakeDamage(boss.attackDamage);
-    //        }
-    //    }
-    //}
 }

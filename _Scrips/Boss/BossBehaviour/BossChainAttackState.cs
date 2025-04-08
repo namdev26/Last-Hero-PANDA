@@ -5,8 +5,12 @@ public class BossChainAttackState : BossState
     private float chainRange = 5f;
     private float attackDuration = 0.8f;
     private float timer = 0f;
+    private BossHealth bossHealth;
 
-    public BossChainAttackState(BossController boss) : base(boss) { }
+    public BossChainAttackState(BossController boss) : base(boss)
+    {
+        bossHealth = boss.GetComponent<BossHealth>();
+    }
 
     public override void EnterState()
     {

@@ -1,39 +1,37 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System;
 
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image healthBarFillImage;
     [SerializeField] private Image healthBarTrailFillImage;
     [SerializeField] private float trailDelay = 0.4f;
-    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private MonoBehaviour targetHealthScript;
+
+    private IHealth healthTarget;
     private Tween healthTween;
 
     private void Awake()
     {
-        if (playerHealth == null)
-            playerHealth = FindObjectOfType<PlayerHealth>();
+        healthTarget = targetHealthScript as IHealth;
     }
 
     private void OnEnable()
     {
-        // Đăng kí sự kiện theo dõi máu từ bên Player Health : 2 thằng nghe
-        if (playerHealth != null)
+        if (healthTarget != null)
         {
-            playerHealth.OnHealthChanged += UpdateHealthBar;
-            playerHealth.OnMaxHealthChanged += UpdateHealthBarMax;
+            healthTarget.OnHealthChanged += UpdateHealthBar;
+            healthTarget.OnMaxHealthChanged += ForceUpdateHealthBar;
         }
     }
 
     private void OnDisable()
     {
-        // Hủy không nghe nữa tránh crash
-        if (playerHealth != null)
+        if (healthTarget != null)
         {
-            playerHealth.OnHealthChanged -= UpdateHealthBar;
-            playerHealth.OnMaxHealthChanged -= UpdateHealthBarMax;
+            healthTarget.OnHealthChanged -= UpdateHealthBar;
+            healthTarget.OnMaxHealthChanged -= ForceUpdateHealthBar;
         }
     }
 
@@ -47,11 +45,11 @@ public class HealthBar : MonoBehaviour
             .Play();
     }
 
-    private void UpdateHealthBarMax(float maxHealth)
+    private void ForceUpdateHealthBar(float maxHealth)
     {
-        // Cập nhật thanh máu khi max health thay đổi
-        float healthRatio = playerHealth.CurrentHealth / maxHealth;
-        healthBarFillImage.fillAmount = healthRatio;
-        healthBarTrailFillImage.fillAmount = healthRatio;
+        if (healthTarget == null || maxHealth <= 0f) return;
+        float ratio = healthTarget.CurrentHealth / maxHealth;
+        healthBarFillImage.fillAmount = ratio;
+        healthBarTrailFillImage.fillAmount = ratio;
     }
 }

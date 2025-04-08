@@ -1,57 +1,60 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IHealth
 {
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private PoolObject pool;
+    [SerializeField] private GameObject bloodEffect;
+    [SerializeField] private Transform transformBloodEffect;
+    [SerializeField] private PlayerController player;
 
     public float CurrentHealth => playerStats.CurrentHealth;
+
+    public float MaxHealth => throw new NotImplementedException();
+
     public event Action<float> OnHealthChanged;
     public event Action<float> OnMaxHealthChanged;
-    //public event Action OnPlayerDied;
-    public GameObject bloodEffect;
-    public Transform transformBloodEffect;
-    public PlayerController player;
 
     private void Awake()
     {
-        if (playerStats == null)
-        {
-            playerStats = new PlayerStats();
-        }
-        playerStats.OnHealthChanged += HandleHealthChanged;
-        playerStats.OnMaxHealthChanged += HandleMaxHealthChanged;
+        playerStats.OnHealthChanged += ratio => OnHealthChanged?.Invoke(ratio);
+        playerStats.OnMaxHealthChanged += max => OnMaxHealthChanged?.Invoke(max);
+    }
+    private void HandleHealthChanged(float ratio)
+    {
+        OnHealthChanged?.Invoke(ratio);
+    }
+    private void HandleMaxHealthChanged(float max)
+    {
+        OnMaxHealthChanged?.Invoke(max);
     }
 
     public void TakeDamage(int damage, bool attackFromRight = false)
     {
-        if (player.isInvincible) return; // né đòn nếu đang invincible
-        GameObject blood = Instantiate(bloodEffect, transformBloodEffect.position, Quaternion.identity);
+        if (player.isInvincible) return;
 
-        if (attackFromRight)
-        {
-            blood.transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
+        ShowBloodEffect(attackFromRight);
         if (playerStats.CurrentHealth > 0)
         {
             playerStats.ReduceHealth(damage);
         }
     }
 
-    private void HandleHealthChanged(float healthRatio)
+    private void ShowBloodEffect(bool attackFromRight)
     {
-        OnHealthChanged?.Invoke(healthRatio);
+        GameObject blood = pool.Get(transformBloodEffect.position, Quaternion.identity);
+        if (attackFromRight)
+        {
+            blood.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        StartCoroutine(ReturnToPoolAfterDelay(blood, 1f));
     }
 
-    private void HandleMaxHealthChanged(float maxHealth)
+    private IEnumerator ReturnToPoolAfterDelay(GameObject obj, float delay)
     {
-        OnMaxHealthChanged?.Invoke(maxHealth);
-    }
-
-    private void OnDestroy()
-    {
-        // Hủy đăng ký sự kiện
-        playerStats.OnHealthChanged -= HandleHealthChanged;
-        playerStats.OnMaxHealthChanged -= HandleMaxHealthChanged;
+        yield return new WaitForSeconds(delay);
+        pool.ReturnToPool(obj);
     }
 }
