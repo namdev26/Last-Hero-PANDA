@@ -1,38 +1,35 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
 public class BossHealth : MonoBehaviour, IHealth
 {
-
     public bool hasBuff = false;
-    [SerializeField] public PoolObject pool;
-    public float CurrentHealth => throw new NotImplementedException();
 
-    public float MaxHealth => throw new NotImplementedException();
+    [SerializeField] public PoolObject pool;
+
+    // Thông số Boss
+    public int maxHP = 1000;
+    public int currentHP;
+
+    public float CurrentHealth => currentHP;
+    public float MaxHealth => maxHP;
 
     public event Action<float> OnHealthChanged;
     public event Action<float> OnMaxHealthChanged;
 
-
-    // Thong so Boss
-    public int maxHP = 1000;
-    public int currentHP;
-
-    void Start()
+    private void Start()
     {
         currentHP = maxHP;
+
+        // Gọi sự kiện để UI cập nhật khi bắt đầu
+        OnMaxHealthChanged?.Invoke(maxHP);
+        OnHealthChanged?.Invoke(GetHealthRatio());
     }
 
-    public bool IsDeath()
-    {
-        return currentHP <= 0;
-    }
+    public bool IsDeath() => currentHP <= 0;
 
-    public bool CanBuff()
-    {
-        return currentHP <= maxHP * 0.3f && !hasBuff;
-    }
+    public bool CanBuff() => currentHP <= maxHP * 0.3f && !hasBuff;
 
     public void TakeDamage(int damage, Transform positionEffect, bool attackFromRight = false)
     {
@@ -41,10 +38,13 @@ public class BossHealth : MonoBehaviour, IHealth
         {
             blood.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
+
         StartCoroutine(ReturnToPoolAfterDelay(blood, 1f));
+
         if (currentHP > 0)
         {
-            currentHP -= damage;
+            currentHP = Mathf.Max(currentHP - damage, 0);
+            OnHealthChanged?.Invoke(GetHealthRatio());
         }
     }
 
@@ -54,4 +54,8 @@ public class BossHealth : MonoBehaviour, IHealth
         pool.ReturnToPool(obj);
     }
 
+    private float GetHealthRatio()
+    {
+        return maxHP > 0 ? (float)currentHP / maxHP : 0f;
+    }
 }

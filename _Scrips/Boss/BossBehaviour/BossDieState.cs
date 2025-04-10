@@ -12,7 +12,10 @@ public class BossDieState : BossState
     }
     public override void UpdateState()
     {
-        GameObject.Destroy(boss.gameObject);
+        if (boss.IsAnimationComplete("Die"))
+        {
+            boss.gameObject.SetActive(false);
+        }
     }
 
     public override void ExitState()

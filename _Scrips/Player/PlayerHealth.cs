@@ -43,6 +43,12 @@ public class PlayerHealth : MonoBehaviour, IHealth
         }
     }
 
+    public void Heal(int amount)
+    {
+        playerStats.CurrentHealth = Mathf.Min(playerStats.CurrentHealth + amount, playerStats.MaxHealth);
+        OnHealthChanged?.Invoke(playerStats.GetHealthRatio());
+    }
+
     private void ShowBloodEffect(bool attackFromRight)
     {
         GameObject blood = pool.Get(transformBloodEffect.position, Quaternion.identity);

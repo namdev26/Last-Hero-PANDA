@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
-    [SerializeField] private Rigidbody2D _rigidbody;
+    [SerializeField] public Rigidbody2D _rigidbody;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private PlayerHealth playerHealth;
@@ -43,6 +43,11 @@ public class PlayerController : MonoBehaviour
     public Animator Animator => animator;
     public bool IsRolling { get; set; }
 
+    public bool CanControl { get; private set; } = true;
+
+    public void EnableControl() => CanControl = true;
+    public void DisableControl() => CanControl = false;
+
     private PlayerState currentState;
     private float rollCooldown = 0.1f;
     private float lastRollTime;
@@ -56,6 +61,11 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        if (!CanControl)
+        {
+            currentState.UpdateState();
+            return;
+        }
         animator.SetFloat("VelocityY", Rigidbody.velocity.y);
         animator.SetBool("IsGrounded", IsGrounded);
         float moveInput = 0f;
@@ -89,6 +99,13 @@ public class PlayerController : MonoBehaviour
                 ChangeState(new QuickAttackState(this));
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ChangeState(new HealState(this));
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (!isAttacking)

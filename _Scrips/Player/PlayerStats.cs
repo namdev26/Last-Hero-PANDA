@@ -10,7 +10,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int gold = 0;
 
     public int MaxHealth { get; private set; }
-    public int CurrentHealth { get; private set; }
+    public int CurrentHealth;
     public int Damage { get; private set; }
     public int Defence { get; private set; }
     public int Gold => gold;
