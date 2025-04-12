@@ -16,7 +16,7 @@ public class BossIdleState : BossState
     public override void EnterState()
     {
         boss.animator.Play("Idle");
-        idleTime = Random.Range(0.5f, 1f); // Thời gian ngẫu nhiên để boss chuyển trạng thái
+        idleTime = Random.Range(0.5f, 1f);
         timer = 0f;
         boss.FlipTowardsPlayer();
     }

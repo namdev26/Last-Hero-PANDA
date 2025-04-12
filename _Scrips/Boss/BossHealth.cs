@@ -58,4 +58,12 @@ public class BossHealth : MonoBehaviour, IHealth
     {
         return maxHP > 0 ? (float)currentHP / maxHP : 0f;
     }
+
+    public void Heal(int amount)
+    {
+        if (currentHP > 0 && currentHP < maxHP)
+        {
+            currentHP += amount;
+        }
+    }
 }

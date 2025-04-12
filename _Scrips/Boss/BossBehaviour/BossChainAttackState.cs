@@ -5,6 +5,8 @@ public class BossChainAttackState : BossState
     private float chainRange = 5f;
     private float attackDuration = 0.8f;
     private float timer = 0f;
+    private bool hasAttacked = false;
+
     private BossHealth bossHealth;
 
     public BossChainAttackState(BossController boss) : base(boss)
@@ -16,26 +18,31 @@ public class BossChainAttackState : BossState
     {
         boss.animator.Play("ChainAttack");
         timer = 0f;
-        boss.isAttacking = false;
+        hasAttacked = false;
+        boss.isAttacking = true;
         boss.FlipTowardsPlayer();
     }
 
     public override void UpdateState()
     {
+        if (bossHealth.IsDeath())
+        {
+            boss.TransitionToState(new BossDieState(boss));
+            return;
+        }
+
+        if (bossHealth.CanBuff())
+        {
+            boss.TransitionToState(new BossBuffState(boss));
+            return;
+        }
+
         timer += Time.deltaTime;
 
-        if (timer < attackDuration)
+        if (!hasAttacked && timer >= 0.3f && boss.distanceToPlayer <= chainRange)
         {
-
-            if (!boss.isAttacking)
-            {
-                boss.isAttacking = true;
-            }
-
-            if (boss.distanceToPlayer <= chainRange)
-            {
-                PerformChainAttack();
-            }
+            PerformChainAttack();
+            hasAttacked = true;
         }
 
         if (timer >= attackDuration)
@@ -51,6 +58,7 @@ public class BossChainAttackState : BossState
 
     void PerformChainAttack()
     {
-
+        Debug.Log("Boss thực hiện Chain Attack!");
+        // TODO: Gây damage / VFX / hitbox
     }
 }

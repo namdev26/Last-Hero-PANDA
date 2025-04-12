@@ -4,14 +4,15 @@ using UnityEngine;
 public class BossController : MonoBehaviour
 {
     [SerializeField] public Animator animator;
-    [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] public Transform player;
     [SerializeField] public Rigidbody2D rb;
-    [SerializeField] public Vector2 dashTarget;
-    [SerializeField] public GameObject bloodEffect;
-    [SerializeField] public Transform transformBloodEffect;
-    public float dashSpeed = 10f;
+    [SerializeField] private Vector2 dashTarget;
+    [SerializeField] private GameObject bloodEffect;
+    [SerializeField] private Transform transformBloodEffect;
 
+    private BossActionManager actionManager;
+
+    public float dashSpeed = 10f;
     public int attackDamage = 10;
     public float defense = 5f;
     public float moveSpeed = 5f;
@@ -22,6 +23,11 @@ public class BossController : MonoBehaviour
     public BossState currentState;
 
     public float distanceToPlayer;
+
+    private void Awake()
+    {
+        actionManager = new BossActionManager(this);
+    }
     private void Start()
     {
         TransitionToState(new BossIdleState(this));
@@ -52,15 +58,20 @@ public class BossController : MonoBehaviour
         if ((player.position.x > transform.position.x && transform.localScale.x < 0) ||
             (player.position.x < transform.position.x && transform.localScale.x > 0))
         {
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+            this.Flip();
         }
+    }
+
+    void Flip()
+    {
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
     public bool IsAnimationComplete(string animationName)
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        return stateInfo.IsName(animationName) && stateInfo.normalizedTime >= 1f;
+        return stateInfo.IsName(animationName) && stateInfo.normalizedTime >= 0.95f;
     }
 }

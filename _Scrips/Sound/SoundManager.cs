@@ -6,6 +6,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private SoundLibrary sfxLibrary;
     [SerializeField] private AudioSource sfx2DSource;
     [SerializeField] private MusicLibrary musicLibrary;
+    [SerializeField] private AudioSource musicSource;
 
     private void Awake()
     {
@@ -33,12 +34,10 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-
     public void PlaySound3D(string soundName, Vector3 position)
     {
         PlaySound3D(sfxLibrary.GetClipFromName(soundName), position);
     }
-
 
     public void PlaySound2D(string soundName)
     {
@@ -49,7 +48,7 @@ public class SoundManager : MonoBehaviour
     {
         var clip = musicLibrary.GetMusicFromName(musicName);
         if (clip != null)
-            sfx2DSource.PlayOneShot(clip);
+            musicSource.PlayOneShot(clip);
         else
             Debug.LogWarning("Music clip not found: " + musicName);
     }

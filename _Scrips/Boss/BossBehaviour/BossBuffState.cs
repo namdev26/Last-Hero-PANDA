@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class BossBuffState : BossState
 {
-    public bool applyBuff;
-    public float buffDuration = 1.3f;
-    public float timer = 0f;
+    private bool buffApplied;
+    private float timer;
+    private readonly float buffDuration = 1.3f;
+    private readonly float buffApplyTime = 0.5f;
+
     private BossHealth bossHealth;
     public BossBuffState(BossController boss) : base(boss)
     {
@@ -14,18 +16,19 @@ public class BossBuffState : BossState
     public override void EnterState()
     {
         boss.animator.Play("Buff");
-        applyBuff = false;
+        buffApplied = false;
         timer = 0f;
     }
+
     public override void UpdateState()
     {
         timer += Time.deltaTime;
-        if (!applyBuff && timer >= 0.5f)
-        {
-            this.ApplyBuff();
-            applyBuff = true;
-        }
 
+        if (!buffApplied && timer >= buffApplyTime)
+        {
+            ApplyBuff();
+            buffApplied = true;
+        }
         if (timer >= buffDuration)
         {
             boss.TransitionToState(new BossIdleState(boss));
@@ -36,7 +39,7 @@ public class BossBuffState : BossState
     {
     }
 
-    void ApplyBuff()
+    private void ApplyBuff()
     {
         boss.attackDamage *= 2;
         boss.defense *= 2f;

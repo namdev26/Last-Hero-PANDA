@@ -3,8 +3,11 @@
 public class BossDashAttackState : BossState
 {
     private float dashSpeed = 10f;
-    private float dashDuration = 0.9f;
+    private float dashDuration = 0.6f;
     private float timer = 0f;
+    private bool hasDashed = false;
+
+    private Vector2 dashDirection;
     private BossHealth bossHealth;
 
     public BossDashAttackState(BossController boss) : base(boss)
@@ -15,31 +18,35 @@ public class BossDashAttackState : BossState
     public override void EnterState()
     {
         boss.animator.Play("DashAttack");
-        boss.isAttacking = false;
         timer = 0f;
+        hasDashed = false;
+        boss.isAttacking = true;
 
         boss.FlipTowardsPlayer();
+        dashDirection = (boss.player.position - boss.transform.position).normalized;
+        dashDirection.y = 0;
     }
 
     public override void UpdateState()
     {
         timer += Time.deltaTime;
-        if (!boss.isAttacking)
+
+        if (!hasDashed)
         {
-            Vector2 direction = (boss.player.position - boss.transform.position).normalized;
-            direction.y = 0;
-            boss.rb.velocity = direction * dashSpeed;
-            boss.isAttacking = true;
+            boss.rb.velocity = dashDirection * dashSpeed;
+            hasDashed = true;
         }
+
         if (timer >= dashDuration)
         {
-            boss.TransitionToState(new BossBasicAttackState(boss));
+            boss.rb.velocity = Vector2.zero;
+            boss.isAttacking = false;
+            boss.TransitionToState(new BossIdleState(boss));
         }
     }
 
     public override void ExitState()
     {
         boss.rb.velocity = Vector2.zero;
-        boss.transform.position = new Vector3(boss.transform.position.x, boss.transform.position.y, 0);
     }
 }

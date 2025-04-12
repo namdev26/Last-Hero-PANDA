@@ -1377,13 +1377,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 959370008}
   m_HandleRect: {fileID: 2032019894}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -50
+  m_MaxValue: 20
   m_WholeNumbers: 0
-  m_Value: 0.461
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1012915997}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: UpdateMusicVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &739134652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,7 +1528,7 @@ RectTransform:
   m_Father: {fileID: 1010532643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.461, y: 1}
+  m_AnchorMax: {x: 0.71428573, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1622,7 +1634,7 @@ AudioSource:
   m_GameObject: {fileID: 843625317}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4243803312607843, guid: 5abc89fa94938bd4f8c2403158ef8a5f, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1891,7 +1903,7 @@ RectTransform:
   m_Father: {fileID: 529872009}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.461, y: 1}
+  m_AnchorMax: {x: 0.71428573, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2086,6 +2098,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44004099601d1664a860c4a16a2090ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 5abc89fa94938bd4f8c2403158ef8a5f, type: 2}
+  musicVolumeSlider: {fileID: 611751833}
+  sfxVolumeSlider: {fileID: 2133848008}
 --- !u!1 &1032613010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2443,6 +2458,7 @@ MonoBehaviour:
   sfxLibrary: {fileID: 1148689359}
   sfx2DSource: {fileID: 1816865441}
   musicLibrary: {fileID: 1148689357}
+  musicSource: {fileID: 843625318}
 --- !u!114 &1148689359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2950,8 +2966,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1032613011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.461, y: 0}
-  m_AnchorMax: {x: 0.461, y: 1}
+  m_AnchorMin: {x: 0.71428573, y: 0}
+  m_AnchorMax: {x: 0.71428573, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: -8}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8355,7 +8371,7 @@ AudioSource:
   m_GameObject: {fileID: 1816865440}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4977255802609311166, guid: 5abc89fa94938bd4f8c2403158ef8a5f, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -8573,8 +8589,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1049736028}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.461, y: 0}
-  m_AnchorMax: {x: 0.461, y: 1}
+  m_AnchorMin: {x: 0.71428573, y: 0}
+  m_AnchorMax: {x: 0.71428573, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: -8}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8883,13 +8899,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 769040028}
   m_HandleRect: {fileID: 1560811257}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -50
+  m_MaxValue: 20
   m_WholeNumbers: 0
-  m_Value: 0.461
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1012915997}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: UpdateSFXVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &280556446497233939
 CanvasRenderer:
   m_ObjectHideFlags: 0

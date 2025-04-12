@@ -2,8 +2,9 @@
 
 public class BossBasicAttackState : BossState
 {
-    BossActionManager actionManager;
+    private BossActionManager actionManager;
     private BossHealth bossHealth;
+
     public BossBasicAttackState(BossController boss) : base(boss)
     {
         actionManager = new BossActionManager(boss);
@@ -13,19 +14,12 @@ public class BossBasicAttackState : BossState
     public override void EnterState()
     {
         boss.animator.Play("BasicAttack");
-        boss.isAttacking = false;
+        boss.isAttacking = true;
         boss.FlipTowardsPlayer();
     }
 
     public override void UpdateState()
     {
-
-        if (!boss.isAttacking && boss.IsAnimationComplete("BasicAttack"))
-        {
-            actionManager.ChooseRandomAttack(boss.distanceToPlayer);
-        }
-
-        // Kiểm tra điều kiện kết thúc của boss (chết hoặc buff)
         if (bossHealth.IsDeath())
         {
             boss.TransitionToState(new BossDieState(boss));
@@ -36,6 +30,12 @@ public class BossBasicAttackState : BossState
         {
             boss.TransitionToState(new BossBuffState(boss));
             return;
+        }
+
+        if (boss.isAttacking && boss.IsAnimationComplete("BasicAttack"))
+        {
+            boss.isAttacking = false;
+            actionManager.ChooseRandomAttack(boss.distanceToPlayer);
         }
     }
 

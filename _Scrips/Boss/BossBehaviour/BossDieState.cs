@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BossDieState : BossState
 {
+    private bool hasDied = false;
+
     public BossDieState(BossController boss) : base(boss)
     {
     }
@@ -9,12 +11,15 @@ public class BossDieState : BossState
     public override void EnterState()
     {
         boss.animator.Play("Die");
+        hasDied = false;
     }
+
     public override void UpdateState()
     {
-        if (boss.IsAnimationComplete("Die"))
+        if (!hasDied && boss.IsAnimationComplete("Die"))
         {
-            boss.gameObject.SetActive(false);
+            HandleDeath();
+            hasDied = true;
         }
     }
 
@@ -22,4 +27,9 @@ public class BossDieState : BossState
     {
     }
 
+    void HandleDeath()
+    {
+        Debug.Log("Boss has died!");
+        boss.gameObject.SetActive(false);
+    }
 }

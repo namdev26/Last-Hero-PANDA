@@ -20,29 +20,10 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    public void PlayMusic(string musicName, float duration = 0.5f)
+    public void PlayMusic(string musicName)
     {
-        StartCoroutine(AnimateMusicCrossfade(MusicLibrary.GetMusicFromName(musicName), duration));
-    }
-
-    IEnumerator AnimateMusicCrossfade(AudioClip nextTrack, float duration = 0.5f)
-    {
-        float percent = 0;
-        while (percent < 1)
-        {
-            percent += Time.deltaTime / duration;
-            musicSource.volume = Mathf.Lerp(0, 1, percent);
-            yield return null;
-        }
-
-        musicSource.clip = nextTrack;
+        musicSource.clip = MusicLibrary.GetMusicFromName(musicName);
         musicSource.Play();
-        percent = 0;
-        while (percent < 1)
-        {
-            percent += Time.deltaTime / duration;
-            musicSource.volume = Mathf.Lerp(1, 0, percent);
-            yield return null;
-        }
     }
+
 }

@@ -5088,7 +5088,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &212359231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5102,7 +5102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 212359234}
-  _rigidbody: {fileID: 212359232}
   player: {fileID: 1488643010}
   rb: {fileID: 212359232}
   dashTarget: {x: 0, y: 0}
@@ -17523,7 +17522,7 @@ Transform:
   m_GameObject: {fileID: 1041383144}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 54.361652, y: -12.79, z: -10}
+  m_LocalPosition: {x: 56.493683, y: -12.79, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -18879,7 +18878,7 @@ Transform:
   m_GameObject: {fileID: 1790596995}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.361652, y: -12.79, z: -10}
+  m_LocalPosition: {x: 56.493683, y: -12.79, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

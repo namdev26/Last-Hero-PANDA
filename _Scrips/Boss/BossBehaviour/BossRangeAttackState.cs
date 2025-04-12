@@ -4,9 +4,9 @@ public class BossRangeAttackState : BossState
 {
     private float attackCooldown = 0.9f;
     private float timer = 0f;
-    public BossRangeAttackState(BossController boss) : base(boss)
-    {
-    }
+    private bool hasFired = false;
+
+    public BossRangeAttackState(BossController boss) : base(boss) { }
 
     public override void EnterState()
     {
@@ -15,12 +15,14 @@ public class BossRangeAttackState : BossState
         timer = 0f;
         boss.isAttacking = false;
     }
+
     public override void UpdateState()
     {
         timer += Time.deltaTime;
-        if (!boss.isAttacking && timer >= 0.5f)
+
+        if (!hasFired && timer >= 0.5f)
         {
-            boss.isAttacking = true;
+            hasFired = true;
         }
 
         if (timer >= attackCooldown)
@@ -33,7 +35,6 @@ public class BossRangeAttackState : BossState
     {
         boss.isAttacking = false;
     }
-
 
 
 }
