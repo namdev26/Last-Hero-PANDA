@@ -11,6 +11,9 @@ public class MonsterData : ScriptableObject
     public float patrolDistance = 15f;
     public float maxIdleTime = 2f; // Th?i gian ??ng yên t?i ?a
     public int maxHealth = 10;
+    public Vector2 pointA;
+    public Vector2 pointB;
+    public float maxDistanceFromPatrolPoint;
     //public float wakeUpRange = 2f;
     //public bool moveHorizontallyOnly = true; // True: ch? di chuy?n ngang (quái ??t), False: di chuy?n c? X/Y (quái bay)
 }

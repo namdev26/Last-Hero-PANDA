@@ -234,7 +234,17 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             bool attackFromRight = transform.position.x > monster.transform.position.x;
-            enemy.GetComponent<BossHealth>().TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+            BossHealth bossHealth = enemy.GetComponent<BossHealth>();
+            MonsterHealth monsterHealth = enemy.GetComponent<MonsterHealth>();
+
+            if (bossHealth != null)
+            {
+                bossHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+            }
+            else if (monsterHealth != null)
+            {
+                monsterHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+            }
         }
     }
 
@@ -244,7 +254,17 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             bool attackFromRight = transform.position.x > monster.transform.position.x;
-            enemy.GetComponent<BossHealth>().TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+            BossHealth bossHealth = enemy.GetComponent<BossHealth>();
+            MonsterHealth monsterHealth = enemy.GetComponent<MonsterHealth>();
+
+            if (bossHealth != null)
+            {
+                bossHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+            }
+            else if (monsterHealth != null)
+            {
+                monsterHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+            }
         }
     }
 

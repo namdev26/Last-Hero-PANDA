@@ -2,26 +2,28 @@
 
 public abstract class MonsterController : MonoBehaviour
 {
+    [Header("Data & Components")]
     [SerializeField] protected MonsterData data;
     public MonsterData MonsterData => data;
-    protected MonsterState currentState;
     protected Animator animator;
     protected Rigidbody2D rb;
     public Animator Animator => animator;
     public Transform player;
     public Vector2 startPos;
-    [SerializeField] protected float health;
-    protected bool isStunned;
-    protected bool isAttacking;
+
+    [Header("Combat")]
+    [SerializeField] public float health;
     public float knockbackForce = 10f;
+    public bool isStunned;
+    public bool isAttacking;
 
-
+    [Header("Attack Settings")]
     public Transform attackPoint;
     public float attackRange;
     public LayerMask playerLayers;
 
-
-    // States
+    [Header("State Machine")]
+    protected MonsterState currentState;
     protected MonsterState idleState;
     protected MonsterState patrolState;
     protected MonsterState chaseState;
@@ -31,6 +33,11 @@ public abstract class MonsterController : MonoBehaviour
     protected MonsterState flySleepState;
     protected MonsterState flyWakeUpState;
 
+    // Properties
+    public bool IsStunned => isStunned;
+    public bool IsAttacking => isAttacking;
+
+    // State Accessors
     public MonsterState IdleState => idleState;
     public MonsterState PatrolState => patrolState;
     public MonsterState ChaseState => chaseState;
@@ -40,26 +47,24 @@ public abstract class MonsterController : MonoBehaviour
     public MonsterState FlySleepState => flySleepState;
     public MonsterState FlyWakeUpState => flyWakeUpState;
 
-    public void DestroyMonster() => Destroy(gameObject);
-    public void StartAttack() => isAttacking = true;
-    public void EndAttack() => isAttacking = false;
-    public void ResumeMovement() => isStunned = false;
-    public bool IsStunned() => isStunned;
-    public bool IsAttacking => isAttacking;
-    public void StopMovement() => isStunned = true;
 
+    public bool mustReturnToPatrolPoint = false;
+    public bool MustReturnToPatrolPoint
+    {
+        get => mustReturnToPatrolPoint;
+        set => mustReturnToPatrolPoint = value;
+    }
     protected virtual void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); // Lấy Rigidbody2D
-        if (rb == null) Debug.LogError("Rigidbody2D missing!");
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        if (animator == null) Debug.LogError("Animator missing on " + gameObject.name);
-
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (player == null) Debug.LogWarning("Player not found!");
-
         startPos = transform.position;
         health = data.maxHealth;
+
+        if (rb == null) Debug.LogError($"{name}: Rigidbody2D missing!");
+        if (animator == null) Debug.LogError($"{name}: Animator missing!");
+        if (player == null) Debug.LogWarning($"{name}: Player not found!");
 
         InitializeStates();
         ChangeState(idleState);
@@ -67,77 +72,76 @@ public abstract class MonsterController : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (currentState != null && !isStunned) // Chỉ chạy state logic nếu không bị stun
-        {
+        if (currentState != null && !isStunned)
             currentState.UpdateState();
-        }
     }
 
     protected abstract void InitializeStates();
 
     public void ChangeState(MonsterState newState)
     {
-        if (currentState != null) currentState.ExitState();
+        if (currentState == newState) return;
+
+        currentState?.ExitState();
         currentState = newState;
-        if (currentState != null) currentState.EnterState();
-        else Debug.LogError("Null state assigned!");
+        currentState?.EnterState();
     }
 
-    public float DistanceToPlayer()
-    {
-        return player != null ? Vector2.Distance(transform.position, player.position) : Mathf.Infinity;
-    }
 
-    public virtual void Move(Vector2 direction, float speed)
+    public void Move(Vector2 direction, float speed)
     {
-        if (isStunned)
-        {
-            Debug.Log("Stunned, should not move!");
-            return;
-        }
-        transform.position += (Vector3)direction * speed * Time.deltaTime;
+        if (isStunned) return;
+        transform.position += (Vector3)(direction * speed * Time.deltaTime);
     }
 
     public void UpdateFacingDirection(Vector2 targetPosition)
     {
-        bool flip = targetPosition.x > transform.position.x;
-        transform.rotation = Quaternion.Euler(0, flip ? 0 : 180, 0);
+        bool facingRight = targetPosition.x > transform.position.x;
+        transform.rotation = Quaternion.Euler(0, facingRight ? 0 : 180, 0);
+    }
+
+    public float DistanceToPlayer()
+    {
+        return player ? Vector2.Distance(transform.position, player.position) : Mathf.Infinity;
     }
 
     public virtual void TakeDamage(float damage, Vector2 attackerPos)
     {
         health -= damage;
 
-        Vector2 knockbackDir = (transform.position - (Vector3)attackerPos).normalized;
-        rb.velocity = knockbackDir * knockbackForce; // Đẩy lùi
+        Vector2 knockbackDir = ((Vector2)transform.position - attackerPos).normalized;
+        rb.velocity = knockbackDir * knockbackForce;
+
         if (health <= 0)
         {
-            Debug.Log("Health <= 0, setting IsDie = true");
-            animator.SetBool("IsDie", true); // Set parameter để vào DieState
+            animator.SetBool("IsDie", true);
             ChangeState(dieState);
         }
         else if (!isStunned)
         {
-            Debug.Log("Setting Hurt trigger");
-            animator.SetTrigger("Hurt"); // Set trigger để vào HurtState
-                                         // ChangeState(hurtState);
+            animator.SetTrigger("Hurt");
         }
-    }
-
-    public void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null) return;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
     public void Attack()
     {
-        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
-        foreach (Collider2D player in hitPlayer)
+        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
+        foreach (Collider2D col in hitPlayers)
         {
-            if (player.GetComponent<PlayerHealth>() != null)
-                player.GetComponent<PlayerHealth>().TakeDamage(10);
-            else Debug.Log("Player not found!");
+            PlayerHealth target = col.GetComponent<PlayerHealth>();
+            if (target != null) target.TakeDamage(10);
         }
+    }
+
+    public void DestroyMonster() => Destroy(gameObject);
+    public void StartAttack() => isAttacking = true;
+    public void EndAttack() => isAttacking = false;
+    public void StopMovement() => isStunned = true;
+    public void ResumeMovement() => isStunned = false;
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint != null)
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
