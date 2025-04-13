@@ -1,0 +1,36 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+MemoryCaptures/
+
+# VS / VSCode
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+
+# Hệ điều hành
+.DS_Store
+*.swp
+*.bak
+*.pidb
+*.booproj
+
+# Môi trường
+*.env
+
+# Debug
+sysinfo.txt
+*.stacktrace
+
+# Rider
+.idea/
+*.sln.iml
