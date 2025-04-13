@@ -21,6 +21,7 @@ public class MonsterAttackState : MonsterState
 
     public override void UpdateState()
     {
+        if (monster.isKnocked) return;
         // Nếu đã đi quá xa điểm tuần tra, buộc phải quay về
         float distanceFromPatrolPoint = Vector2.Distance(monster.transform.position, monster.startPos);
         if (distanceFromPatrolPoint > monster.MonsterData.maxDistanceFromPatrolPoint)

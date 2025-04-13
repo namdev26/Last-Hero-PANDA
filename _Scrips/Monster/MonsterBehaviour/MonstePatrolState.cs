@@ -34,7 +34,7 @@ public class MonsterPatrolState : MonsterState
     {
         patrolTimer += Time.deltaTime;
         float speed = monster.MonsterData.patrolSpeed;
-
+        if (monster.isKnocked) return;
         // Nếu đang quay về điểm tuần tra, không phát hiện người chơi
         if (!monster.MustReturnToPatrolPoint && IsPlayerInRange())
         {

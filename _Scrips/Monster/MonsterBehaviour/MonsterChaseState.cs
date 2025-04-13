@@ -13,6 +13,7 @@ public class MonsterChaseState : MonsterState
 
     public override void UpdateState()
     {
+        if (monster.isKnocked) return;
         // Nếu đã đi quá xa điểm tuần tra, buộc phải quay về
         float distanceFromPatrolPoint = Vector2.Distance(monster.transform.position, monster.startPos);
         if (distanceFromPatrolPoint > monster.MonsterData.maxDistanceFromPatrolPoint)
@@ -43,6 +44,6 @@ public class MonsterChaseState : MonsterState
 
     public override void ExitState()
     {
-        Debug.Log("Thoát trạng thái Chase");
+        monster.ResumeMovement();
     }
 }

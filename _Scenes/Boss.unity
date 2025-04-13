@@ -10644,6 +10644,8 @@ MonoBehaviour:
   playerLayers:
     serializedVersion: 2
     m_Bits: 256
+  isKnocked: 0
+  knockbackDuration: 0.2
   mustReturnToPatrolPoint: 0
   goldPrefab: {fileID: 3151379706541819250, guid: d6096ec4296cfc046b572d5ef191fa84, type: 3}
   goldDropRate: 1
@@ -10663,6 +10665,7 @@ MonoBehaviour:
   currentHealth: 0
   monster: {fileID: 370940626}
   pool: {fileID: 6064475498417840450, guid: 6e7ab9318f2b31d4c9ede610156aadac, type: 3}
+  knockbackForce: 1
 --- !u!50 &370940628
 Rigidbody2D:
   serializedVersion: 4
@@ -10675,8 +10678,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 0.3
+  m_LinearDrag: 4
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -10687,7 +10690,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!95 &370940629
@@ -17854,7 +17857,7 @@ Transform:
   m_GameObject: {fileID: 1041383144}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 56.493683, y: -12.79, z: -10}
+  m_LocalPosition: {x: 56.3512, y: -12.79, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19210,7 +19213,7 @@ Transform:
   m_GameObject: {fileID: 1790596995}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.493683, y: -12.79, z: -10}
+  m_LocalPosition: {x: 56.3512, y: -12.79, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

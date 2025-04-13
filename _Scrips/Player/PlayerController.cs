@@ -243,7 +243,8 @@ public class PlayerController : MonoBehaviour
             }
             else if (monsterHealth != null)
             {
-                monsterHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+                monsterHealth.TakeDamage(damage + playerStats.Damage, transform, attackFromRight);
+
             }
         }
     }
@@ -263,7 +264,8 @@ public class PlayerController : MonoBehaviour
             }
             else if (monsterHealth != null)
             {
-                monsterHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+                monsterHealth.TakeDamage(damage + playerStats.Damage, transform, attackFromRight);
+
             }
         }
     }

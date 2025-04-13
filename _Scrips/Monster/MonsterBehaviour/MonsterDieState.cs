@@ -22,6 +22,7 @@ public class MonsterDieState : MonsterState
 
     public override void UpdateState()
     {
+        if (monster.isKnocked) return;
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
         if (stateInfo.IsName("Die") && stateInfo.normalizedTime >= 0.95f)

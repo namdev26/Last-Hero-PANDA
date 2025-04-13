@@ -21,6 +21,7 @@ public class MonsterIdleState : MonsterState
 
     public override void UpdateState()
     {
+        if (monster.isKnocked) return;
         if (monsterHealth.IsDeath())
         {
             monster.ChangeState(monster.DieState);
@@ -39,5 +40,8 @@ public class MonsterIdleState : MonsterState
         }
     }
 
-    public override void ExitState() { }
+    public override void ExitState()
+    {
+        monster.ResumeMovement();
+    }
 }

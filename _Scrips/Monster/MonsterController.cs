@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public abstract class MonsterController : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public abstract class MonsterController : MonoBehaviour
     protected MonsterState flySleepState;
     protected MonsterState flyWakeUpState;
 
+    public bool isKnocked = false;
+    public float knockbackDuration = 0.2f;
     // Properties
     public bool IsStunned => isStunned;
     public bool IsAttacking => isAttacking;
@@ -72,7 +75,7 @@ public abstract class MonsterController : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (currentState != null && !isStunned)
+        if (currentState != null)
             currentState.UpdateState();
     }
 
@@ -90,7 +93,7 @@ public abstract class MonsterController : MonoBehaviour
 
     public void Move(Vector2 direction, float speed)
     {
-        if (isStunned) return;
+        if (isKnocked) return;
         transform.position += (Vector3)(direction * speed * Time.deltaTime);
     }
 
@@ -103,24 +106,6 @@ public abstract class MonsterController : MonoBehaviour
     public float DistanceToPlayer()
     {
         return player ? Vector2.Distance(transform.position, player.position) : Mathf.Infinity;
-    }
-
-    public virtual void TakeDamage(float damage, Vector2 attackerPos)
-    {
-        health -= damage;
-
-        Vector2 knockbackDir = ((Vector2)transform.position - attackerPos).normalized;
-        rb.velocity = knockbackDir * knockbackForce;
-
-        if (health <= 0)
-        {
-            animator.SetBool("IsDie", true);
-            ChangeState(dieState);
-        }
-        else if (!isStunned)
-        {
-            animator.SetTrigger("Hurt");
-        }
     }
 
     public void Attack()
@@ -143,5 +128,22 @@ public abstract class MonsterController : MonoBehaviour
     {
         if (attackPoint != null)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    public void ApplyKnockback(Vector2 force)
+    {
+        if (!isKnocked)
+        {
+            rb.velocity = Vector2.zero; // Reset trước khi knockback
+            rb.AddForce(force, ForceMode2D.Impulse); // Sử dụng impulse để lực mạnh tức thì
+            StartCoroutine(KnockbackRoutine());
+        }
+    }
+
+    private IEnumerator KnockbackRoutine()
+    {
+        isKnocked = true;
+        yield return new WaitForSeconds(knockbackDuration);
+        isKnocked = false;
     }
 }
