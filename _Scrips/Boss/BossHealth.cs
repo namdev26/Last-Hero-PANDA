@@ -7,6 +7,7 @@ public class BossHealth : MonoBehaviour, IHealth
     public bool hasBuff = false;
 
     [SerializeField] public PoolObject pool;
+    [SerializeField] private Transform transformBloodEffect;
 
     // Thông số Boss
     public int maxHP = 1000;
@@ -33,19 +34,22 @@ public class BossHealth : MonoBehaviour, IHealth
 
     public void TakeDamage(int damage, Transform positionEffect, bool attackFromRight = false)
     {
-        GameObject blood = pool.Get(positionEffect.position, Quaternion.identity);
-        if (attackFromRight)
-        {
-            blood.transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-
-        StartCoroutine(ReturnToPoolAfterDelay(blood, 1f));
-
+        ShowBloodEffect(attackFromRight);
         if (currentHP > 0)
         {
             currentHP = Mathf.Max(currentHP - damage, 0);
             OnHealthChanged?.Invoke(GetHealthRatio());
         }
+    }
+
+    private void ShowBloodEffect(bool attackFromRight)
+    {
+        GameObject blood = pool.Get(transformBloodEffect.position, Quaternion.identity);
+        if (attackFromRight)
+        {
+            blood.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        StartCoroutine(ReturnToPoolAfterDelay(blood, 1f));
     }
 
     private IEnumerator ReturnToPoolAfterDelay(GameObject obj, float delay)

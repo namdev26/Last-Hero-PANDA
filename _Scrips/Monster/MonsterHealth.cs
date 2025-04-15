@@ -8,6 +8,7 @@ public class MonsterHealth : MonoBehaviour
     [SerializeField] private MonsterController monster;
     [SerializeField] public PoolObject pool;
     public float knockbackForce = 10f;
+    [SerializeField] private Transform transformBloodEffect;
 
     public bool IsDeath() => currentHealth <= 0;
 
@@ -18,14 +19,8 @@ public class MonsterHealth : MonoBehaviour
 
     public void TakeDamage(int damage, Transform attackerTransform, bool attackFromRight = false)
     {
-        GameObject blood = pool.Get(attackerTransform.position, Quaternion.identity);
-        if (attackFromRight)
-        {
-            blood.transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        StartCoroutine(ReturnToPoolAfterDelay(blood, 1f));
+        ShowBloodEffect(attackFromRight);
 
-        // Trừ máu đúng cách
         currentHealth = Mathf.Max(currentHealth - damage, 0);
 
         if (currentHealth > 0)
@@ -40,6 +35,17 @@ public class MonsterHealth : MonoBehaviour
             // Nếu chết thì vào DieState
             monster.ChangeState(monster.DieState);
         }
+    }
+
+
+    private void ShowBloodEffect(bool attackFromRight)
+    {
+        GameObject blood = pool.Get(transformBloodEffect.position, Quaternion.identity);
+        if (attackFromRight)
+        {
+            blood.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        StartCoroutine(ReturnToPoolAfterDelay(blood, 1f));
     }
 
 
