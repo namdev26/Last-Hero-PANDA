@@ -1,19 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Gold : MonoBehaviour
+public class Gold : MonoBehaviour, IColectiable
 {
     public int amount = 10; // số vàng của item
-    private void OnTriggerEnter2D(Collider2D collision)
+    public static event Action OnGoldCollected;
+    public void Collect()
     {
-        if (collision.CompareTag("Player"))
-        {
-            PlayerStats playerStats = collision.GetComponent<PlayerStats>();
-            if (playerStats != null)
-            {
-                playerStats.AddGold(amount);
-                // Thêm hiệu ứng nhặt vàng sau
-                Destroy(gameObject);
-            }
-        }
+        OnGoldCollected?.Invoke();
+        Debug.Log("Glod collected!");
+        Destroy(gameObject);
     }
 }

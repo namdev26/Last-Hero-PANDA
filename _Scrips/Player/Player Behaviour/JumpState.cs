@@ -16,6 +16,10 @@ public class JumpState : PlayerState
 
     public override void UpdateState()
     {
+        if (player.IsGrounded && Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0f)
+        {
+            player.ChangeState(new RunState(player));
+        }
         if (Input.GetKeyDown(KeyCode.UpArrow) && !hasDoubleJumped && !player.IsGrounded)
         {
             hasDoubleJumped = true;

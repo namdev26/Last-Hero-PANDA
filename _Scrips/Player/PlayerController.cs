@@ -15,11 +15,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Collider2D playerCollider;
     [SerializeField] private Transform bloodEffectTranform;
 
-    [SerializeField] private ParticleSystem movementParticle;
+    [SerializeField] public ParticleSystem movementParticle;
     [Range(0, 10)]
-    [SerializeField] private float occurAfterVelocity = 1f; // Ngưỡng vận tốc để phát bụi
+    [SerializeField] public float occurAfterVelocity = 1f; // Ngưỡng vận tốc để phát bụi
     [Range(0, 0.2f)]
-    [SerializeField] private float dustFormationPeriod = 0.1f; // Khoảng thời gian giữa các lần phát bụi
+    [SerializeField] public float dustFormationPeriod = 0.1f; // Khoảng thời gian giữa các lần phát bụi
     private float counter = 0f; // Đếm thời gian để phát bụi định kỳ
 
     public bool isInvincible = false; // biến bất tử khi roll không nhận damage
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private float lastDownPressTime;
     private bool canSlam = true;
     public bool canDoubleJump { get; private set; }
-    public bool IsGrounded { get; private set; }
+    public bool IsGrounded;
     public bool InWall { get; private set; }
     public bool IsJumping { get; private set; }
     public float MoveSpeed => moveSpeed;
@@ -79,19 +79,19 @@ public class PlayerController : MonoBehaviour
         }
         Move(moveInput);
 
-        if (movementParticle != null && IsGrounded)
-        {
-            counter += Time.deltaTime;
+        //if (movementParticle != null && IsGrounded)
+        //{
+        //    counter += Time.deltaTime;
 
-            if (Mathf.Abs(_rigidbody.velocity.x) > occurAfterVelocity)
-            {
-                if (counter >= dustFormationPeriod)
-                {
-                    movementParticle.Emit(5); // phát ra 5 hạt bụi
-                    counter = 0;
-                }
-            }
-        }
+        //    if (Mathf.Abs(_rigidbody.velocity.x) > occurAfterVelocity)
+        //    {
+        //        if (counter >= dustFormationPeriod)
+        //        {
+        //            movementParticle.Emit(5); // phát ra 5 hạt bụi
+        //            counter = 0;
+        //        }
+        //    }
+        //}
         if (Input.GetMouseButtonDown(0))
         {
             if (!isAttacking)
@@ -123,6 +123,19 @@ public class PlayerController : MonoBehaviour
         // Các hành động khác vẫn có thể ngắt tấn công
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
+            if (movementParticle != null && IsGrounded)
+            {
+                counter += Time.deltaTime;
+
+                if (Mathf.Abs(_rigidbody.velocity.x) > occurAfterVelocity)
+                {
+                    if (counter >= dustFormationPeriod)
+                    {
+                        movementParticle.Emit(5); // phát ra 5 hạt bụi
+                        counter = 0;
+                    }
+                }
+            }
             if (IsGrounded)
                 ChangeState(new JumpState(this));
             else if (canDoubleJump)
