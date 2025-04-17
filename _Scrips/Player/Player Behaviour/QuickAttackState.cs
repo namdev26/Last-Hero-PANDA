@@ -3,7 +3,7 @@
 public class QuickAttackState : PlayerState
 {
     private float attackStartTime;
-    private float attackDuration = 0.33f; // Thời gian hồi chiêu
+    private float attackDuration = 0.9f; // Thời gian hồi chiêu
     private int damage = 10; // Dame chiêu
     private float attackRange = 0.8f; // Tầm xa chiêu
 

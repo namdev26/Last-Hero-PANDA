@@ -3,7 +3,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class RollState : PlayerState
 {
-    private float rollSpeed = 45;
+    private float rollSpeed = 30;
     private int rollHash = Animator.StringToHash("Roll");
     //private bool wasAirborne;
 
