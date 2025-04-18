@@ -12,6 +12,7 @@ public class RunState : PlayerState
     public override void EnterState()
     {
         animator.SetFloat("Speed", 1f);
+        player.isAttacking = false;
     }
 
     public override void UpdateState()

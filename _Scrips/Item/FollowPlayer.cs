@@ -7,7 +7,6 @@ public class FollowPlayer : MonoBehaviour
 
     public float MinModifier = 0.2f;
     public float MaxModifier = 0.4f;
-    private float smoothTime;
 
     private bool isFollowing = false;
 

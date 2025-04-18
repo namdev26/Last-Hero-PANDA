@@ -17,13 +17,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public ParticleSystem movementParticle;
     [Range(0, 10)]
-    [SerializeField] public float occurAfterVelocity = 1f; // Ngưỡng vận tốc để phát bụi
+    [SerializeField] public float occurAfterVelocity = 1f;
     [Range(0, 0.2f)]
-    [SerializeField] public float dustFormationPeriod = 0.1f; // Khoảng thời gian giữa các lần phát bụi
-    private float counter = 0f; // Đếm thời gian để phát bụi định kỳ
+    [SerializeField] public float dustFormationPeriod = 0.1f;
+    //private float counter = 0f;
 
-    public bool isInvincible = false; // biến bất tử khi roll không nhận damage
-    public float rollInvincibleTime = 0.4f; // Thời gian invincible khi roll
+    public bool isInvincible = false;
+    public float rollInvincibleTime = 0.4f;
 
     public Transform attackPoint;
     public Transform heliSlamPoint;
@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyLayers;
 
     public bool isAttacking = false;
-    private float lastDownPressTime;
-    private bool canSlam = true;
+    //private float lastDownPressTime;
+    //private bool canSlam = true;
     public bool canDoubleJump { get; private set; }
     public bool IsGrounded;
     public bool InWall { get; private set; }
@@ -45,20 +45,20 @@ public class PlayerController : MonoBehaviour
 
     public bool CanControl { get; private set; } = true;
 
-    public void EnableControl() => CanControl = true;
-    public void DisableControl() => CanControl = false;
+    public float ComboTimer { get; private set; }
+    private readonly float comboResetTime = 1f; // Tăng lên để khớp với animation
 
     private PlayerState currentState;
     private float rollCooldown = 0.1f;
     private float lastRollTime;
+    private bool pendingAttackInput = false; // Hàng đợi input chuột
 
     private void Start()
     {
         currentState = new IdleState(this);
         currentState.EnterState();
-
-
     }
+
     private void Update()
     {
         if (!CanControl)
@@ -66,8 +66,20 @@ public class PlayerController : MonoBehaviour
             currentState.UpdateState();
             return;
         }
+
         animator.SetFloat("VelocityY", Rigidbody.velocity.y);
         animator.SetBool("IsGrounded", IsGrounded);
+
+        // Giảm ComboTimer và reset combo
+        if (ComboTimer > 0)
+        {
+            ComboTimer -= Time.deltaTime;
+            if (ComboTimer <= 0 && !isAttacking)
+            {
+                ChangeState(new IdleState(this));
+            }
+        }
+
         float moveInput = 0f;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
@@ -79,32 +91,10 @@ public class PlayerController : MonoBehaviour
         }
         Move(moveInput);
 
-        //if (movementParticle != null && IsGrounded)
-        //{
-        //    counter += Time.deltaTime;
-
-        //    if (Mathf.Abs(_rigidbody.velocity.x) > occurAfterVelocity)
-        //    {
-        //        if (counter >= dustFormationPeriod)
-        //        {
-        //            movementParticle.Emit(5); // phát ra 5 hạt bụi
-        //            counter = 0;
-        //        }
-        //    }
-        //}
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!isAttacking)
-            {
-                ChangeState(new QuickAttackState(this));
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.F))
         {
             ChangeState(new HealState(this));
         }
-
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -113,6 +103,7 @@ public class PlayerController : MonoBehaviour
                 ChangeState(new JabAttackState(this));
             }
         }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (!isAttacking)
@@ -120,22 +111,21 @@ public class PlayerController : MonoBehaviour
                 ChangeState(new JumpSpinAttackState(this));
             }
         }
-        // Các hành động khác vẫn có thể ngắt tấn công
+
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            if (movementParticle != null && IsGrounded)
-            {
-                counter += Time.deltaTime;
-
-                if (Mathf.Abs(_rigidbody.velocity.x) > occurAfterVelocity)
-                {
-                    if (counter >= dustFormationPeriod)
-                    {
-                        movementParticle.Emit(5); // phát ra 5 hạt bụi
-                        counter = 0;
-                    }
-                }
-            }
+            //if (movementParticle != null && IsGrounded)
+            //{
+            //    counter += Time.deltaTime;
+            //    if (Mathf.Abs(_rigidbody.velocity.x) > occurAfterVelocity)
+            //    {
+            //        if (counter >= dustFormationPeriod)
+            //        {
+            //            movementParticle.Emit(5);
+            //            counter = 0;
+            //        }
+            //    }
+            //}
             if (IsGrounded)
                 ChangeState(new JumpState(this));
             else if (canDoubleJump)
@@ -147,21 +137,24 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastRollTime > rollCooldown)
         {
-            lastRollTime = Time.time;
-            ChangeState(new RollState(this));
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            if (Time.time - lastDownPressTime < 0.3f && canSlam)
+            if (!isAttacking)
             {
-                ChangeState(new HeliSlamState(this));
-                canSlam = false;
+                lastRollTime = Time.time;
+                ChangeState(new RollState(this));
             }
-            lastDownPressTime = Time.time;
         }
 
-        if (IsGrounded) canSlam = true;
+        //if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        //{
+        //    if (Time.time - lastDownPressTime < 0.3f && canSlam)
+        //    {
+        //        ChangeState(new HeliSlamState(this));
+        //        canSlam = false;
+        //    }
+        //    lastDownPressTime = Time.time;
+        //}
+
+        //if (IsGrounded) canSlam = true;
         currentState.UpdateState();
     }
 
@@ -218,7 +211,6 @@ public class PlayerController : MonoBehaviour
 
     public void Roll(float rollSpeed)
     {
-
         if (IsGrounded)
         {
             _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, _rigidbody.velocity.y);
@@ -241,6 +233,24 @@ public class PlayerController : MonoBehaviour
     {
         Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, jumpForce);
     }
+
+    public void ResetComboTimer()
+    {
+        ComboTimer = comboResetTime;
+    }
+
+    //public void OnAttackAnimationEnd()
+    //{
+    //    isAttacking = false;
+    //}
+
+    public bool HasPendingAttackInput()
+    {
+        bool input = pendingAttackInput;
+        pendingAttackInput = false; // Reset sau khi sử dụng
+        return input;
+    }
+
     public void PerformAttack(int damage, float attackRange)
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
@@ -249,7 +259,6 @@ public class PlayerController : MonoBehaviour
             bool attackFromRight = transform.position.x > monster.transform.position.x;
             BossHealth bossHealth = enemy.GetComponent<BossHealth>();
             MonsterHealth monsterHealth = enemy.GetComponent<MonsterHealth>();
-
             if (bossHealth != null)
             {
                 bossHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
@@ -257,41 +266,10 @@ public class PlayerController : MonoBehaviour
             else if (monsterHealth != null)
             {
                 monsterHealth.TakeDamage(damage + playerStats.Damage, transform, attackFromRight);
-
             }
         }
     }
 
-    public void HeliSlamAttack(int damage, float attackRange)
-    {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(heliSlamPoint.position, attackRange, enemyLayers);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            bool attackFromRight = transform.position.x > monster.transform.position.x;
-            BossHealth bossHealth = enemy.GetComponent<BossHealth>();
-            MonsterHealth monsterHealth = enemy.GetComponent<MonsterHealth>();
-
-            if (bossHealth != null)
-            {
-                bossHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
-            }
-            else if (monsterHealth != null)
-            {
-                monsterHealth.TakeDamage(damage + playerStats.Damage, transform, attackFromRight);
-
-            }
-        }
-    }
-
-    //public void HealthRecoveryFromItems(Collider2D collider2D)
-    //{
-    //    if (collider2D.CompareTag("ItemHealth"))
-    //    {
-    //        playerHealth.Heal(HealthPickup.healAmount);
-    //        Debug.Log("Player đã nhặt vật phẩm hồi máu: +20 HP");
-    //        Destroy(collider2D.gameObject);
-    //    }
-    //}
 
     public void OnDrawGizmosSelected()
     {
@@ -299,5 +277,4 @@ public class PlayerController : MonoBehaviour
             return;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
-
 }

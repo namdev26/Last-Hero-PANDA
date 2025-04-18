@@ -17,7 +17,7 @@ public class HealState : PlayerState
         PlayerHealth.Heal(50); // Hồi máu
         timer = 0f;
 
-        player.DisableControl();
+        //player.DisableControl();
     }
 
     public override void UpdateState()
@@ -31,7 +31,7 @@ public class HealState : PlayerState
 
     public override void ExitState()
     {
-        player.EnableControl();
+        //player.EnableControl();
         timer = 0f;
     }
 }
