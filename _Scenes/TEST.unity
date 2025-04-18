@@ -241,16 +241,15 @@ MonoBehaviour:
   jumpForce: 20
   playerHealth: {fileID: 409464369}
   playerStats: {fileID: 409464368}
-  monster: {fileID: 0}
+  monster: {fileID: 1933855568}
   playerCollider: {fileID: 409464371}
-  bloodEffectTranform: {fileID: 0}
+  bloodEffectTranform: {fileID: 2123506281}
   movementParticle: {fileID: 1628280025}
   occurAfterVelocity: 1
   dustFormationPeriod: 0.15
   isInvincible: 0
   rollInvincibleTime: 0.4
   attackPoint: {fileID: 636726774}
-  heliSlamPoint: {fileID: 46279943}
   attackRange: 0.8
   enemyLayers:
     serializedVersion: 2
@@ -456,7 +455,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 409464365}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b93b8076dacfd445939038efcb56a2e, type: 3}
+  m_Script: {fileID: 11500000, guid: 81ccb5f8bee95f24f82032b78dd87e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   comboTimeWindow: 1.2
@@ -570,9 +569,9 @@ GameObject:
   m_Component:
   - component: {fileID: 888544254}
   - component: {fileID: 888544255}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -971,7 +970,7 @@ GameObject:
   - component: {fileID: 1628280027}
   - component: {fileID: 1628280025}
   - component: {fileID: 1628280026}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Smoke Running
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5828,7 +5827,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1904408826}
   - component: {fileID: 1904408827}
-  m_Layer: 11
+  m_Layer: 8
   m_Name: MiniMapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5966,13 +5965,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933855568}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6f652285351cd04982e52599f8f027d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 3c0e9bf3f2eb3ce45b5cd8a6901cf3c5, type: 2}
-  player: {fileID: 0}
+  player: {fileID: 888544254}
   startPos: {x: 0, y: 0}
   health: 0
   knockbackForce: 5

@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public float rollInvincibleTime = 0.4f;
 
     public Transform attackPoint;
-    public Transform heliSlamPoint;
+    //public Transform heliSlamPoint;
     public float attackRange;
     public LayerMask enemyLayers;
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SequentialComboController : MonoBehaviour
+public class ComboAttackController : MonoBehaviour
 {
     [Header("Combo Settings")]
     [SerializeField] private float comboTimeWindow = 1.2f;    // Thời gian cho phép để tiếp tục combo
@@ -159,7 +159,6 @@ public class SequentialComboController : MonoBehaviour
             StopCoroutine(comboWindowCoroutine);
         }
     }
-    c
 
     // Gọi khi bị ngắt animation tấn công (ví dụ: bị đánh, nhảy, né...)
     public void InterruptAttack()
