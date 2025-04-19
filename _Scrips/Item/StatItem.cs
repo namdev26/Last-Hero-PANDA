@@ -11,13 +11,14 @@ public class StatItem : MonoBehaviour
 
     [SerializeField] private ItemType itemType;
     [SerializeField] private int value;
+    [SerializeField] private PlayerHealth playerHealth;
 
     public void UseItem(PlayerStats playerStats)
     {
         switch (itemType)
         {
             case ItemType.Health:
-                playerStats.IncreaseMaxHP(value);
+                playerHealth.IncreaseMaxHP(value);
                 break;
                 //case ItemType.Attack:
                 //    playerStats.IncreaseDamage(value);

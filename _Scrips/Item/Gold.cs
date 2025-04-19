@@ -13,7 +13,7 @@ public class Gold : MonoBehaviour, IColectiable
     void Start()
     {
         trail = GetComponent<TrailRenderer>();
-        sparkleEffect = GetComponent<ParticleSystem>();
+        //sparkleEffect = GetComponent<ParticleSystem>();
 
         if (trail != null) trail.emitting = false;
         if (sparkleEffect != null) sparkleEffect.Play();

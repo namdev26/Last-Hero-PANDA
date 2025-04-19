@@ -5329,7 +5329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 212359234}
-  player: {fileID: 0}
+  player: {fileID: 490966370}
   rb: {fileID: 212359232}
   dashTarget: {x: 0, y: 0}
   bloodEffect: {fileID: 2074856448756189681, guid: 6e7ab9318f2b31d4c9ede610156aadac, type: 3}
@@ -15925,11 +15925,13 @@ GameObject:
   - component: {fileID: 490966378}
   - component: {fileID: 490966377}
   - component: {fileID: 490966376}
-  - component: {fileID: 490966375}
-  - component: {fileID: 490966374}
   - component: {fileID: 490966373}
   - component: {fileID: 490966372}
   - component: {fileID: 490966371}
+  - component: {fileID: 490966375}
+  - component: {fileID: 490966374}
+  - component: {fileID: 490966380}
+  - component: {fileID: 490966381}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -15971,10 +15973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   comboTimeWindow: 1.2
-  attack1Trigger: Attack1
-  attack2Trigger: Attack2
-  attack3Trigger: Attack3
-  showDebugInfo: 1
+  weaponData: {fileID: 11400000, guid: 52624e41d04db144a97e32ed3cf4c22a, type: 2}
 --- !u!114 &490966372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16035,10 +16034,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseMaxHealth: 100
+  baseMaxMana: 100
   baseDamage: 20
   baseDefence: 20
-  gold: 0
-  CurrentHealth: 0
 --- !u!114 &490966375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16056,6 +16054,7 @@ MonoBehaviour:
   bloodEffect: {fileID: 2074856448756189681, guid: 6e7ab9318f2b31d4c9ede610156aadac, type: 3}
   transformBloodEffect: {fileID: 24929685}
   player: {fileID: 490966373}
+  CurrentHealth: 0
 --- !u!70 &490966376
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -16191,6 +16190,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &490966380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490966369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b5bc290ab81d374a832874690872cb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gold: 0
+--- !u!114 &490966381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490966369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1a59f4a17c1154587e1866e1aa03dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allWeapons:
+  - {fileID: 11400000, guid: 52624e41d04db144a97e32ed3cf4c22a, type: 2}
+  - {fileID: 11400000, guid: f3dcbf4ceff259d4c8ecd9a04a2d96a4, type: 2}
 --- !u!1 &559878274
 GameObject:
   m_ObjectHideFlags: 0
@@ -16597,7 +16624,7 @@ MonoBehaviour:
   healthBarFillImage: {fileID: 1982222246}
   healthBarTrailFillImage: {fileID: 287327094}
   trailDelay: 0.4
-  targetHealthScript: {fileID: 0}
+  targetHealthScript: {fileID: 490966375}
 --- !u!1 &643962332
 GameObject:
   m_ObjectHideFlags: 0
@@ -16932,7 +16959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &739637837
 Transform:
   m_ObjectHideFlags: 0
@@ -17309,11 +17336,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6481067014937083409, guid: c30cdc881c3a2964bb09b6494e538514, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 49.864857
+      value: 35.94
       objectReference: {fileID: 0}
     - target: {fileID: 6481067014937083409, guid: c30cdc881c3a2964bb09b6494e538514, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.339703
+      value: -10.38
       objectReference: {fileID: 0}
     - target: {fileID: 6481067014937083409, guid: c30cdc881c3a2964bb09b6494e538514, type: 3}
       propertyPath: m_LocalPosition.z

@@ -5,12 +5,13 @@ public class ComboAttackController : MonoBehaviour
 {
     [Header("Combo Settings")]
     [SerializeField] private float comboTimeWindow = 1.2f;    // Thời gian cho phép để tiếp tục combo
-    [SerializeField] private string attack1Trigger = "Attack1";
-    [SerializeField] private string attack2Trigger = "Attack2";
-    [SerializeField] private string attack3Trigger = "Attack3";
+    //[SerializeField] private string attack1Trigger = "Attack1";
+    //[SerializeField] private string attack2Trigger = "Attack2";
+    //[SerializeField] private string attack3Trigger = "Attack3";
+    [SerializeField] private WeaponData weaponData;
 
-    [Header("Debug")]
-    [SerializeField] private bool showDebugInfo = true;
+    //[Header("Debug")]
+    //[SerializeField] private bool showDebugInfo = true;
 
     private Animator animator;
     private PlayerController player;
@@ -44,60 +45,53 @@ public class ComboAttackController : MonoBehaviour
             }
         }
 
-        // Hiển thị debug info
-        if (showDebugInfo && comboWindowOpen)
-        {
-            float remainingTime = comboTimeWindow - (Time.time - lastAttackTime);
-            Debug.Log($"Combo Window: {remainingTime:F2}s remaining");
-        }
-
         // Kiểm tra hết thời gian combo window
         if (comboWindowOpen && Time.time - lastAttackTime > comboTimeWindow)
         {
             ResetCombo();
         }
     }
+    public void SetWeapon(WeaponData data)
+    {
+        weaponData = data;
+
+        if (data.animatorController != null)
+        {
+            GetComponent<Animator>().runtimeAnimatorController = data.animatorController;
+        }
+    }
 
     private void HandleAttackInput()
     {
-        // Nếu đã quá thời gian cho phép combo, reset về đòn đầu tiên
+        if (weaponData == null || weaponData.comboTriggers == null || weaponData.comboTriggers.Length == 0)
+            return;
+
+        // Nếu đã quá thời gian combo thì reset về đòn đầu tiên
         if (Time.time - lastAttackTime > comboTimeWindow && currentComboCount > 0)
         {
             currentComboCount = 0;
         }
 
-        // Cập nhật thời gian tấn công gần nhất
         lastAttackTime = Time.time;
-
-        // Tăng đếm combo
         currentComboCount++;
-        if (currentComboCount > 3)
+
+        // Vòng lại nếu combo vượt giới hạn số trigger được khai báo
+        if (currentComboCount > weaponData.comboTriggers.Length)
         {
-            currentComboCount = 1; // Quay lại đòn đầu tiên nếu vượt quá số đòn tối đa
+            currentComboCount = 1;
         }
 
-        // Đánh dấu đang tấn công và reset các trạng thái
         player.isAttacking = true;
         canStartNextAttack = false;
         attackInputQueued = false;
 
-        // Kích hoạt animation tương ứng
-        switch (currentComboCount)
-        {
-            case 1:
-                animator.SetTrigger(attack1Trigger);
-                break;
-            case 2:
-                animator.SetTrigger(attack2Trigger);
-                break;
-            case 3:
-                animator.SetTrigger(attack3Trigger);
-                break;
-        }
+        // Kích hoạt trigger tương ứng từ WeaponData
+        string triggerName = weaponData.comboTriggers[currentComboCount - 1];
+        animator.SetTrigger(triggerName);
 
-        // Bắt đầu hoặc reset combo window
         StartComboWindow();
     }
+
 
     // Mở cửa sổ thời gian để tiếp nhận đòn combo tiếp theo
     private void StartComboWindow()

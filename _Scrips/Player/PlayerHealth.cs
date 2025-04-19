@@ -10,26 +10,33 @@ public class PlayerHealth : MonoBehaviour, IHealth
     [SerializeField] private Transform transformBloodEffect;
     [SerializeField] private PlayerController player;
 
-    public float CurrentHealth => playerStats.CurrentHealth;
+    public float CurrentHealth;
 
-    public float MaxHealth => playerStats.MaxHealth;
+    // Thêm trường này để lưu trữ giá trị MaxHealth hiện tại
+    private float currentMaxHealth;
 
+    // Chúng ta sẽ không gán giá trị cho MaxHealth trực tiếp, mà sử dụng currentMaxHealth
+    float IHealth.CurrentHealth => CurrentHealth;
+    public float MaxHealth => currentMaxHealth;
 
     public event Action<float> OnHealthChanged;
     public event Action<float> OnMaxHealthChanged;
 
     private void Awake()
     {
-        playerStats.OnHealthChanged += HandleHealthChanged;
-        playerStats.OnMaxHealthChanged += HandleMaxHealthChanged;
+        OnHealthChanged += HandleHealthChanged;
+        OnMaxHealthChanged += HandleMaxHealthChanged;
+        ResetStats();
     }
+
     private void HandleHealthChanged(float ratio)
     {
-        OnHealthChanged?.Invoke(ratio);
+        // Chúng ta không cần gọi sự kiện ở đây, vì nó sẽ được gọi trong các hàm khác
     }
+
     private void HandleMaxHealthChanged(float max)
     {
-        OnMaxHealthChanged?.Invoke(max);
+        // Không cần gọi lại sự kiện tại đây
     }
 
     public void TakeDamage(int damage, bool attackFromRight = false)
@@ -37,16 +44,16 @@ public class PlayerHealth : MonoBehaviour, IHealth
         if (player.isInvincible) return;
 
         ShowBloodEffect(attackFromRight);
-        if (playerStats.CurrentHealth > 0)
+        if (CurrentHealth > 0)
         {
-            playerStats.ReduceHealth(damage);
+            ReduceHealth(damage);
         }
     }
 
     public void Heal(int amount)
     {
-        playerStats.CurrentHealth = Mathf.Min(playerStats.CurrentHealth + amount, playerStats.MaxHealth);
-        OnHealthChanged?.Invoke(playerStats.GetHealthRatio());
+        CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
+        OnHealthChanged?.Invoke(GetHealthRatio());
     }
 
     private void ShowBloodEffect(bool attackFromRight)
@@ -63,5 +70,35 @@ public class PlayerHealth : MonoBehaviour, IHealth
     {
         yield return new WaitForSeconds(delay);
         pool.ReturnToPool(obj);
+    }
+
+    public float GetHealthRatio() => MaxHealth > 0 ? (float)CurrentHealth / MaxHealth : 0f;
+
+    private void ResetStats()
+    {
+        // Khởi tạo currentMaxHealth từ playerStats
+        currentMaxHealth = playerStats.baseMaxHealth;
+        CurrentHealth = currentMaxHealth;
+        NotifyHealthChanged();
+    }
+
+    public void IncreaseMaxHP(int amount)
+    {
+        currentMaxHealth += amount; // Tăng max health qua currentMaxHealth
+        CurrentHealth += amount;  // Cũng tăng current health tương ứng
+        NotifyHealthChanged();
+    }
+
+    public void ReduceHealth(int damage)
+    {
+        CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
+        OnHealthChanged?.Invoke(GetHealthRatio());
+    }
+
+    private void NotifyHealthChanged()
+    {
+        // Chỉ gọi sự kiện nếu giá trị thay đổi
+        OnMaxHealthChanged?.Invoke(MaxHealth);
+        OnHealthChanged?.Invoke(GetHealthRatio());
     }
 }
