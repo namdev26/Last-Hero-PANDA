@@ -10,9 +10,12 @@ public class UIInventoryPage : MonoBehaviour
     [SerializeField] private UIInventoryDescription itemDescription;
     [SerializeField] private MouseFollower mouseFollower;
     List<UIInventoryItem> listOfUIItem = new List<UIInventoryItem>();
-    public Sprite image;
+
+    public Sprite image, image2;
     public int quantity;
     public string title, descriptionText;
+
+    private int currentlyDraggedItemIndex = -1;
     private void Awake()
     {
         Hide();
@@ -38,11 +41,22 @@ public class UIInventoryPage : MonoBehaviour
 
     private void HandleShowItemActions(UIInventoryItem item)
     {
+
     }
 
     private void HandleSwap(UIInventoryItem item)
     {
-
+        int index = listOfUIItem.IndexOf(item);
+        if (index == -1)
+        {
+            mouseFollower.Toggle(false);
+            currentlyDraggedItemIndex = -1;
+            return;
+        }
+        listOfUIItem[currentlyDraggedItemIndex].SetData(index == 0 ? image : image2, quantity);
+        listOfUIItem[index].SetData(currentlyDraggedItemIndex == 0 ? image : image2, quantity);
+        mouseFollower.Toggle(false);
+        currentlyDraggedItemIndex = -1;
     }
 
     private void HandleEndDrag(UIInventoryItem item)
@@ -52,8 +66,12 @@ public class UIInventoryPage : MonoBehaviour
 
     private void HandleBeginDrag(UIInventoryItem item)
     {
-        mouseFollower.SetData(image, quantity);
+        int index = listOfUIItem.IndexOf(item);
+        if (index == -1) return;
+        currentlyDraggedItemIndex = index;
+
         mouseFollower.Toggle(true);
+        mouseFollower.SetData(index == 0 ? image : image2, quantity);
     }
 
     private void HandleItemSelection(UIInventoryItem item)
@@ -68,6 +86,8 @@ public class UIInventoryPage : MonoBehaviour
         itemDescription.ResetDescription();
 
         listOfUIItem[0].SetData(image, quantity);
+        listOfUIItem[1].SetData(image2, quantity);
+
     }
     public void Hide()
     {

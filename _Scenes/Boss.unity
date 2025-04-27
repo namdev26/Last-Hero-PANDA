@@ -24556,7 +24556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryPage: {fileID: 1294475089}
-  inventorySize: 5
+  inventorySize: 10
 --- !u!4 &1708307650
 Transform:
   m_ObjectHideFlags: 0
@@ -25991,6 +25991,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1340953895384599292, guid: 0d298ab16f6e2f943a96a311d5039862, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1344478526879259783, guid: 0d298ab16f6e2f943a96a311d5039862, type: 3}
       propertyPath: m_Size
       value: 1
@@ -26115,6 +26119,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4437299239517442678, guid: 0d298ab16f6e2f943a96a311d5039862, type: 3}
+      propertyPath: image2
+      value: 
+      objectReference: {fileID: 21300000, guid: c282d3bf50e9501488c050ae9cc3be2f, type: 3}
     - target: {fileID: 4437299239517442678, guid: 0d298ab16f6e2f943a96a311d5039862, type: 3}
       propertyPath: mouseFollower
       value: 
