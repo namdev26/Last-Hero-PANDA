@@ -666,6 +666,7 @@ GameObject:
   - component: {fileID: 4786624194756755598}
   - component: {fileID: 6440500941212813517}
   - component: {fileID: 3946910042524343203}
+  - component: {fileID: 8727240368751548280}
   m_Layer: 5
   m_Name: InventoryDescription
   m_TagString: Untagged
@@ -778,6 +779,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &8727240368751548280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3502196266879164977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3e73d9a0c38c14e8f7cac1762f9ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemImage: {fileID: 3246183223849825695}
+  title: {fileID: 5554056867134713970}
+  description: {fileID: 4673743032202030654}
 --- !u!1 &4071350912150642391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1178,6 +1194,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 2348803005920514427, guid: 5983fb02a331f1a40ae5c9f0b9b2c597, type: 3}
   contentPanel: {fileID: 1340953895384599292}
+  itemDescription: {fileID: 8727240368751548280}
+  image: {fileID: 21300000, guid: dd3631e297d7ef341bfc48751be7ca9d, type: 3}
+  quantity: 1
+  title: Kiem
+  descriptionText: Dmg 10:10
 --- !u!1 &7051603941330277707
 GameObject:
   m_ObjectHideFlags: 0
