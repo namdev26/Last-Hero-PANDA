@@ -29,7 +29,3 @@ public class UIInventoryPage : MonoBehaviour
         gameObject.SetActive(false);
     }
 }
-
-
-//test haha.
-/ gugug
