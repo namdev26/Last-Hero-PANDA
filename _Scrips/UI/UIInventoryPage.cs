@@ -1,4 +1,4 @@
-using Iventory.Model;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -57,7 +57,12 @@ namespace Inventory.UI
 
         private void HandleShowItemActions(UIInventoryItem item)
         {
-
+            int index = listOfUIItem.IndexOf(item);
+            if (index == -1)
+            {
+                return;
+            }
+            OnItemActionRequested?.Invoke(index);
         }
 
         private void HandleSwap(UIInventoryItem item)
@@ -68,7 +73,7 @@ namespace Inventory.UI
                 return;
             }
             OnSwapItems?.Invoke(currentlyDraggedItemIndex, index);
-            //HandleItemSelection(inventoryItemUI);
+            HandleItemSelection(item);
         }
 
         private void HandleEndDrag(UIInventoryItem item)
@@ -139,6 +144,15 @@ namespace Inventory.UI
             itemDescription.SetDescription(itemImage, name, description);
             DeselectAllItems();
             listOfUIItem[itemIndex].Select();
+        }
+
+        public void ResetAllItems()
+        {
+            foreach (var item in listOfUIItem)
+            {
+                item.ResetData();
+                item.Deselect();
+            }
         }
     }
 }

@@ -22,7 +22,7 @@
 //        }
 //    }
 
-//    private void Update()
+//    private void UpdateInventoryUI()
 //    {
 //        if (playerRb == null || movementParticle == null) return;
 
