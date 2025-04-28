@@ -13,7 +13,7 @@ public class WaterReflection : MonoBehaviour
     public Color color;
     // How much is the reflection squeezed vertically. 1 : no squeeze, > 1 : smaller reflection, < 1 : taller reflection.
     public float verticalSqueezeRatio = 1;
-    // By default, the _camera used to capture the reflection's scene is placed just above the sprite renderer. You can adjust _camera height by modifying this offset.
+    // By default, the _camera used to capture the reflection's scene is placed just above the sprite _renderer. You can adjust _camera height by modifying this offset.
     public float verticalCameraOffset = 0;
     // ======== Shader parameters ========
     // Shader used to simulate water.

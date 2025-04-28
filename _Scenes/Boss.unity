@@ -24556,7 +24556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryPage: {fileID: 1294475089}
-  inventorySize: 10
+  inventorySOData: {fileID: 11400000, guid: 55e80795766a96a42bea58d504db6fc6, type: 2}
 --- !u!4 &1708307650
 Transform:
   m_ObjectHideFlags: 0

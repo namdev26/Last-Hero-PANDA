@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
 
     [SerializeField] private GameObject bloodParticle;
 
-    [SerializeField] private Renderer renderer;
+    [SerializeField] private Renderer _renderer;
     [SerializeField] private float flashTime = 0.2f;
 
     private void Start()
@@ -43,9 +43,9 @@ public class Health : MonoBehaviour
 
     private IEnumerator FlashFeedback()
     {
-        renderer.material.SetInt("_Flash", 1);
+        _renderer.material.SetInt("_Flash", 1);
         yield return new WaitForSeconds(flashTime);
-        renderer.material.SetInt("_Flash", 0);
+        _renderer.material.SetInt("_Flash", 0);
     }
 
     private void Die()
