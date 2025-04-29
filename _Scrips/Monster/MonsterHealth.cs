@@ -1,29 +1,38 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
-public class MonsterHealth : MonoBehaviour
+public class MonsterHealth : MonoBehaviour, IHealth
 {
-    public float maxHealth = 100;
-    public float currentHealth;
+    public float maxHP;
+    public float currentHP;
     [SerializeField] private MonsterController monster;
     [SerializeField] public PoolObject pool;
     public float knockbackForce = 10f;
     [SerializeField] private Transform transformBloodEffect;
 
-    public bool IsDeath() => currentHealth <= 0;
+    public bool IsDeath() => currentHP <= 0;
+    public float CurrentHealth => currentHP;
+    public float MaxHealth => maxHP;
+
+    public event Action<float> OnHealthChanged;
+    public event Action<float> OnMaxHealthChanged;
 
     void Start()
     {
-        currentHealth = maxHealth;
+        maxHP = monster.MonsterData.maxHealth;
+        currentHP = maxHP;
+        OnMaxHealthChanged?.Invoke(maxHP);
+        OnHealthChanged?.Invoke(GetHealthRatio());
     }
 
     public void TakeDamage(int damage, Transform attackerTransform, bool attackFromRight = false)
     {
         ShowBloodEffect(attackFromRight);
 
-        currentHealth = Mathf.Max(currentHealth - damage, 0);
+        currentHP = Mathf.Max(currentHP - damage, 0);
 
-        if (currentHealth > 0)
+        if (currentHP > 0)
         {
             // Nếu còn sống thì knockback + hurt
             Vector2 knockbackDir = (transform.position - attackerTransform.position).normalized;
@@ -35,6 +44,8 @@ public class MonsterHealth : MonoBehaviour
             // Nếu chết thì vào DieState
             monster.ChangeState(monster.DieState);
         }
+        OnHealthChanged?.Invoke(GetHealthRatio());
+
     }
 
 
@@ -54,5 +65,10 @@ public class MonsterHealth : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         pool.ReturnToPool(obj);
+    }
+
+    private float GetHealthRatio()
+    {
+        return maxHP > 0 ? (float)currentHP / maxHP : 0f;
     }
 }

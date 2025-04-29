@@ -13,7 +13,6 @@ public abstract class MonsterController : MonoBehaviour
     public Vector2 startPos;
 
     [Header("Combat")]
-    [SerializeField] public float health;
     public float knockbackForce = 10f;
     public bool isStunned;
     public bool isAttacking;
@@ -63,7 +62,6 @@ public abstract class MonsterController : MonoBehaviour
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         startPos = transform.position;
-        health = data.maxHealth;
 
         if (rb == null) Debug.LogError($"{name}: Rigidbody2D missing!");
         if (animator == null) Debug.LogError($"{name}: Animator missing!");
