@@ -1,7 +1,5 @@
-using Inventory.Model;
+﻿using Inventory.Model;
 using Inventory.UI;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -10,6 +8,9 @@ namespace Inventory
 {
     public class InventoryController : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject player; // Thêm tham chiếu đến nhân vật
+
         [SerializeField]
         private UIInventoryPage inventoryUI;
 
@@ -93,10 +94,15 @@ namespace Inventory
 
         public void PerformAction(int itemIndex)
         {
+            Debug.Log($"PerformAction called for item at index {itemIndex}");
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
             if (inventoryItem.IsEmpty)
+            {
+                Debug.LogWarning($"Item at index {itemIndex} is empty.");
                 return;
+            }
 
+            Debug.Log($"Item: {inventoryItem.item.Name}, Quantity: {inventoryItem.quantity}");
             IDestroyableItem destroyableItem = inventoryItem.item as IDestroyableItem;
             if (destroyableItem != null)
             {
@@ -106,10 +112,24 @@ namespace Inventory
             IItemAction itemAction = inventoryItem.item as IItemAction;
             if (itemAction != null)
             {
-                itemAction.PerformAction(gameObject, inventoryItem.itemState);
-                audioSource.PlayOneShot(equipClip);
+                Debug.Log($"Performing action for {inventoryItem.item.Name}");
+                bool success = itemAction.PerformAction(player, inventoryItem.itemState); // Sử dụng player
+                Debug.Log($"PerformAction result: {success}");
+                if (success)
+                {
+                    audioSource.PlayOneShot(equipClip);
+                    inventoryUI.UseItem(itemIndex, inventoryItem.item); // Thêm lại để hiển thị
+                }
+                else
+                {
+                    Debug.LogWarning($"PerformAction failed for {inventoryItem.item.Name}");
+                }
                 if (inventoryData.GetItemAt(itemIndex).IsEmpty)
                     inventoryUI.ResetSelection();
+            }
+            else
+            {
+                Debug.LogWarning($"Item at index {itemIndex} does not implement IItemAction.");
             }
         }
 
@@ -148,8 +168,7 @@ namespace Inventory
             for (int i = 0; i < inventoryItem.itemState.Count; i++)
             {
                 sb.Append($"{inventoryItem.itemState[i].itemParameter.ParameterName} " +
-                    $": {inventoryItem.itemState[i].value} / " +
-                    $"{inventoryItem.item.DefaultParametersList[i].value}");
+                    $": {inventoryItem.itemState[i].value}");
                 sb.AppendLine();
             }
             return sb.ToString();
@@ -161,7 +180,7 @@ namespace Inventory
             {
                 if (inventoryUI.isActiveAndEnabled == false)
                 {
-                    inventoryUI.Show();
+                    inventoryUI.Show(player);
                     foreach (var item in inventoryData.GetCurrentInventoryState())
                     {
                         inventoryUI.UpdateData(item.Key,

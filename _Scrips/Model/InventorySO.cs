@@ -121,6 +121,15 @@ namespace Inventory.Model
             }
         }
 
+        public bool HasFreeSpace()
+        {
+            foreach (var item in inventoryItems)
+            {
+                if (item.IsEmpty)
+                    return true;
+            }
+            return false;
+        }
         public void AddItem(InventoryItem item)
         {
             AddItem(item.item, item.quantity);

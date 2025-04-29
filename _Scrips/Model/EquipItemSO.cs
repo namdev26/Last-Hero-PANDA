@@ -11,7 +11,10 @@ namespace Inventory.Model
 
         [field: SerializeField]
         public AudioClip actionSFX { get; private set; }
-
+        public EquipItemSO()
+        {
+            equipmentType = EquipmentType.Weapon; // Gán loại mặc định là Weapon
+        }
         public bool PerformAction(GameObject character, List<ItemParameter> itemState = null)
         {
             AgentWeapon agentWeapon = character.GetComponent<AgentWeapon>();

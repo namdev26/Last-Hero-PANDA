@@ -1,10 +1,20 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Inventory.Model
 {
+    public enum EquipmentType
+    {
+        Weapon,
+        Helmet,
+        Armor,
+        Boots,
+        Accessory,
+        Cape
+    }
+
     public abstract class ItemSO : ScriptableObject
     {
         [field: SerializeField]
@@ -28,6 +38,9 @@ namespace Inventory.Model
         [field: SerializeField]
         public List<ItemParameter> DefaultParametersList { get; set; }
 
+        [field: SerializeField]
+        public EquipmentType equipmentType { get; set; } // Thêm loại trang bị
+
     }
     [Serializable]
     public struct ItemParameter : IEquatable<ItemParameter>
@@ -42,7 +55,3 @@ namespace Inventory.Model
     }
 
 }
-
-
-
-

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,10 +8,10 @@ namespace Inventory.UI
 {
     public class UIInventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler
     {
-
         [SerializeField] private Image itemImage;
         [SerializeField] TMP_Text quantityTxt;
-        [SerializeField] Image boderImage;
+        [SerializeField] Image borderImage;  // Sửa tên biến từ boderImage thành borderImage
+
         public event Action<UIInventoryItem> OnItemClicked, OnItemDropOn, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
 
         private bool empty = true;
@@ -25,30 +25,31 @@ namespace Inventory.UI
         public void ResetData()
         {
             itemImage.gameObject.SetActive(false);
-            empty = false;
+            empty = true;  // Sửa false thành true vì item đang trống
         }
 
         public void Deselect()
         {
-            boderImage.enabled = false;
+            borderImage.enabled = false;
         }
 
         public void SetData(Sprite sprite, int quantity)
         {
             itemImage.gameObject.SetActive(true);
             itemImage.sprite = sprite;
-            quantityTxt.text = quantity + "";
+            quantityTxt.text = quantity.ToString();  // Cải thiện cách chuyển đổi số thành chuỗi
             empty = false;
         }
 
         public void Select()
         {
-            boderImage.enabled = true;
+            borderImage.enabled = true;
         }
-
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (empty) return;  // Thêm kiểm tra nếu item trống
+
             if (eventData.button == PointerEventData.InputButton.Left)
             {
                 OnItemClicked?.Invoke(this);
@@ -67,17 +68,19 @@ namespace Inventory.UI
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (empty) return;  // Thêm kiểm tra nếu item trống
             OnItemEndDrag?.Invoke(this);
         }
 
         public void OnDrop(PointerEventData eventData)
         {
-            OnItemDropOn?.Invoke(this);
+            OnItemDropOn?.Invoke(this);  // Có thể không cần kiểm tra empty ở đây vì có thể drop vào slot trống
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-
+            // Thêm xử lý kéo nếu cần
+            // Ví dụ: cập nhật vị trí của item theo chuột khi kéo
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +15,10 @@ namespace Inventory.Model
 
         [field: SerializeField]
         public AudioClip actionSFX { get; private set; }
-
+        public BookItemSO()
+        {
+            equipmentType = EquipmentType.Accessory; // Gán loại mặc định là Book
+        }
         public bool PerformAction(GameObject character, List<ItemParameter> itemState)
         {
             foreach (var data in modifiersData)

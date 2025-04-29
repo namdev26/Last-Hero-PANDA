@@ -9,25 +9,37 @@ namespace Inventory.UI
     public class UIInventoryPage : MonoBehaviour
     {
         [SerializeField] private UIInventoryItem itemPrefab;
+        [SerializeField] private UIInventoryItemEquipment equipmentItemPrefab;
         [SerializeField] private RectTransform contentPanel;
+        [SerializeField] private RectTransform usedItemsPanel;
         [SerializeField] private UIInventoryDescription itemDescription;
         [SerializeField] private MouseFollower mouseFollower;
         [SerializeField] private ItemActionPanel actionPanel;
-        [SerializeField] private InventorySO inventoryData; // Thêm để truy cập kho
-        [SerializeField] private AgentWeapon agentWeapon; // Thêm để truy cập AgentWeapon
+        [SerializeField] private InventorySO inventoryData;
+        [SerializeField] private AgentWeapon agentWeapon;
 
-        List<UIInventoryItem> listOfUIItem = new List<UIInventoryItem>();
+        [SerializeField] private List<UIInventoryItem> listOfUIItem = new List<UIInventoryItem>();
+        private Dictionary<EquipmentType, UIInventoryItemEquipment> usedItemSlots = new Dictionary<EquipmentType, UIInventoryItemEquipment>();
+        [SerializeField] private Dictionary<EquipmentType, ItemSO> equippedItems = new Dictionary<EquipmentType, ItemSO>();
 
         public event Action<int> OnDescriptionRequested, OnItemActionRequested, OnStartDragging;
         public event Action<int, int> OnSwapItems;
 
         private int currentlyDraggedItemIndex = -1;
+        private GameObject character;
 
         private void Awake()
         {
+            equippedItems = new Dictionary<EquipmentType, ItemSO>();
             Hide();
             itemDescription.ResetDescription();
             mouseFollower.Toggle(false);
+
+            UIInventoryItemEquipment[] equipmentSlots = usedItemsPanel.GetComponentsInChildren<UIInventoryItemEquipment>();
+            foreach (var slot in equipmentSlots)
+            {
+                slot.ResetData();
+            }
         }
 
         public void InitInventoryUI(int inventorySize)
@@ -42,6 +54,32 @@ namespace Inventory.UI
                 uiItem.OnItemEndDrag += HandleEndDrag;
                 uiItem.OnItemDropOn += HandleSwap;
                 uiItem.OnRightMouseBtnClick += HandleShowItemActions;
+            }
+
+            UIInventoryItemEquipment[] equipmentSlots = usedItemsPanel.GetComponentsInChildren<UIInventoryItemEquipment>();
+
+            usedItemSlots[EquipmentType.Weapon] = equipmentSlots[0];
+            usedItemSlots[EquipmentType.Weapon].Init(EquipmentType.Weapon);
+
+            usedItemSlots[EquipmentType.Helmet] = equipmentSlots[1];
+            usedItemSlots[EquipmentType.Helmet].Init(EquipmentType.Helmet);
+
+            usedItemSlots[EquipmentType.Armor] = equipmentSlots[2];
+            usedItemSlots[EquipmentType.Armor].Init(EquipmentType.Armor);
+
+            usedItemSlots[EquipmentType.Boots] = equipmentSlots[3];
+            usedItemSlots[EquipmentType.Boots].Init(EquipmentType.Boots);
+
+            usedItemSlots[EquipmentType.Accessory] = equipmentSlots[4];
+            usedItemSlots[EquipmentType.Accessory].Init(EquipmentType.Accessory);
+
+            usedItemSlots[EquipmentType.Cape] = equipmentSlots[5];
+            usedItemSlots[EquipmentType.Cape].Init(EquipmentType.Cape);
+
+            foreach (EquipmentType type in usedItemSlots.Keys)
+            {
+                usedItemSlots[type].OnRightMouseBtnClick += (item) => HandleShowUsedItemActions(type);
+                usedItemSlots[type].ResetData();
             }
         }
 
@@ -63,12 +101,64 @@ namespace Inventory.UI
 
             OnItemActionRequested?.Invoke(index);
 
-            // Kiểm tra xem vật phẩm có phải đang được trang bị
             var inventoryItem = inventoryData.GetItemAt(index);
-            if (inventoryItem.item is EquipItemSO equipItem && agentWeapon != null && agentWeapon.GetCurrentWeapon() == equipItem)
+            //if (inventoryItem.item is IItemAction itemAction)
+            //{
+            //    actionPanel.AddButon(itemAction.ActionName, () => UseItem(index, inventoryItem.item));
+            //}
+        }
+
+        private void HandleShowUsedItemActions(EquipmentType slotType)
+        {
+            if (!equippedItems.ContainsKey(slotType) || equippedItems[slotType] == null) return;
+
+            actionPanel.Toggle(true);
+            actionPanel.transform.position = usedItemSlots[slotType].transform.position;
+            actionPanel.AddButon("Unequip", () => UnequipItem(slotType));
+        }
+
+        public void UseItem(int itemIndex, ItemSO item)
+        {
+            if (character == null || !(item is IItemAction itemAction)) return;
+
+            EquipmentType slotType = item.equipmentType;
+            if (!usedItemSlots.ContainsKey(slotType))
             {
-                actionPanel.AddButon("Unequip", () => PerformUnequip());
+                Debug.LogWarning($"No slot available for EquipmentType {slotType}.");
+                return;
             }
+
+            if (equippedItems.ContainsKey(slotType) && equippedItems[slotType] != null)
+            {
+                UnequipItem(slotType);
+            }
+
+            Debug.Log($"Equipping {item.Name} to slot {slotType}");
+            equippedItems[slotType] = item;
+            usedItemSlots[slotType].SetData(item.ItemImage, item);
+
+            inventoryData.RemoveItem(itemIndex, 1);
+            UpdateData(itemIndex, null, 0);
+
+            actionPanel.Toggle(false);
+        }
+
+        private void UnequipItem(EquipmentType slotType)
+        {
+            if (character == null || !equippedItems.ContainsKey(slotType) || equippedItems[slotType] == null) return;
+
+            if (equippedItems[slotType] is IItemAction itemAction)
+            {
+                itemAction.PerformUnequipAction(character);
+            }
+
+            ItemSO item = equippedItems[slotType];
+            inventoryData.AddItem(item, 1, item.DefaultParametersList);
+
+            equippedItems[slotType] = null;
+            usedItemSlots[slotType].ResetData();
+
+            actionPanel.Toggle(false);
         }
 
         private void HandleSwap(UIInventoryItem item)
@@ -110,8 +200,9 @@ namespace Inventory.UI
             OnDescriptionRequested?.Invoke(index);
         }
 
-        public void Show()
+        public void Show(GameObject characterRef)
         {
+            character = characterRef;
             gameObject.SetActive(true);
             ResetSelection();
         }
@@ -143,9 +234,9 @@ namespace Inventory.UI
 
         private void DeselectAllItems()
         {
-            foreach (UIInventoryItem platform in listOfUIItem)
+            foreach (UIInventoryItem item in listOfUIItem)
             {
-                platform.Deselect();
+                item.Deselect();
             }
             actionPanel.Toggle(false);
         }
@@ -169,16 +260,11 @@ namespace Inventory.UI
                 item.ResetData();
                 item.Deselect();
             }
-        }
-
-        // Phương thức để tháo trang bị
-        private void PerformUnequip()
-        {
-            if (agentWeapon != null)
+            foreach (var slot in usedItemSlots.Values)
             {
-                agentWeapon.Unequip();
-                actionPanel.Toggle(false); // Ẩn panel hành động sau khi tháo
+                slot.ResetData();
             }
+            equippedItems.Clear();
         }
     }
 }

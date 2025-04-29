@@ -10,15 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 495b5c5540602604d92c8d2a74d5f7d4, type: 3}
-  m_Name: Sword
+  m_Name: VuKhi
   m_EditorClassIdentifier: 
   <IsStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
-  <Name>k__BackingField: Sword
-  <Description>k__BackingField: No
-  <ItemImage>k__BackingField: {fileID: 21300000, guid: dd3631e297d7ef341bfc48751be7ca9d, type: 3}
+  <Name>k__BackingField: "R\xECu Th\xE9p"
+  <Description>k__BackingField: "C\xE2y r\xECu kh\u1ED5ng l\u1ED3, m\u1ED7i c\xFA
+    \u0111\u1EADp rung chuy\u1EC3n \u0111\u1EA5t tr\u1EDDi, t\u0103ng m\xE1u v\xE0
+    s\u1EE9c m\u1EA1nh \u0111\u1EC3 nghi\u1EC1n n\xE1t k\u1EBB th\xF9."
+  <ItemImage>k__BackingField: {fileID: 2112116506, guid: f2fc2164a0e42be44a732541b1927f43, type: 3}
   <DefaultParametersList>k__BackingField:
+  - itemParameter: {fileID: 11400000, guid: 6b8df11712c6e60489bb2ebce1b685d0, type: 2}
+    value: 150
   - itemParameter: {fileID: 11400000, guid: 618a4a2021c0a9b40b14e02f83caab67, type: 2}
-    value: 10
+    value: 60
   <equipmentType>k__BackingField: 0
   <actionSFX>k__BackingField: {fileID: 0}
