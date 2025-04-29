@@ -1,4 +1,4 @@
-
+﻿using Inventory.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,31 +12,30 @@ namespace Inventory.UI
         [SerializeField] private RectTransform contentPanel;
         [SerializeField] private UIInventoryDescription itemDescription;
         [SerializeField] private MouseFollower mouseFollower;
+        [SerializeField] private ItemActionPanel actionPanel;
+        [SerializeField] private InventorySO inventoryData; // Thêm để truy cập kho
+        [SerializeField] private AgentWeapon agentWeapon; // Thêm để truy cập AgentWeapon
+
         List<UIInventoryItem> listOfUIItem = new List<UIInventoryItem>();
 
-
         public event Action<int> OnDescriptionRequested, OnItemActionRequested, OnStartDragging;
-
         public event Action<int, int> OnSwapItems;
 
-        [SerializeField] private ItemActionPanel actionPanel;
-
-
         private int currentlyDraggedItemIndex = -1;
+
         private void Awake()
         {
             Hide();
             itemDescription.ResetDescription();
             mouseFollower.Toggle(false);
         }
+
         public void InitInventoryUI(int inventorySize)
         {
             for (int i = 0; i < inventorySize; i++)
             {
                 UIInventoryItem uiItem = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
                 uiItem.transform.SetParent(contentPanel, false);
-
-                uiItem.transform.SetParent(contentPanel);
                 listOfUIItem.Add(uiItem);
                 uiItem.OnItemClicked += HandleItemSelection;
                 uiItem.OnItemBeginDrag += HandleBeginDrag;
@@ -46,7 +45,6 @@ namespace Inventory.UI
             }
         }
 
-
         public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity)
         {
             if (listOfUIItem.Count > itemIndex)
@@ -55,15 +53,22 @@ namespace Inventory.UI
             }
         }
 
-
         private void HandleShowItemActions(UIInventoryItem item)
         {
             int index = listOfUIItem.IndexOf(item);
-            if (index == -1)
+            if (index == -1 || index >= inventoryData.GetCurrentInventoryState().Count)
             {
                 return;
             }
+
             OnItemActionRequested?.Invoke(index);
+
+            // Kiểm tra xem vật phẩm có phải đang được trang bị
+            var inventoryItem = inventoryData.GetItemAt(index);
+            if (inventoryItem.item is EquipItemSO equipItem && agentWeapon != null && agentWeapon.GetCurrentWeapon() == equipItem)
+            {
+                actionPanel.AddButon("Unequip", () => PerformUnequip());
+            }
         }
 
         private void HandleSwap(UIInventoryItem item)
@@ -91,13 +96,11 @@ namespace Inventory.UI
             OnStartDragging?.Invoke(index);
         }
 
-
         public void CreateDraggedItem(Sprite sprite, int quantity)
         {
             mouseFollower.Toggle(true);
             mouseFollower.SetData(sprite, quantity);
         }
-
 
         private void HandleItemSelection(UIInventoryItem item)
         {
@@ -112,12 +115,12 @@ namespace Inventory.UI
             gameObject.SetActive(true);
             ResetSelection();
         }
+
         public void Hide()
         {
             actionPanel.Toggle(false);
             gameObject.SetActive(false);
             ResetDraggedItem();
-
         }
 
         private void ResetDraggedItem()
@@ -140,9 +143,9 @@ namespace Inventory.UI
 
         private void DeselectAllItems()
         {
-            foreach (UIInventoryItem item in listOfUIItem)
+            foreach (UIInventoryItem platform in listOfUIItem)
             {
-                item.Deselect();
+                platform.Deselect();
             }
             actionPanel.Toggle(false);
         }
@@ -151,7 +154,6 @@ namespace Inventory.UI
         {
             actionPanel.AddButon(actionName, performAction);
         }
-
 
         internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, string description)
         {
@@ -166,6 +168,16 @@ namespace Inventory.UI
             {
                 item.ResetData();
                 item.Deselect();
+            }
+        }
+
+        // Phương thức để tháo trang bị
+        private void PerformUnequip()
+        {
+            if (agentWeapon != null)
+            {
+                agentWeapon.Unequip();
+                actionPanel.Toggle(false); // Ẩn panel hành động sau khi tháo
             }
         }
     }

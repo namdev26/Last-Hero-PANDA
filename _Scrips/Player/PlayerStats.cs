@@ -9,12 +9,44 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] public int baseDamage = 20;
     [SerializeField] public int baseDefence = 20;
 
+    // Lưu trữ bonus từ vật phẩm
+    private int bonusDamage = 0;
+    private int bonusDefence = 0;
 
-    //public int BaseMaxHealth => baseMaxHealth;
-    //public int BaseMaxMana => baseMaxMana;
-    //public int BaseDamage => baseDamage;
-    //public int BaseDefence => baseDefence;
+    // Chỉ số tổng = cơ bản + bonus
+    public int Damage => baseDamage + bonusDamage;
+    public int Defence => baseDefence + bonusDefence;
 
-    public int Damage => baseDamage;
-    public int Defence => baseDefence;
+    // Phương thức để cộng bonus từ vật phẩm
+    public void AddStatBonus(string parameterName, int value)
+    {
+        switch (parameterName)
+        {
+            case "Damage":
+                bonusDamage += value;
+                Debug.Log($"Damage updated: {Damage}");
+                break;
+            case "Defence":
+                bonusDefence += value;
+                Debug.Log($"Defence updated: {Defence}");
+                break;
+                // Thêm các chỉ số khác nếu cần, ví dụ: "MaxHealth", "MaxMana"
+        }
+    }
+
+    // Phương thức để trừ bonus khi tháo vật phẩm
+    public void RemoveStatBonus(string parameterName, int value)
+    {
+        switch (parameterName)
+        {
+            case "Damage":
+                bonusDamage -= value;
+                Debug.Log($"Damage updated: {Damage}");
+                break;
+            case "Defence":
+                bonusDefence -= value;
+                Debug.Log($"Defence updated: {Defence}");
+                break;
+        }
+    }
 }

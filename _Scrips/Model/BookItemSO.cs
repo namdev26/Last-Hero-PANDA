@@ -24,6 +24,11 @@ namespace Inventory.Model
             }
             return true;
         }
+
+        public bool PerformUnequipAction(GameObject character)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IDestroyableItem
@@ -36,6 +41,7 @@ namespace Inventory.Model
         public string ActionName { get; }
         public AudioClip actionSFX { get; }
         bool PerformAction(GameObject character, List<ItemParameter> itemState);
+        bool PerformUnequipAction(GameObject character);
     }
 
     [Serializable]

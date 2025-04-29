@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterHealth : MonoBehaviour, IHealth
 {
-    public float maxHP;
-    public float currentHP;
+    public int maxHP;
+    public int currentHP;
     [SerializeField] private MonsterController monster;
     [SerializeField] public PoolObject pool;
     public float knockbackForce = 10f;

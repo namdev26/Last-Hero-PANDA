@@ -16337,7 +16337,7 @@ MonoBehaviour:
   inventoryData: {fileID: 11400000, guid: 55e80795766a96a42bea58d504db6fc6, type: 2}
   parametersToModify:
   - itemParameter: {fileID: 11400000, guid: 97d37839331408c488883a9465bc418a, type: 2}
-    value: -10
+    value: 0
   itemCurrentState: []
 --- !u!82 &490966385
 AudioSource:
@@ -17561,7 +17561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e14c56bdfb8a8f4987c763de989f656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
+  maxHP: 0
   currentHP: 0
   monster: {fileID: 739637839}
   pool: {fileID: 6064475498417840450, guid: 6e7ab9318f2b31d4c9ede610156aadac, type: 3}
@@ -27381,6 +27381,14 @@ PrefabInstance:
       propertyPath: actionPanel
       value: 
       objectReference: {fileID: 1126491397}
+    - target: {fileID: 4437299239517442678, guid: 0d298ab16f6e2f943a96a311d5039862, type: 3}
+      propertyPath: agentWeapon
+      value: 
+      objectReference: {fileID: 490966384}
+    - target: {fileID: 4437299239517442678, guid: 0d298ab16f6e2f943a96a311d5039862, type: 3}
+      propertyPath: inventoryData
+      value: 
+      objectReference: {fileID: 11400000, guid: 55e80795766a96a42bea58d504db6fc6, type: 2}
     - target: {fileID: 4437299239517442678, guid: 0d298ab16f6e2f943a96a311d5039862, type: 3}
       propertyPath: mouseFollower
       value: 
