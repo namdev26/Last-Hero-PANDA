@@ -16,6 +16,7 @@ namespace Inventory.UI
         [SerializeField] private ItemActionPanel actionPanel;
         [SerializeField] private InventorySO inventoryData;
         [SerializeField] private AgentWeapon agentWeapon;
+        [SerializeField] private UICharacterInfo characterInfo;
 
         private List<UIInventoryItem> listOfUIItem = new List<UIInventoryItem>();
         private Dictionary<EquipmentType, UIInventoryItemEquipment> usedItemSlots = new Dictionary<EquipmentType, UIInventoryItemEquipment>();
@@ -78,7 +79,68 @@ namespace Inventory.UI
             foreach (EquipmentType type in usedItemSlots.Keys)
             {
                 EquipmentType capturedType = type;
-                usedItemSlots[capturedType].OnRightMouseBtnClick += (item) => HandleShowUsedItemActions(capturedType);
+                usedItemSlots[capturedType].OnRightMouseBtnClick += (slotType) => HandleShowUsedItemActions(slotType);
+                usedItemSlots[capturedType].OnItemClicked += HandleEquipmentItemSelection; // Đăng ký sự kiện nhấp chuột trái
+            }
+        }
+
+        private void HandleEquipmentItemSelection(UIInventoryItemEquipment equipmentItem)
+        {
+            ItemSO item = equipmentItem.GetItem();
+            if (item == null)
+            {
+                itemDescription.ResetDescription();
+                return;
+            }
+
+            // Tạo mô tả cho vật phẩm trang bị
+            string description = PrepareEquipmentDescription(item);
+            itemDescription.SetDescription(item.ItemImage, item.name, description);
+            DeselectAllItems();
+        }
+
+        private string PrepareEquipmentDescription(ItemSO item)
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append(item.Description);
+            sb.AppendLine();
+            foreach (var param in item.DefaultParametersList)
+            {
+                sb.Append($"{param.itemParameter.ParameterName}: {param.value}");
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
+        public void Show(GameObject characterRef)
+        {
+            character = characterRef;
+            gameObject.SetActive(true);
+            ResetSelection();
+
+            if (character != null && characterInfo != null)
+            {
+                PlayerStats stats = character.GetComponent<PlayerStats>();
+                if (stats != null)
+                {
+                    characterInfo.Initialize(stats);
+                    characterInfo.Show();
+                }
+                else
+                {
+                    Debug.LogWarning("PlayerStats component not found on character.");
+                }
+            }
+        }
+
+        public void Hide()
+        {
+            actionPanel.Toggle(false);
+            gameObject.SetActive(false);
+            ResetDraggedItem();
+            if (characterInfo != null)
+            {
+                characterInfo.Hide();
             }
         }
 
@@ -149,6 +211,15 @@ namespace Inventory.UI
             equippedItems[slotType] = item;
             usedItemSlots[slotType].SetData(item.ItemImage, item);
 
+            PlayerStats stats = character.GetComponent<PlayerStats>();
+            if (stats != null)
+            {
+                foreach (var param in item.DefaultParametersList)
+                {
+                    stats.AddStatBonus(param.itemParameter.ParameterName, param.value);
+                }
+            }
+
             inventoryData.RemoveItem(itemIndex, 1);
             UpdateData(itemIndex, null, 0);
 
@@ -166,6 +237,16 @@ namespace Inventory.UI
             }
 
             ItemSO item = equippedItems[slotType];
+
+            PlayerStats stats = character.GetComponent<PlayerStats>();
+            if (stats != null)
+            {
+                foreach (var param in item.DefaultParametersList)
+                {
+                    stats.RemoveStatBonus(param.itemParameter.ParameterName, param.value);
+                }
+            }
+
             inventoryData.AddItem(item, 1, item.DefaultParametersList);
 
             equippedItems[slotType] = null;
@@ -209,20 +290,6 @@ namespace Inventory.UI
             OnDescriptionRequested?.Invoke(index);
         }
 
-        public void Show(GameObject characterRef)
-        {
-            character = characterRef;
-            gameObject.SetActive(true);
-            ResetSelection();
-        }
-
-        public void Hide()
-        {
-            actionPanel.Toggle(false);
-            gameObject.SetActive(false);
-            ResetDraggedItem();
-        }
-
         private void ResetDraggedItem()
         {
             mouseFollower.Toggle(false);
@@ -259,7 +326,10 @@ namespace Inventory.UI
         {
             itemDescription.SetDescription(itemImage, name, description);
             DeselectAllItems();
-            listOfUIItem[itemIndex].Select();
+            if (itemIndex >= 0 && itemIndex < listOfUIItem.Count)
+            {
+                listOfUIItem[itemIndex].Select();
+            }
         }
 
         public void ResetAllItems(bool resetEquippedItems = false)

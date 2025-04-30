@@ -12,6 +12,7 @@ namespace Inventory.UI
         [SerializeField] private Image itemImage;
 
         public event Action<EquipmentType> OnRightMouseBtnClick;
+        public event Action<UIInventoryItemEquipment> OnItemClicked;
 
         private ItemSO currentItem;
         private EquipmentType slotType;
@@ -54,6 +55,10 @@ namespace Inventory.UI
             if (eventData.button == PointerEventData.InputButton.Right && currentItem != null)
             {
                 OnRightMouseBtnClick?.Invoke(slotType);
+            }
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                OnItemClicked?.Invoke(this);
             }
         }
 

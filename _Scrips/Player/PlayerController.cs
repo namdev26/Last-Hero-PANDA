@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsRolling)
         {
-            _rigidbody.velocity = new Vector2(direction * playerStats.baseSpeed, _rigidbody.velocity.y);
+            _rigidbody.velocity = new Vector2(direction * playerStats.Speed, _rigidbody.velocity.y);
             if (direction != 0)
             {
                 transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1);
