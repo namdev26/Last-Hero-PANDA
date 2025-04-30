@@ -8,28 +8,29 @@ namespace Inventory
 {
     public class InventoryController : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject player; // Thêm tham chiếu đến nhân vật
-
-        [SerializeField]
-        private UIInventoryPage inventoryUI;
-
-        [SerializeField]
-        private InventorySO inventoryData;
-
+        [SerializeField] private GameObject player;
+        [SerializeField] private UIInventoryPage inventoryUI;
+        [SerializeField] private InventorySO inventoryData;
         public List<InventoryItem> initialItems = new List<InventoryItem>();
-
-        [SerializeField]
-        private AudioClip dropClip;
-
-        [SerializeField]
-        private AudioSource audioSource;
+        [SerializeField] private AudioClip dropClip;
+        [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip equipClip;
 
         private void Start()
         {
+            if (!ValidateReferences()) return;
             PrepareUI();
             PrepareInventoryData();
+        }
+
+        private bool ValidateReferences()
+        {
+            if (player == null || inventoryUI == null || inventoryData == null || audioSource == null)
+            {
+                Debug.LogError("Required references are missing in InventoryController.");
+                return false;
+            }
+            return true;
         }
 
         private void PrepareInventoryData()
@@ -38,19 +39,36 @@ namespace Inventory
             inventoryData.OnInventoryUpdated += UpdateInventoryUI;
             foreach (InventoryItem item in initialItems)
             {
-                if (item.IsEmpty)
-                    continue;
+                if (item.IsEmpty) continue;
                 inventoryData.AddItem(item);
             }
         }
 
         private void UpdateInventoryUI(Dictionary<int, InventoryItem> inventoryState)
         {
-            inventoryUI.ResetAllItems();
+            // Reset chỉ các slot inventory, không reset slot trang bị
+            inventoryUI.ResetAllItems(false);
+
+            // Cập nhật các slot inventory
             foreach (var item in inventoryState)
             {
-                inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage,
-                    item.Value.quantity);
+                inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+            }
+
+            // Làm mới các slot trang bị
+            RefreshEquippedItems();
+        }
+
+        private void RefreshEquippedItems()
+        {
+            var equippedItems = inventoryUI.GetEquippedItems();
+            foreach (var pair in equippedItems)
+            {
+                if (pair.Value != null)
+                {
+                    Debug.Log($"Refreshing equipped item: {pair.Value.Name} in slot {pair.Key}");
+                    inventoryUI.UpdateEquippedItem(pair.Key, pair.Value.ItemImage, pair.Value);
+                }
             }
         }
 
@@ -66,15 +84,13 @@ namespace Inventory
         private void HandleItemActionRequest(int itemIndex)
         {
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
-            if (inventoryItem.IsEmpty)
-                return;
+            if (inventoryItem.IsEmpty) return;
 
             IItemAction itemAction = inventoryItem.item as IItemAction;
             if (itemAction != null)
             {
-
                 inventoryUI.ShowItemAction(itemIndex);
-                inventoryUI.AddAction(itemAction.ActionName, () => PerformAction(itemIndex));
+                inventoryUI.AddAction(itemAction.ActionName, () => PerformActionoppa(itemIndex));
             }
 
             IDestroyableItem destroyableItem = inventoryItem.item as IDestroyableItem;
@@ -82,7 +98,6 @@ namespace Inventory
             {
                 inventoryUI.AddAction("Drop", () => DropItem(itemIndex, inventoryItem.quantity));
             }
-
         }
 
         private void DropItem(int itemIndex, int quantity)
@@ -92,7 +107,7 @@ namespace Inventory
             audioSource.PlayOneShot(dropClip);
         }
 
-        public void PerformAction(int itemIndex)
+        public void PerformActionoppa(int itemIndex)
         {
             Debug.Log($"PerformAction called for item at index {itemIndex}");
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
@@ -136,8 +151,7 @@ namespace Inventory
         private void HandleDragging(int itemIndex)
         {
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
-            if (inventoryItem.IsEmpty)
-                return;
+            if (inventoryItem.IsEmpty) return;
             inventoryUI.CreateDraggedItem(inventoryItem.item.ItemImage, inventoryItem.quantity);
         }
 
@@ -156,8 +170,7 @@ namespace Inventory
             }
             ItemSO item = inventoryItem.item;
             string description = PrepareDescription(inventoryItem);
-            inventoryUI.UpdateDescription(itemIndex, item.ItemImage,
-                item.name, description);
+            inventoryUI.UpdateDescription(itemIndex, item.ItemImage, item.name, description);
         }
 
         private string PrepareDescription(InventoryItem inventoryItem)
@@ -183,17 +196,24 @@ namespace Inventory
                     inventoryUI.Show(player);
                     foreach (var item in inventoryData.GetCurrentInventoryState())
                     {
-                        inventoryUI.UpdateData(item.Key,
-                            item.Value.item.ItemImage,
-                            item.Value.quantity);
+                        inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
                     }
+                    RefreshEquippedItems(); // Làm mới slot trang bị khi mở inventory
                 }
                 else
                 {
                     inventoryUI.Hide();
                 }
-
             }
+        }
+
+        private void OnDestroy()
+        {
+            inventoryData.OnInventoryUpdated -= UpdateInventoryUI;
+            inventoryUI.OnDescriptionRequested -= HandleDescriptionRequest;
+            inventoryUI.OnSwapItems -= HandleSwapItems;
+            inventoryUI.OnStartDragging -= HandleDragging;
+            inventoryUI.OnItemActionRequested -= HandleItemActionRequest;
         }
     }
 }

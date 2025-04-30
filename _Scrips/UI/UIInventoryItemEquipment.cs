@@ -23,25 +23,26 @@ namespace Inventory.UI
 
         public void SetData(Sprite sprite, ItemSO item)
         {
-            if (itemImage != null)
+            if (sprite == null || item == null)
             {
-                itemImage.gameObject.SetActive(true);  // Bật ảnh đúng
-                itemImage.sprite = sprite;             // Gán ảnh
-            }
-            else
-            {
-                Debug.LogWarning($"ItemImage is not assigned in {gameObject.name}.");
+                return;
             }
 
+            itemImage.sprite = sprite;
+            itemImage.gameObject.SetActive(true);
+
             currentItem = item;
+            Debug.Log($"SetData on {gameObject.name} - sprite: {(sprite != null ? sprite.name : "null")}");
+
         }
+
 
 
         public void ResetData()
         {
             if (itemImage != null)
             {
-                itemImage.sprite = null;
+                //itemImage.sprite = null;
                 itemImage.gameObject.SetActive(false);
             }
 

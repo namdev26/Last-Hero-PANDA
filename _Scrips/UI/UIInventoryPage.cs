@@ -1,6 +1,5 @@
 ﻿using Inventory.Model;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace Inventory.UI
         [SerializeField] private InventorySO inventoryData;
         [SerializeField] private AgentWeapon agentWeapon;
 
-        [SerializeField] private List<UIInventoryItem> listOfUIItem = new List<UIInventoryItem>();
+        private List<UIInventoryItem> listOfUIItem = new List<UIInventoryItem>();
         private Dictionary<EquipmentType, UIInventoryItemEquipment> usedItemSlots = new Dictionary<EquipmentType, UIInventoryItemEquipment>();
         [SerializeField] private Dictionary<EquipmentType, ItemSO> equippedItems = new Dictionary<EquipmentType, ItemSO>();
 
@@ -78,8 +77,8 @@ namespace Inventory.UI
 
             foreach (EquipmentType type in usedItemSlots.Keys)
             {
-                usedItemSlots[type].OnRightMouseBtnClick += (item) => HandleShowUsedItemActions(type);
-                usedItemSlots[type].ResetData();
+                EquipmentType capturedType = type;
+                usedItemSlots[capturedType].OnRightMouseBtnClick += (item) => HandleShowUsedItemActions(capturedType);
             }
         }
 
@@ -87,8 +86,35 @@ namespace Inventory.UI
         {
             if (listOfUIItem.Count > itemIndex)
             {
-                listOfUIItem[itemIndex].SetData(itemImage, itemQuantity);
+                if (itemImage == null || itemQuantity == 0)
+                {
+                    listOfUIItem[itemIndex].ResetData();
+                }
+                else
+                {
+                    listOfUIItem[itemIndex].SetData(itemImage, itemQuantity);
+                }
             }
+        }
+
+        public void UpdateEquippedItem(EquipmentType slotType, Sprite itemImage, ItemSO item)
+        {
+            if (usedItemSlots.ContainsKey(slotType))
+            {
+                if (itemImage == null || item == null)
+                {
+                    usedItemSlots[slotType].ResetData();
+                }
+                else
+                {
+                    usedItemSlots[slotType].SetData(itemImage, item);
+                }
+            }
+        }
+
+        public Dictionary<EquipmentType, ItemSO> GetEquippedItems()
+        {
+            return equippedItems;
         }
 
         private void HandleShowItemActions(UIInventoryItem item)
@@ -98,14 +124,7 @@ namespace Inventory.UI
             {
                 return;
             }
-
             OnItemActionRequested?.Invoke(index);
-
-            var inventoryItem = inventoryData.GetItemAt(index);
-            //if (inventoryItem.item is IItemAction itemAction)
-            //{
-            //    actionPanel.AddButon(itemAction.ActionName, () => UseItem(index, inventoryItem.item));
-            //}
         }
 
         private void HandleShowUsedItemActions(EquipmentType slotType)
@@ -122,18 +141,11 @@ namespace Inventory.UI
             if (character == null || !(item is IItemAction itemAction)) return;
 
             EquipmentType slotType = item.equipmentType;
-            if (!usedItemSlots.ContainsKey(slotType))
-            {
-                Debug.LogWarning($"No slot available for EquipmentType {slotType}.");
-                return;
-            }
 
             if (equippedItems.ContainsKey(slotType) && equippedItems[slotType] != null)
             {
                 UnequipItem(slotType);
             }
-
-            Debug.Log($"Equipping {item.Name} to slot {slotType}");
             equippedItems[slotType] = item;
             usedItemSlots[slotType].SetData(item.ItemImage, item);
 
@@ -141,6 +153,7 @@ namespace Inventory.UI
             UpdateData(itemIndex, null, 0);
 
             actionPanel.Toggle(false);
+            Debug.Log($"Equip {item.Name} vào slot {slotType}");
         }
 
         private void UnequipItem(EquipmentType slotType)
@@ -164,10 +177,7 @@ namespace Inventory.UI
         private void HandleSwap(UIInventoryItem item)
         {
             int index = listOfUIItem.IndexOf(item);
-            if (index == -1)
-            {
-                return;
-            }
+            if (index == -1) return;
             OnSwapItems?.Invoke(currentlyDraggedItemIndex, index);
             HandleItemSelection(item);
         }
@@ -195,8 +205,7 @@ namespace Inventory.UI
         private void HandleItemSelection(UIInventoryItem item)
         {
             int index = listOfUIItem.IndexOf(item);
-            if (index == -1)
-                return;
+            if (index == -1) return;
             OnDescriptionRequested?.Invoke(index);
         }
 
@@ -253,18 +262,26 @@ namespace Inventory.UI
             listOfUIItem[itemIndex].Select();
         }
 
-        public void ResetAllItems()
+        public void ResetAllItems(bool resetEquippedItems = false)
         {
             foreach (var item in listOfUIItem)
             {
-                item.ResetData();
-                item.Deselect();
+                if (item != null)
+                {
+                    item.ResetData();
+                    item.Deselect();
+                }
             }
-            foreach (var slot in usedItemSlots.Values)
+
+            if (resetEquippedItems)
             {
-                slot.ResetData();
+                foreach (var slot in usedItemSlots.Values)
+                {
+                    if (slot != null)
+                        slot.ResetData();
+                }
+                equippedItems.Clear();
             }
-            equippedItems.Clear();
         }
     }
 }

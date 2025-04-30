@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
     [SerializeField] public Rigidbody2D _rigidbody;
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerStats playerStats;
@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsRolling)
         {
-            _rigidbody.velocity = new Vector2(direction * moveSpeed, _rigidbody.velocity.y);
+            _rigidbody.velocity = new Vector2(direction * playerStats.baseSpeed, _rigidbody.velocity.y);
             if (direction != 0)
             {
                 transform.localScale = new Vector3(Mathf.Sign(direction), 1, 1);
