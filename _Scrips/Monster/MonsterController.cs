@@ -98,7 +98,7 @@ public abstract class MonsterController : MonoBehaviour
     public void UpdateFacingDirection(Vector2 targetPosition)
     {
         bool facingRight = targetPosition.x > transform.position.x;
-        transform.rotation = Quaternion.Euler(0, facingRight ? 0 : 180, 0);
+        transform.localScale = new Vector3(facingRight ? 1 : -1, 1, 1);
     }
 
     public float DistanceToPlayer()
@@ -108,11 +108,14 @@ public abstract class MonsterController : MonoBehaviour
 
     public void Attack()
     {
+        // Xác định hướng dựa trên scale của enemy
+        bool attackFromRight = transform.localScale.x < 0;
+
         Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
         foreach (Collider2D col in hitPlayers)
         {
             PlayerHealth target = col.GetComponent<PlayerHealth>();
-            if (target != null) target.TakeDamage(10);
+            if (target != null) target.TakeDamage(data.damage, attackFromRight);
         }
     }
 

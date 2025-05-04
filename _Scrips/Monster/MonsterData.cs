@@ -4,6 +4,7 @@ using UnityEngine;
 public class MonsterData : ScriptableObject
 {
     public string monsterName = "Monster";
+    public int damage;
     public float patrolSpeed = 2f;
     public float chaseSpeed = 4f;
     public float detectionRange = 3f;

@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour
     private float rollCooldown = 0.1f;
     private float lastRollTime;
     private bool pendingAttackInput = false; // Hàng đợi input chuột
+    private float lastDownPressTime;
+    private bool canSlam;
 
     private void Start()
     {
@@ -144,17 +146,17 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        //{
-        //    if (Time.time - lastDownPressTime < 0.3f && canSlam)
-        //    {
-        //        ChangeState(new HeliSlamState(this));
-        //        canSlam = false;
-        //    }
-        //    lastDownPressTime = Time.time;
-        //}
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        {
+            if (Time.time - lastDownPressTime < 0.3f && canSlam)
+            {
+                ChangeState(new HeliSlamState(this));
+                canSlam = false;
+            }
+            lastDownPressTime = Time.time;
+        }
 
-        //if (IsGrounded) canSlam = true;
+        if (IsGrounded) canSlam = true;
         currentState.UpdateState();
     }
 
