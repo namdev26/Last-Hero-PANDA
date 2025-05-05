@@ -18,3 +18,28 @@ MonoBehaviour:
   - Attack1
   - Attack2
   - Attack3
+  comboAttacks:
+  - damage: 10
+    knockbackForceX: 0.3
+    knockbackForceY: 0
+    launchEnemy: 0
+    attackRadius: 1
+    hitboxOffset: {x: 0, y: 0}
+    hitboxActiveTime: 0.2
+    hitStunDuration: 0
+  - damage: 20
+    knockbackForceX: 0.3
+    knockbackForceY: 0
+    launchEnemy: 0
+    attackRadius: 1
+    hitboxOffset: {x: 0, y: 0}
+    hitboxActiveTime: 0.2
+    hitStunDuration: 0
+  - damage: 30
+    knockbackForceX: 0.1
+    knockbackForceY: 7
+    launchEnemy: 1
+    attackRadius: 1
+    hitboxOffset: {x: 0, y: 0}
+    hitboxActiveTime: 0.3
+    hitStunDuration: 0.5

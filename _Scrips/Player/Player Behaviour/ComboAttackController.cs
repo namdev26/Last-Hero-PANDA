@@ -5,14 +5,15 @@ public class ComboAttackController : MonoBehaviour
 {
     [Header("Combo Settings")]
     [SerializeField] private float comboTimeWindow = 1.2f;    // Thời gian cho phép để tiếp tục combo
-    //[SerializeField] private string attack1Trigger = "Attack1";
-    //[SerializeField] private string attack2Trigger = "Attack2";
-    //[SerializeField] private string attack3Trigger = "Attack3";
     [SerializeField] private WeaponData weaponData;
 
-    //[Header("Debug")]
-    //[SerializeField] private bool showDebugInfo = true;
 
+    [Header("Attack Settings")]
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private bool showHitboxGizmo = true;
+
+    private bool hitboxActive = false;
     private Animator animator;
     private PlayerController player;
     private int currentComboCount = 0;
@@ -22,6 +23,10 @@ public class ComboAttackController : MonoBehaviour
     private bool attackInputQueued = false;   // Biến lưu trữ input tấn công trong khi chờ animation kết thúc
     private Coroutine comboWindowCoroutine;
 
+
+    [SerializeField] private MonsterController monster;
+    [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private AttackData attackData;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -30,27 +35,113 @@ public class ComboAttackController : MonoBehaviour
 
     private void Update()
     {
-        // Xử lý input tấn công
         if (Input.GetMouseButtonDown(0))
         {
-            // Nếu chưa tấn công hoặc có thể bắt đầu đòn tiếp theo, xử lý ngay
             if (!player.isAttacking || canStartNextAttack)
             {
                 HandleAttackInput();
             }
-            // Nếu đang trong animation tấn công, queue input để xử lý sau
             else if (player.isAttacking && comboWindowOpen)
             {
                 attackInputQueued = true;
             }
         }
 
-        // Kiểm tra hết thời gian combo window
         if (comboWindowOpen && Time.time - lastAttackTime > comboTimeWindow)
         {
             ResetCombo();
         }
     }
+
+    public void ActivateHitbox()
+    {
+        if (weaponData == null || currentComboCount <= 0 || currentComboCount > weaponData.comboAttacks.Length)
+            return;
+
+        AttackData currentAttack = weaponData.comboAttacks[currentComboCount - 1];
+        StartCoroutine(ActiveHitboxRoutine(currentAttack));
+    }
+    private IEnumerator ActiveHitboxRoutine(AttackData attackData)
+    {
+        hitboxActive = true;
+
+        PerformAttack(attackData);
+
+        yield return new WaitForSeconds(attackData.hitboxActiveTime);
+
+        hitboxActive = false;
+    }
+    private void PerformAttack(AttackData attackData)
+    {
+        bool isFacingRight = transform.localScale.x > 0;
+
+        Vector2 hitboxPosition = (Vector2)attackPoint.position +
+            (isFacingRight ? attackData.hitboxOffset : new Vector2(-attackData.hitboxOffset.x, attackData.hitboxOffset.y));
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(hitboxPosition, attackData.attackRadius, enemyLayers);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            bool attackFromRight = transform.position.x > monster.transform.position.x;
+            MonsterHealth monsterHealth = enemy.GetComponent<MonsterHealth>();
+            if (monsterHealth != null)
+            {
+                monsterHealth.TakeDamage(attackData.damage + playerStats.Damage, transform, attackFromRight);
+                if (attackData.launchEnemy)
+                {
+                    Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
+                    if (enemyRb != null)
+                    {
+                        float knockbackDirectionX = enemy.transform.position.x - transform.position.x;
+                        float directionSign = Mathf.Sign(knockbackDirectionX);
+
+                        enemyRb.velocity = Vector2.zero; // Reset velocity trước
+                        enemyRb.AddForce(new Vector2(directionSign * attackData.knockbackForceX, attackData.knockbackForceY), ForceMode2D.Impulse);
+                    }
+                }
+
+                // Hiệu ứng hit stun nếu có
+                //EnemyController enemyController = enemy.GetComponent<EnemyController>();
+                //if (enemyController != null)
+                //{
+                //    enemyController.ApplyHitStun(attackData.hitStunDuration);
+                //}
+
+                //// Tạo hiệu ứng hit nếu có
+                //if (attackData.hitEffect != null)
+                //{
+                //    Vector3 hitPosition = enemy.transform.position;
+                //    hitPosition.z = 0;
+                //    Instantiate(attackData.hitEffect, hitPosition, Quaternion.identity);
+                //}
+
+                //// Phát âm thanh nếu có
+                //if (attackData.hitSound != null)
+                //{
+                //    AudioSource.PlayClipAtPoint(attackData.hitSound, enemy.transform.position);
+                //}
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!showHitboxGizmo || attackPoint == null || weaponData == null ||
+            weaponData.comboAttacks == null || currentComboCount <= 0 ||
+            currentComboCount > weaponData.comboAttacks.Length)
+            return;
+
+        Gizmos.color = hitboxActive ? Color.red : Color.yellow;
+        AttackData attackData = weaponData.comboAttacks[currentComboCount - 1];
+
+        // Tính toán vị trí hitbox dựa trên hướng nhân vật
+        bool isFacingRight = transform.localScale.x > 0;
+        Vector2 hitboxPosition = (Vector2)attackPoint.position +
+            (isFacingRight ? attackData.hitboxOffset : new Vector2(-attackData.hitboxOffset.x, attackData.hitboxOffset.y));
+
+        Gizmos.DrawWireSphere(hitboxPosition, attackData.attackRadius);
+    }
+
     public void SetWeapon(WeaponData data)
     {
         weaponData = data;

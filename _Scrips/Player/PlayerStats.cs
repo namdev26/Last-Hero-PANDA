@@ -31,19 +31,22 @@ public class PlayerStats : MonoBehaviour
         {
             case "SucManh":
                 bonusDamage += value;
-                Debug.Log($"Damage updated: {Damage}");
+                Debug.Log($"Damage updated: {Damage} (Bonus: {bonusDamage})");
                 break;
             case "KienCuong":
                 bonusDefence += value;
-                Debug.Log($"Defence updated: {Defence}");
+                Debug.Log($"Defence updated: {Defence} (Bonus: {bonusDefence})");
                 break;
             case "BenBi":
                 bonusHealth += value;
-                Debug.Log($"Health updated: {Health}");
+                Debug.Log($"Health updated: {Health} (Bonus: {bonusHealth})");
                 break;
             case "KheoLeo":
                 bonusSpeed += value;
-                Debug.Log($"Speed updated: {Speed}");
+                Debug.Log($"Speed updated: {Speed} (Bonus: {bonusSpeed})");
+                break;
+            default:
+                Debug.LogWarning($"Unknown parameter: {parameterName}");
                 break;
         }
         OnStatsChanged?.Invoke();
@@ -56,21 +59,35 @@ public class PlayerStats : MonoBehaviour
         {
             case "SucManh":
                 bonusDamage -= value;
-                Debug.Log($"Damage updated: {Damage}");
+                Debug.Log($"Damage updated: {Damage} (Bonus: {bonusDamage})");
                 break;
             case "KienCuong":
                 bonusDefence -= value;
-                Debug.Log($"Defence updated: {Defence}");
+                Debug.Log($"Defence updated: {Defence} (Bonus: {bonusDefence})");
                 break;
             case "BenBi":
                 bonusHealth -= value;
-                Debug.Log($"Health updated: {Health}");
+                Debug.Log($"Health updated: {Health} (Bonus: {bonusHealth})");
                 break;
             case "KheoLeo":
                 bonusSpeed -= value;
-                Debug.Log($"Speed updated: {Speed}");
+                Debug.Log($"Speed updated: {Speed} (Bonus: {bonusSpeed})");
+                break;
+            default:
+                Debug.LogWarning($"Unknown parameter: {parameterName}");
                 break;
         }
+        OnStatsChanged?.Invoke();
+    }
+
+    // Reset tất cả bonus về 0
+    public void ResetAllBonuses()
+    {
+        bonusDamage = 0;
+        bonusDefence = 0;
+        bonusHealth = 0;
+        bonusSpeed = 0;
+        Debug.Log("All bonuses reset to 0");
         OnStatsChanged?.Invoke();
     }
 

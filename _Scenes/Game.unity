@@ -938,6 +938,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboTimeWindow: 1.2
   weaponData: {fileID: 11400000, guid: 52624e41d04db144a97e32ed3cf4c22a, type: 2}
+  attackPoint: {fileID: 0}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  showHitboxGizmo: 1
+  monster: {fileID: 0}
+  playerStats: {fileID: 0}
+  attackData:
+    damage: 10
+    knockbackForceX: 0
+    knockbackForceY: 0
+    launchEnemy: 0
+    attackRadius: 1
+    hitboxOffset: {x: 0, y: 0}
+    hitboxActiveTime: 0.2
+    hitStunDuration: 0.1
 --- !u!114 &121371059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1286,7 +1302,7 @@ Transform:
   m_GameObject: {fileID: 146923679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.69, y: -10.97, z: 0}
+  m_LocalPosition: {x: 101.56, y: -10.61, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27464,6 +27480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactSprite: {fileID: 0}
   interactDistance: 1.5
+  textTab: {fileID: 0}
   dialogueText: {fileID: 0}
   dialogueController: {fileID: 0}
 --- !u!1 &1411783478
@@ -28907,6 +28924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3456c7627d7c49c46b59edaa540f2043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetSceneName: Dark Area
+  loadingSceneName: Loading Scene
 --- !u!61 &1570362093
 BoxCollider2D:
   m_ObjectHideFlags: 0

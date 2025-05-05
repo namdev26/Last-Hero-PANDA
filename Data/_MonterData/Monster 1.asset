@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: Monster 1
   m_EditorClassIdentifier: 
   monsterName: Monster 1
+  damage: 30
   patrolSpeed: 2
   chaseSpeed: 4
   detectionRange: 5
   attackRange: 3
-  patrolDistance: 100
+  patrolDistance: 10
   maxIdleTime: 2
   maxHealth: 1000
+  pointA: {x: 0, y: 0}
+  pointB: {x: 0, y: 0}
+  maxDistanceFromPatrolPoint: 10

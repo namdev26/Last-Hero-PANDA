@@ -15,19 +15,19 @@ public class PickUpSystem : MonoBehaviour
         Item item = collision.GetComponent<Item>();
         if (item != null && !processedItems.Contains(item))
         {
-            Debug.Log($"Picking up item: {item.name}, Quantity: {item.Quantity}");
+            //Debug.Log($"Picking up item: {item.name}, Quantity: {item.Quantity}");
             processedItems.Add(item); // Đánh dấu item đã xử lý
 
             int remainder = inventoryData.AddItem(item.InventoryItem, item.Quantity);
             if (remainder == 0)
             {
                 item.DestroyItem();
-                Debug.Log($"Item {item.name} destroyed.");
+                //Debug.Log($"Item {item.name} destroyed.");
             }
             else
             {
                 item.Quantity = remainder;
-                Debug.Log($"Item {item.name} updated quantity to {remainder}.");
+                //Debug.Log($"Item {item.name} updated quantity to {remainder}.");
             }
         }
     }

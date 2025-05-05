@@ -40,10 +40,10 @@ namespace Inventory.UI
                 return;
             }
 
-            healthText.text = $"Health: {playerStats.Health}";
-            damageText.text = $"Damage: {playerStats.Damage}";
-            defenceText.text = $"Defence: {playerStats.Defence}";
-            speedText.text = $"Speed: {playerStats.Speed}";
+            healthText.text = $"Ben Bi: {playerStats.Health}";
+            damageText.text = $"Suc Manh: {playerStats.Damage}";
+            defenceText.text = $"Kien Cuong: {playerStats.Defence}";
+            speedText.text = $"Kheo Leo: {playerStats.Speed}";
 
             // Cập nhật portrait nếu có
             //if (characterPortrait != null)
@@ -51,7 +51,7 @@ namespace Inventory.UI
             //    // characterPortrait.sprite = playerStats.PortraitSprite; // Nếu có
             //}
 
-            Debug.Log($"UICharacterInfo updated: Health={playerStats.Health}, Damage={playerStats.Damage}, Defence={playerStats.Defence}, Speed={playerStats.Speed}");
+            //Debug.Log($"UICharacterInfo updated: Health={playerStats.Health}, Damage={playerStats.Damage}, Defence={playerStats.Defence}, Speed={playerStats.Speed}");
         }
 
         public void Show()

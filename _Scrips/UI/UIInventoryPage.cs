@@ -15,7 +15,6 @@ namespace Inventory.UI
         [SerializeField] private MouseFollower mouseFollower;
         [SerializeField] private ItemActionPanel actionPanel;
         [SerializeField] private InventorySO inventoryData;
-        [SerializeField] private AgentWeapon agentWeapon;
         [SerializeField] private UICharacterInfo characterInfo;
 
         private List<UIInventoryItem> listOfUIItem = new List<UIInventoryItem>();
@@ -80,7 +79,7 @@ namespace Inventory.UI
             {
                 EquipmentType capturedType = type;
                 usedItemSlots[capturedType].OnRightMouseBtnClick += (slotType) => HandleShowUsedItemActions(slotType);
-                usedItemSlots[capturedType].OnItemClicked += HandleEquipmentItemSelection; // Đăng ký sự kiện nhấp chuột trái
+                usedItemSlots[capturedType].OnItemClicked += HandleEquipmentItemSelection;
             }
         }
 
@@ -93,7 +92,6 @@ namespace Inventory.UI
                 return;
             }
 
-            // Tạo mô tả cho vật phẩm trang bị
             string description = PrepareEquipmentDescription(item);
             itemDescription.SetDescription(item.ItemImage, item.name, description);
             DeselectAllItems();
@@ -125,6 +123,7 @@ namespace Inventory.UI
                 {
                     characterInfo.Initialize(stats);
                     characterInfo.Show();
+                    UpdateCharacterStats(); // Cập nhật chỉ số khi mở inventory
                 }
                 else
                 {
@@ -207,24 +206,17 @@ namespace Inventory.UI
             if (equippedItems.ContainsKey(slotType) && equippedItems[slotType] != null)
             {
                 UnequipItem(slotType);
+                Debug.Log($"Đã gỡ trang bị {equippedItems[slotType]?.name} ra khỏi slot {slotType} tại vị trí {itemIndex}");
             }
+
             equippedItems[slotType] = item;
             usedItemSlots[slotType].SetData(item.ItemImage, item);
 
-            PlayerStats stats = character.GetComponent<PlayerStats>();
-            if (stats != null)
-            {
-                foreach (var param in item.DefaultParametersList)
-                {
-                    stats.AddStatBonus(param.itemParameter.ParameterName, param.value);
-                }
-            }
-
-            inventoryData.RemoveItem(itemIndex, 1);
             UpdateData(itemIndex, null, 0);
+            UpdateCharacterStats(); // Cập nhật chỉ số sau khi trang bị
 
             actionPanel.Toggle(false);
-            Debug.Log($"Equip {item.Name} vào slot {slotType}");
+            Debug.Log($"Equip {item.name} vào slot {slotType}");
         }
 
         private void UnequipItem(EquipmentType slotType)
@@ -238,21 +230,41 @@ namespace Inventory.UI
 
             ItemSO item = equippedItems[slotType];
 
-            PlayerStats stats = character.GetComponent<PlayerStats>();
-            if (stats != null)
-            {
-                foreach (var param in item.DefaultParametersList)
-                {
-                    stats.RemoveStatBonus(param.itemParameter.ParameterName, param.value);
-                }
-            }
-
             inventoryData.AddItem(item, 1, item.DefaultParametersList);
-
             equippedItems[slotType] = null;
             usedItemSlots[slotType].ResetData();
 
+            UpdateCharacterStats(); // Cập nhật chỉ số sau khi gỡ trang bị
             actionPanel.Toggle(false);
+            Debug.Log($"Unequipped {item.name} from slot {slotType}");
+        }
+
+        private void UpdateCharacterStats()
+        {
+            PlayerStats stats = character?.GetComponent<PlayerStats>();
+            if (stats == null)
+            {
+                Debug.LogWarning("PlayerStats component not found on character.");
+                return;
+            }
+
+            stats.ResetAllBonuses(); // Reset tất cả bonus
+
+            // Duyệt qua tất cả các vật phẩm đang trang bị và áp dụng bonus
+            foreach (var kvp in equippedItems)
+            {
+                ItemSO item = kvp.Value;
+                if (item == null) continue;
+
+                Debug.Log($"Applying bonuses for item: {item.name} in slot {kvp.Key}");
+                foreach (var param in item.DefaultParametersList)
+                {
+                    Debug.Log($"Parameter: {param.itemParameter.ParameterName}, Value: {param.value}");
+                    stats.AddStatBonus(param.itemParameter.ParameterName, (int)param.value);
+                }
+            }
+
+            Debug.Log($"Final stats - Damage: {stats.Damage}, Defence: {stats.Defence}, Health: {stats.Health}, Speed: {stats.Speed}");
         }
 
         private void HandleSwap(UIInventoryItem item)
@@ -351,6 +363,7 @@ namespace Inventory.UI
                         slot.ResetData();
                 }
                 equippedItems.Clear();
+                UpdateCharacterStats(); // Cập nhật chỉ số khi reset slot trang bị
             }
         }
     }

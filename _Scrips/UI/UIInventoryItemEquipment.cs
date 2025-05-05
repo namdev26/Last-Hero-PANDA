@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using Inventory.Model;
-using Unity.VisualScripting;
 
 namespace Inventory.UI
 {
@@ -33,11 +32,9 @@ namespace Inventory.UI
             itemImage.gameObject.SetActive(true);
 
             currentItem = item;
-            Debug.Log($"SetData on {gameObject.name} - sprite: {(sprite != null ? sprite.name : "null")}");
+            //Debug.Log($"SetData on {gameObject.name} - sprite: {(sprite != null ? sprite.name : "null")}");
 
         }
-
-
 
         public void ResetData()
         {

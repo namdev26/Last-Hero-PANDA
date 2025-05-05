@@ -1,0 +1,1376 @@
+fileFormatVersion: 2
+guid: ce0747ec376a3534593f77f90678fb12
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: IXiSCK_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3114
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed020704f0dc99b4eaff8941c4accb8e
+      internalID: -759504109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_1
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 3114
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4acb69b05bc91542a3e5cdd5898e069
+      internalID: 2113781027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_2
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 3114
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 748388672879b144183a8236381ea57e
+      internalID: 90088823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_3
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 3114
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f5c6d105fa164a43b904b0613a9ac56
+      internalID: -1411746186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_4
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 3114
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28562b17be72faa4f86890ba2787d16d
+      internalID: 2086036088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_5
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 3114
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc995cb792cf93347986a3b322d18cc0
+      internalID: 1498864841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2768
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eb8ce64f4c74344bb59adad00827080
+      internalID: -235884706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_7
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 2768
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 923af27d77ced124696fab8ccb7de8d8
+      internalID: 1149271104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_8
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 2768
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cbe0887f515e894e95d3598bce1d78b
+      internalID: -922611860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_9
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 2768
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8168cb27781da52489850cda1f08c385
+      internalID: -1945633826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_10
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 2768
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c8f7fcff37d38f4fb9e14a7beaec850
+      internalID: 920881906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_11
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 2768
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47f0cbb025f7e7f42bc3fedab542f151
+      internalID: 94131271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2422
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3d7e5fe20d5ea743bb7c9a2cfd54fc4
+      internalID: -1547855141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_13
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 2422
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b755a7b93cb4ea43b537d4af6aa62bd
+      internalID: 846032417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_14
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 2422
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6d6c18755e543c46b8c7c16fb235225
+      internalID: -1560989978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_15
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 2422
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed48275123ad516419a6849f41bfc0ed
+      internalID: 2056392549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_16
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 2422
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a83f0391882ffc34b9a72927a1bd7e14
+      internalID: -659128481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_17
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 2422
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e877919a60b82a45b0f90ee3a4d6f71
+      internalID: 373966688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2076
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7fd673c2fdf88f4abae4b29ea5fb9b7
+      internalID: 1875853285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_19
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 2076
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dfc347d11004f740bf254ec5d22445e
+      internalID: -901029553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_20
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 2076
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9955b569fba58764e98954615a584d85
+      internalID: 1311605401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_21
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 2076
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02150d681bffce34da22f94efc4cfafb
+      internalID: 929980927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_22
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 2076
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2b990f54faee0b4c8789f99d634e2ba
+      internalID: 2131149383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_23
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 2076
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f732411e5c31a4e40b19254c2f30470e
+      internalID: -739482556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1730
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6bbc8392dffb21429b6b9959edd818d
+      internalID: 1001258311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_25
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 1730
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49dd5693c4a0d2e4e8c3d262124bac00
+      internalID: -1226278065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_26
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 1730
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 723d3d73ce4c70d40957a65625235073
+      internalID: -228797523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_27
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 1730
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1696b6a776849d5469758605e66cdcb2
+      internalID: -1555600790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_28
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 1730
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85140ff86eb5597418a8f535264afa1a
+      internalID: -641246663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_29
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 1730
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ba4c3ed8b45b614a99af94d214493da
+      internalID: 1876472277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1384
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b027f6280cfc18246b0e4a0480c59f4a
+      internalID: -303061575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_31
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 1384
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21b23081b4972be48ad68337b9f85de2
+      internalID: -362483878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_32
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 1384
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2338648bceac5545bb2413203c67788
+      internalID: -356626093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_33
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 1384
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0df6fb73e25b7b141818adb77b74d64c
+      internalID: -1948991284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_34
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 1384
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ae384e90f320374b857f26e353decd1
+      internalID: 351176595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_35
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 1384
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce0595065ea541a4d981238962e8ee92
+      internalID: 285860702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1038
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43b0f5fbe60d0c24eaae699ba89e6bb5
+      internalID: -608083338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_37
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 1038
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe97f1691fc520040ba0732159db72d1
+      internalID: -874356921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_38
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 1038
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bb2eacaf4ebfab40a76f75b2d844c3b
+      internalID: -1913780097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_39
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 1038
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af640e3f3cc1e3d43848495a74a9191a
+      internalID: -1131525919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_40
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 1038
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29c1c8c5a3bd8394b9a28d5205d9b2a3
+      internalID: 1689079775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_41
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 1038
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f57ed089f56071a42b8506d4205c6ead
+      internalID: -2077719468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 692
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fd3d79dc5e60a843aa0db115cfef351
+      internalID: -2020193683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_43
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 692
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d02de79c8b3601e4582a0e8808817d4d
+      internalID: 474816504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_44
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 692
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8679289d02eaae84aa1c5ac8ddf6ab62
+      internalID: 2090966951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_45
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 692
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b6fc2f15732cdf4ebd65f91f5f5b617
+      internalID: -1165081443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_46
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 692
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48949728814abb440ab3bfb42773f013
+      internalID: 609389598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_47
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 692
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5c281e455ad9e047858523e7b7bad6f
+      internalID: -999534410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 346
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ede6cab24c37a44a813dab650e41da6
+      internalID: -771436918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_49
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 346
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d03f90868b76c81489a982ccb646e183
+      internalID: 78314858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_50
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 346
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8eb6ecfab9f6384bab17d69d31bdf12
+      internalID: 869594102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_51
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 346
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71c63497ebb552645b563e4ffd71e83a
+      internalID: -826973429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_52
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 346
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50264023f51baa040be33544c6fe0ad4
+      internalID: -630172078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_53
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 346
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6610188a08ac6554996e4976b11293c4
+      internalID: 1888536472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IXiSCK_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 547
+        height: 346
+      alignment: 9
+      pivot: {x: 0.3884153, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 078c6bea79ae53545b734c1618bc71d5
+      internalID: 1764097271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      IXiSCK_0: -759504109
+      IXiSCK_1: 2113781027
+      IXiSCK_10: 920881906
+      IXiSCK_11: 94131271
+      IXiSCK_12: -1547855141
+      IXiSCK_13: 846032417
+      IXiSCK_14: -1560989978
+      IXiSCK_15: 2056392549
+      IXiSCK_16: -659128481
+      IXiSCK_17: 373966688
+      IXiSCK_18: 1875853285
+      IXiSCK_19: -901029553
+      IXiSCK_2: 90088823
+      IXiSCK_20: 1311605401
+      IXiSCK_21: 929980927
+      IXiSCK_22: 2131149383
+      IXiSCK_23: -739482556
+      IXiSCK_24: 1001258311
+      IXiSCK_25: -1226278065
+      IXiSCK_26: -228797523
+      IXiSCK_27: -1555600790
+      IXiSCK_28: -641246663
+      IXiSCK_29: 1876472277
+      IXiSCK_3: -1411746186
+      IXiSCK_30: -303061575
+      IXiSCK_31: -362483878
+      IXiSCK_32: -356626093
+      IXiSCK_33: -1948991284
+      IXiSCK_34: 351176595
+      IXiSCK_35: 285860702
+      IXiSCK_36: -608083338
+      IXiSCK_37: -874356921
+      IXiSCK_38: -1913780097
+      IXiSCK_39: -1131525919
+      IXiSCK_4: 2086036088
+      IXiSCK_40: 1689079775
+      IXiSCK_41: -2077719468
+      IXiSCK_42: -2020193683
+      IXiSCK_43: 474816504
+      IXiSCK_44: 2090966951
+      IXiSCK_45: -1165081443
+      IXiSCK_46: 609389598
+      IXiSCK_47: -999534410
+      IXiSCK_48: -771436918
+      IXiSCK_49: 78314858
+      IXiSCK_5: 1498864841
+      IXiSCK_50: 869594102
+      IXiSCK_51: -826973429
+      IXiSCK_52: -630172078
+      IXiSCK_53: 1888536472
+      IXiSCK_54: 1764097271
+      IXiSCK_6: -235884706
+      IXiSCK_7: 1149271104
+      IXiSCK_8: -922611860
+      IXiSCK_9: -1945633826
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

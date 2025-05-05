@@ -51,4 +51,16 @@ namespace Inventory.Model
             return false;
         }
     }
+
+    internal interface IDestroyableItem
+    {
+    }
+
+    public interface IItemAction
+    {
+        public string ActionName { get; }
+        public AudioClip actionSFX { get; }
+        bool PerformAction(GameObject character, List<ItemParameter> itemState);
+        bool PerformUnequipAction(GameObject character);
+    }
 }

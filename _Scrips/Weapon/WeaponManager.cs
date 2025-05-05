@@ -34,6 +34,6 @@ public class WeaponManager : MonoBehaviour
     {
         WeaponData weapon = allWeapons[index];
         comboAttack.SetWeapon(weapon);
-        Debug.Log($"Switched to weapon: {weapon.weaponName}");
+        //Debug.Log($"Switched to weapon: {weapon.weaponName}");
     }
 }

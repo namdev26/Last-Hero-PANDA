@@ -26,7 +26,7 @@ public class AgentWeapon : MonoBehaviour
                     playerStats.RemoveStatBonus(param.itemParameter.ParameterName, param.value);
                 }
             }
-            inventoryData.AddItem(weapon, 1, itemCurrentState);
+            //inventoryData.AddItem(weapon, 1, itemCurrentState);
         }
 
         this.weapon = weaponItemSO;
@@ -47,9 +47,10 @@ public class AgentWeapon : MonoBehaviour
                 }
             }
 
-            inventoryData.AddItem(weapon, 1, itemCurrentState);
+            //inventoryData.AddItem(weapon, 1, itemCurrentState);
             weapon = null;
             itemCurrentState.Clear();
+            //Debug.Log("Log ở AgentWWeapon");
         }
     }
 

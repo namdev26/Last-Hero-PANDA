@@ -45,12 +45,12 @@ public class FallThrough : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         SetPlayerOnPlatform(collision.collider, true);
-        Debug.Log("Player on platform");
+        //Debug.Log("Player on platform");
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         SetPlayerOnPlatform(collision.collider, false);
-        Debug.Log("Player exit platform");
+        //Debug.Log("Player exit platform");
     }
 }

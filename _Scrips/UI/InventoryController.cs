@@ -46,16 +46,13 @@ namespace Inventory
 
         private void UpdateInventoryUI(Dictionary<int, InventoryItem> inventoryState)
         {
-            // Reset chỉ các slot inventory, không reset slot trang bị
             inventoryUI.ResetAllItems(false);
 
-            // Cập nhật các slot inventory
             foreach (var item in inventoryState)
             {
                 inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
             }
 
-            // Làm mới các slot trang bị
             RefreshEquippedItems();
         }
 
@@ -66,9 +63,15 @@ namespace Inventory
             {
                 if (pair.Value != null)
                 {
-                    Debug.Log($"Refreshing equipped item: {pair.Value.Name} in slot {pair.Key}");
+                    Debug.Log($"Refreshing equipped item: {pair.Value.name} in slot {pair.Key}");
                     inventoryUI.UpdateEquippedItem(pair.Key, pair.Value.ItemImage, pair.Value);
                 }
+            }
+            // Cập nhật chỉ số sau khi làm mới slot trang bị
+            PlayerStats stats = player?.GetComponent<PlayerStats>();
+            if (stats != null)
+            {
+                inventoryUI.Show(player); // Đảm bảo gọi UpdateCharacterStats thông qua Show
             }
         }
 
@@ -109,7 +112,6 @@ namespace Inventory
 
         public void PerformActionoppa(int itemIndex)
         {
-            Debug.Log($"PerformAction called for item at index {itemIndex}");
             InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
             if (inventoryItem.IsEmpty)
             {
@@ -117,7 +119,6 @@ namespace Inventory
                 return;
             }
 
-            Debug.Log($"Item: {inventoryItem.item.Name}, Quantity: {inventoryItem.quantity}");
             IDestroyableItem destroyableItem = inventoryItem.item as IDestroyableItem;
             if (destroyableItem != null)
             {
@@ -127,24 +128,18 @@ namespace Inventory
             IItemAction itemAction = inventoryItem.item as IItemAction;
             if (itemAction != null)
             {
-                Debug.Log($"Performing action for {inventoryItem.item.Name}");
-                bool success = itemAction.PerformAction(player, inventoryItem.itemState); // Sử dụng player
-                Debug.Log($"PerformAction result: {success}");
+                bool success = itemAction.PerformAction(player, inventoryItem.itemState);
                 if (success)
                 {
                     audioSource.PlayOneShot(equipClip);
-                    inventoryUI.UseItem(itemIndex, inventoryItem.item); // Thêm lại để hiển thị
+                    inventoryUI.UseItem(itemIndex, inventoryItem.item);
                 }
                 else
                 {
-                    Debug.LogWarning($"PerformAction failed for {inventoryItem.item.Name}");
+                    Debug.LogWarning($"PerformAction failed for {inventoryItem.item.name}");
                 }
                 if (inventoryData.GetItemAt(itemIndex).IsEmpty)
                     inventoryUI.ResetSelection();
-            }
-            else
-            {
-                Debug.LogWarning($"Item at index {itemIndex} does not implement IItemAction.");
             }
         }
 
@@ -198,7 +193,7 @@ namespace Inventory
                     {
                         inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
                     }
-                    RefreshEquippedItems(); // Làm mới slot trang bị khi mở inventory
+                    RefreshEquippedItems();
                 }
                 else
                 {

@@ -20,7 +20,7 @@ MonoBehaviour:
   attackRange: 3
   patrolDistance: 20
   maxIdleTime: 2
-  maxHealth: 100
+  maxHealth: 1000
   pointA: {x: 251.6, y: 0}
   pointB: {x: 367, y: 0}
   maxDistanceFromPatrolPoint: 5
