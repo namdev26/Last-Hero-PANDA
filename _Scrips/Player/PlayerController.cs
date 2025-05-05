@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
     [SerializeField] public Rigidbody2D _rigidbody;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpForce = 10f;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private GameObject monster;
@@ -37,13 +35,11 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded;
     public bool InWall { get; private set; }
     public bool IsJumping { get; private set; }
-    public float MoveSpeed => moveSpeed;
-    public float JumpForce => jumpForce;
     public Rigidbody2D Rigidbody => _rigidbody;
     public Animator Animator => animator;
     public bool IsRolling { get; set; }
 
-    public bool CanControl { get; private set; } = true;
+    public bool CanControl = true;
 
     public float ComboTimer { get; private set; }
     private readonly float comboResetTime = 1f; // Tăng lên để khớp với animation
@@ -116,18 +112,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            //if (movementParticle != null && IsGrounded)
-            //{
-            //    counter += Time.deltaTime;
-            //    if (Mathf.Abs(_rigidbody.velocity.x) > occurAfterVelocity)
-            //    {
-            //        if (counter >= dustFormationPeriod)
-            //        {
-            //            movementParticle.Emit(5);
-            //            counter = 0;
-            //        }
-            //    }
-            //}
             if (IsGrounded)
                 ChangeState(new JumpState(this));
             else if (canDoubleJump)
@@ -211,8 +195,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Roll(float rollSpeed)
+    public void Roll()
     {
+        int rollSpeed = playerStats.Speed * 5;
         if (IsGrounded)
         {
             _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, _rigidbody.velocity.y);
@@ -233,18 +218,13 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, jumpForce);
+        Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, playerStats.JumpForce);
     }
 
     public void ResetComboTimer()
     {
         ComboTimer = comboResetTime;
     }
-
-    //public void OnAttackAnimationEnd()
-    //{
-    //    isAttacking = false;
-    //}
 
     public bool HasPendingAttackInput()
     {
@@ -272,11 +252,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    public void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
+    //public void OnDrawGizmosSelected()
+    //{
+    //    if (attackPoint == null)
+    //        return;
+    //    Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    //}
 }

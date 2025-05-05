@@ -3,17 +3,16 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class RollState : PlayerState
 {
-    private float rollSpeed = 30;
     private int rollHash = Animator.StringToHash("Roll");
     //private bool wasAirborne;
 
     public RollState(PlayerController player) : base(player) { }
-
+    
     public override void EnterState()
     {
         player.IsRolling = true;
         animator.SetTrigger("Roll");
-        player.Roll(rollSpeed);
+        player.Roll();
     }
 
     public override void UpdateState()

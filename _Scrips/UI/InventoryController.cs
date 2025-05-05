@@ -69,10 +69,10 @@ namespace Inventory
             }
             // Cập nhật chỉ số sau khi làm mới slot trang bị
             PlayerStats stats = player?.GetComponent<PlayerStats>();
-            if (stats != null)
-            {
-                inventoryUI.Show(player); // Đảm bảo gọi UpdateCharacterStats thông qua Show
-            }
+            //if (stats != null)
+            //{
+            //    inventoryUI.Show(player); // Đảm bảo gọi UpdateCharacterStats thông qua Show
+            //}
         }
 
         private void PrepareUI()
