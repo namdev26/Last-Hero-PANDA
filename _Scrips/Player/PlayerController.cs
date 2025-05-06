@@ -102,6 +102,14 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (!isAttacking)
+            {
+                ChangeState(new PowerState(this));
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (!isAttacking)
@@ -251,11 +259,4 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    //public void OnDrawGizmosSelected()
-    //{
-    //    if (attackPoint == null)
-    //        return;
-    //    Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    //}
 }

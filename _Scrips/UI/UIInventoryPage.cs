@@ -18,9 +18,20 @@ namespace Inventory.UI
         [SerializeField] private InventorySO inventoryData;
         [SerializeField] private UICharacterInfo characterInfo;
 
+
+
+        [SerializeField] private GameObject Set1Effect;
+        [SerializeField] private GameObject Set2Effect;
+        [SerializeField] private GameObject Set3Effect;
+        [SerializeField] private GameObject Set4Effect;
+
+
+
         private List<UIInventoryItem> listOfUIItem = new();
         private Dictionary<EquipmentType, UIInventoryItemEquipment> usedItemSlots = new();
         private Dictionary<EquipmentType, ItemSO> equippedItems = new();
+
+        [SerializeField] private PlayerHealth playerHealth;
 
         private int currentlyDraggedItemIndex = -1;
         private GameObject character;
@@ -293,13 +304,13 @@ namespace Inventory.UI
 
         private void UpdateCharacterStats()
         {
-            if (!character.TryGetComponent(out PlayerStats stats))
+            if (!character.TryGetComponent(out PlayerStats playerStats))
             {
                 Debug.LogWarning("PlayerStats component not found.");
                 return;
             }
 
-            stats.ResetAllBonuses();
+            playerStats.ResetAllBonuses();
 
             foreach (var pair in equippedItems)
             {
@@ -307,17 +318,18 @@ namespace Inventory.UI
 
                 foreach (var param in pair.Value.DefaultParametersList)
                 {
-                    stats.AddStatBonus(param.itemParameter.ParameterName, (int)param.value);
+                    playerStats.AddStatBonus(param.itemParameter.ParameterName, (int)param.value);
                 }
             }
 
-            CheckAndApplySetBonus(stats);
+            CheckAndApplySetBonus(playerStats);
         }
 
-        private void CheckAndApplySetBonus(PlayerStats stats)
+        private void CheckAndApplySetBonus(PlayerStats playerStats)
         {
             Dictionary<int, int> setCounts = new Dictionary<int, int>();
 
+            // Đếm số lượng món của từng bộ
             foreach (var item in equippedItems.Values)
             {
                 if (item == null) continue;
@@ -332,44 +344,52 @@ namespace Inventory.UI
                 }
             }
 
-            // Duyệt qua các set đã được xác định và áp dụng bonus nếu đủ số lượng
+            // Reset trạng thái set hồi máu trước khi kiểm tra
+            playerHealth.SetRegenSetActive(false);
+
+            // Tắt tất cả hiệu ứng trước khi kiểm tra
+            Set1Effect.SetActive(false);
+            Set2Effect.SetActive(false);
+            Set3Effect.SetActive(false);
+            Set4Effect.SetActive(false);
+
+            // Duyệt qua các set và áp dụng bonus
             foreach (var kvp in setCounts)
             {
                 int setId = kvp.Key;
                 int setCount = kvp.Value;
 
-                // Áp dụng bonus cho các set khi đủ số lượng
                 switch (setId)
                 {
                     case 1: // Set Tăng 15% Sát thương
                         if (setCount >= 5)
                         {
-                            stats.AddStatBonus("SucManh", 1000); // Cộng bonus sức mạnh cho set 1
-                            Debug.Log($"Set Bonus Activated for Set ID: {setId} (+1000 Damage)");
+                            playerStats.Set1();
+                            Set1Effect.SetActive(true);
                         }
                         break;
 
                     case 2: // Tăng 10% né tránh sát thương
-                        if (setCount >= 3)
+                        if (setCount >= 5)
                         {
-                            stats.AddStatBonus("KienCuong", 500); // Cộng bonus phòng thủ cho set 2
-                            Debug.Log($"Set Bonus Activated for Set ID: {setId} (+500 Defence)");
+                            playerStats.Set2();
+                            Set2Effect.SetActive(true);
                         }
                         break;
 
                     case 3: // Hồi 2% HP mỗi 5 giây
-                        if (setCount >= 4)
+                        if (setCount >= 5)
                         {
-                            stats.AddStatBonus("BenBi", 800); // Cộng bonus máu cho set 3
-                            Debug.Log($"Set Bonus Activated for Set ID: {setId} (+800 Health)");
+                            playerHealth.SetRegenSetActive(true);
+                            Set3Effect.SetActive(true);
                         }
                         break;
 
                     case 4: // Tăng 10% tất cả chỉ số
-                        if (setCount >= 2)
+                        if (setCount >= 5)
                         {
-                            stats.AddStatBonus("KheoLeo", 300); // Cộng bonus tốc độ cho set 4
-                            Debug.Log($"Set Bonus Activated for Set ID: {setId} (+300 Speed)");
+                            playerStats.Set4();
+                            Set4Effect.SetActive(true);
                         }
                         break;
 

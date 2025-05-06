@@ -11,11 +11,15 @@ public class PlayerHealth : MonoBehaviour, IHealth
     [SerializeField] private PlayerController player;
 
     public float CurrentHealth;
-
-    // Thêm trường này để lưu trữ giá trị MaxHealth hiện tại
     private float currentMaxHealth;
 
-    // Chúng ta sẽ không gán giá trị cho MaxHealth trực tiếp, mà sử dụng currentMaxHealth
+    // Regeneration variables
+    private bool isRegenerating = false;
+    private float regenPercentage = 0.02f; // 2% of MaxHealth (theo set ID 3)
+    private float regenDuration = 5f; // Hồi mỗi 5 giây (theo set ID 3)
+    private bool hasRegenSet = false; // Chỉ true khi set ID 3 đủ 5 món
+
+    // Properties for current health and max health
     float IHealth.CurrentHealth => CurrentHealth;
     public float MaxHealth => currentMaxHealth;
 
@@ -29,15 +33,17 @@ public class PlayerHealth : MonoBehaviour, IHealth
         ResetStats();
     }
 
-    private void HandleHealthChanged(float ratio)
+    private void Update()
     {
-        // Chúng ta không cần gọi sự kiện ở đây, vì nó sẽ được gọi trong các hàm khác
+        // Tự động kích hoạt hồi máu nếu có set ID 3 và máu chưa đầy
+        if (hasRegenSet && CurrentHealth < MaxHealth && !isRegenerating)
+        {
+            StartHealthRegeneration();
+        }
     }
 
-    private void HandleMaxHealthChanged(float max)
-    {
-        // Không cần gọi lại sự kiện tại đây
-    }
+    private void HandleHealthChanged(float ratio) { }
+    private void HandleMaxHealthChanged(float max) { }
 
     public void TakeDamage(float damage, bool attackFromRight = false)
     {
@@ -76,7 +82,6 @@ public class PlayerHealth : MonoBehaviour, IHealth
 
     private void ResetStats()
     {
-        // Khởi tạo currentMaxHealth từ playerStats
         currentMaxHealth = playerStats.baseMaxHealth;
         CurrentHealth = currentMaxHealth;
         NotifyHealthChanged();
@@ -84,8 +89,8 @@ public class PlayerHealth : MonoBehaviour, IHealth
 
     public void IncreaseMaxHP(float amount)
     {
-        currentMaxHealth += amount; // Tăng max health qua currentMaxHealth
-        CurrentHealth += amount;  // Cũng tăng current health tương ứng
+        currentMaxHealth += amount;
+        CurrentHealth += amount;
         NotifyHealthChanged();
     }
 
@@ -97,8 +102,44 @@ public class PlayerHealth : MonoBehaviour, IHealth
 
     private void NotifyHealthChanged()
     {
-        // Chỉ gọi sự kiện nếu giá trị thay đổi
         OnMaxHealthChanged?.Invoke(MaxHealth);
         OnHealthChanged?.Invoke(GetHealthRatio());
+    }
+
+    // Bật/tắt set hồi máu (gọi từ UIInventoryPage)
+    public void SetRegenSetActive(bool active)
+    {
+        hasRegenSet = active;
+        if (!active && isRegenerating)
+        {
+            StopCoroutine(HealthRegenerationCoroutine());
+            isRegenerating = false;
+            Debug.Log("Set hồi máu đã tắt");
+        }
+        else if (active)
+        {
+            Debug.Log("Set hồi máu đã kích hoạt");
+        }
+    }
+
+    // Hồi máu
+    public void StartHealthRegeneration()
+    {
+        if (!isRegenerating && CurrentHealth < MaxHealth && hasRegenSet)
+        {
+            StartCoroutine(HealthRegenerationCoroutine());
+        }
+    }
+
+    private IEnumerator HealthRegenerationCoroutine()
+    {
+        isRegenerating = true;
+        float regenAmount = MaxHealth * regenPercentage; // Hồi 2% MaxHealth
+        while (CurrentHealth < MaxHealth && hasRegenSet)
+        {
+            Heal(regenAmount);
+            yield return new WaitForSeconds(regenDuration); // Chờ 5 giây
+        }
+        isRegenerating = false;
     }
 }

@@ -22,5 +22,6 @@ MonoBehaviour:
     value: 150
   - itemParameter: {fileID: 11400000, guid: 618a4a2021c0a9b40b14e02f83caab67, type: 2}
     value: 60
+  <SetId>k__BackingField: 0
   <equipmentType>k__BackingField: 0
   <actionSFX>k__BackingField: {fileID: 0}

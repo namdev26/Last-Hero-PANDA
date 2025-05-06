@@ -157,7 +157,7 @@ TextureImporter:
         width: 128
         height: 122
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,6 +165,48 @@ TextureImporter:
       bones: []
       spriteID: 1412e13b3a5e7a441b1dcf362e79126c
       internalID: 1082136729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AoThuong_1
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 499
+        width: 120
+        height: 122
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f426928c2cafbe14f96cf4d73b1a5901
+      internalID: -1578792295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AoThuong_2
+      rect:
+        serializedVersion: 2
+        x: 1347
+        y: 843
+        width: 117
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50074917e8250924a9c15871c4007566
+      internalID: -1128955511
       vertices: []
       indices: 
       edges: []
@@ -181,6 +223,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       AoThuong_0: 1082136729
+      AoThuong_1: -1578792295
+      AoThuong_2: -1128955511
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
