@@ -157,7 +157,7 @@ TextureImporter:
         width: 137
         height: 131
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,6 +165,27 @@ TextureImporter:
       bones: []
       spriteID: a364672d762043d4faa2371a7ea9ee5d
       internalID: -170624447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Giay_1
+      rect:
+        serializedVersion: 2
+        x: 1676
+        y: 277
+        width: 136
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be34ba3e3415b3649a05bebec404b111
+      internalID: -1588011683
       vertices: []
       indices: 
       edges: []
@@ -181,6 +202,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Giay_0: -170624447
+      Giay_1: -1588011683
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

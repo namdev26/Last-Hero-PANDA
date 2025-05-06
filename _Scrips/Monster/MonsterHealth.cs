@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterHealth : MonoBehaviour, IHealth
 {
-    public int maxHP;
-    public int currentHP;
+    public float maxHP;
+    public float currentHP;
     [SerializeField] private MonsterController monster;
     [SerializeField] public PoolObject pool;
     public float knockbackForce = 10f;
@@ -26,7 +26,7 @@ public class MonsterHealth : MonoBehaviour, IHealth
         OnHealthChanged?.Invoke(GetHealthRatio());
     }
 
-    public void TakeDamage(int damage, Transform attackerTransform, bool attackFromRight = false)
+    public void TakeDamage(float damage, Transform attackerTransform, bool attackFromRight = false)
     {
         ShowBloodEffect(attackFromRight);
 

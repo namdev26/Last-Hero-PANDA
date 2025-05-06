@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495b5c5540602604d92c8d2a74d5f7d4, type: 3}
+  m_Name: S1_Ao
+  m_EditorClassIdentifier: 
+  <IsStackable>k__BackingField: 0
+  <MaxStackSize>k__BackingField: 1
+  <Name>k__BackingField: "\xC1o Chi\u1EBFn Binh"
+  <Description>k__BackingField: "\xC1o gi\xE1p ch\u1EAFc ch\u1EAFn, gi\u1EA3m s\xE1t
+    th\u01B0\u01A1ng, k\xE8m s\u1EE9c m\u1EA1nh \u0111\u1EC3 h\u1EA1 k\u1EBB th\xF9."
+  <ItemImage>k__BackingField: {fileID: 1082136729, guid: 6b2f6778b6830e645b5adcd1e9e62b9c, type: 3}
+  <DefaultParametersList>k__BackingField:
+  - itemParameter: {fileID: 11400000, guid: 2408df409d67eb14ba7a14d250ce9f6d, type: 2}
+    value: 14
+  - itemParameter: {fileID: 11400000, guid: 618a4a2021c0a9b40b14e02f83caab67, type: 2}
+    value: 6
+  <SetId>k__BackingField: 1
+  <equipmentType>k__BackingField: 2
+  <actionSFX>k__BackingField: {fileID: 0}

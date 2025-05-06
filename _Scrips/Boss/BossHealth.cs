@@ -10,8 +10,8 @@ public class BossHealth : MonoBehaviour, IHealth
     [SerializeField] private Transform transformBloodEffect;
 
     // Thông số Boss
-    public int maxHP = 1000;
-    public int currentHP;
+    public float maxHP = 1000;
+    public float currentHP;
 
     public float CurrentHealth => currentHP;
     public float MaxHealth => maxHP;
@@ -32,7 +32,7 @@ public class BossHealth : MonoBehaviour, IHealth
 
     public bool CanBuff() => currentHP <= maxHP * 0.3f && !hasBuff;
 
-    public void TakeDamage(int damage, Transform positionEffect, bool attackFromRight = false)
+    public void TakeDamage(float damage, Transform positionEffect, bool attackFromRight = false)
     {
         ShowBloodEffect(attackFromRight);
         if (currentHP > 0)
@@ -63,7 +63,7 @@ public class BossHealth : MonoBehaviour, IHealth
         return maxHP > 0 ? (float)currentHP / maxHP : 0f;
     }
 
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
         if (currentHP > 0 && currentHP < maxHP)
         {

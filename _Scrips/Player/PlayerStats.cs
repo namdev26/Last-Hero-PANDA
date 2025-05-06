@@ -4,28 +4,28 @@ using System;
 [Serializable]
 public class PlayerStats : MonoBehaviour
 {
-    [SerializeField] public int baseMaxHealth = 100;
-    [SerializeField] public int baseDamage = 20;
-    [SerializeField] public int baseDefence = 20;
-    [SerializeField] public int baseSpeed = 6;
-    [SerializeField] private int baseJumpForce = 15;
+    [SerializeField] public float baseMaxHealth = 100;
+    [SerializeField] public float baseDamage = 20;
+    [SerializeField] public float baseDefence = 20;
+    [SerializeField] public float baseSpeed = 6;
+    [SerializeField] private float baseJumpForce = 15;
 
     // Lưu trữ bonus từ vật phẩm
-    private int bonusDamage = 0;
-    private int bonusDefence = 0;
-    private int bonusHealth = 0;
-    private int bonusSpeed = 0;
-    private int bonusJumpForce = 0;
+    private float bonusDamage = 0;
+    private float bonusDefence = 0;
+    private float bonusHealth = 0;
+    private float bonusSpeed = 0;
+    private float bonusJumpForce = 0;
 
     // Sự kiện khi chỉ số thay đổi
     public event Action OnStatsChanged;
 
     // Chỉ số tổng = cơ bản + bonus
-    public int Damage => baseDamage + bonusDamage;
-    public int Defence => baseDefence + bonusDefence;
-    public int Health => baseMaxHealth + bonusHealth;
-    public int Speed => baseSpeed + bonusSpeed;
-    public int JumpForce => baseJumpForce + bonusJumpForce;
+    public float Damage => baseDamage + bonusDamage;
+    public float Defence => baseDefence + bonusDefence;
+    public float Health => baseMaxHealth + bonusHealth;
+    public float Speed => baseSpeed + bonusSpeed;
+    public float JumpForce => baseJumpForce + bonusJumpForce;
 
     // Phương thức để cộng bonus từ vật phẩm
     public void AddStatBonus(string parameterName, int value)

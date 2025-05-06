@@ -21,6 +21,7 @@ public abstract class MonsterController : MonoBehaviour
     public Transform attackPoint;
     public float attackRange;
     public LayerMask playerLayers;
+    [SerializeField] private PlayerStats playerStats;
 
     [Header("State Machine")]
     protected MonsterState currentState;
@@ -32,6 +33,9 @@ public abstract class MonsterController : MonoBehaviour
     protected MonsterState hurtState;
     protected MonsterState flySleepState;
     protected MonsterState flyWakeUpState;
+
+
+
 
     public bool isKnocked = false;
     public float knockbackDuration = 0.2f;
@@ -115,7 +119,8 @@ public abstract class MonsterController : MonoBehaviour
         foreach (Collider2D col in hitPlayers)
         {
             PlayerHealth target = col.GetComponent<PlayerHealth>();
-            if (target != null) target.TakeDamage(data.damage, attackFromRight);
+            float monsterDamage = data.damage * (100 - playerStats.Defence) / 100;
+            if (target != null) target.TakeDamage(monsterDamage, attackFromRight);
         }
     }
 

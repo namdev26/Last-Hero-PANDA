@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour
 
     public void Roll()
     {
-        int rollSpeed = playerStats.Speed * 5;
+        float rollSpeed = playerStats.Speed * 5;
         if (IsGrounded)
         {
             _rigidbody.velocity = new Vector2(transform.localScale.x * rollSpeed, _rigidbody.velocity.y);
@@ -233,7 +233,7 @@ public class PlayerController : MonoBehaviour
         return input;
     }
 
-    public void PerformAttack(int damage, float attackRange)
+    public void PerformAttack(float damage, float attackRange)
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)

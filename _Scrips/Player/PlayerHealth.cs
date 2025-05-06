@@ -39,7 +39,7 @@ public class PlayerHealth : MonoBehaviour, IHealth
         // Không cần gọi lại sự kiện tại đây
     }
 
-    public void TakeDamage(int damage, bool attackFromRight = false)
+    public void TakeDamage(float damage, bool attackFromRight = false)
     {
         if (player.isInvincible) return;
 
@@ -50,7 +50,7 @@ public class PlayerHealth : MonoBehaviour, IHealth
         }
     }
 
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
         CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
         OnHealthChanged?.Invoke(GetHealthRatio());
@@ -82,14 +82,14 @@ public class PlayerHealth : MonoBehaviour, IHealth
         NotifyHealthChanged();
     }
 
-    public void IncreaseMaxHP(int amount)
+    public void IncreaseMaxHP(float amount)
     {
         currentMaxHealth += amount; // Tăng max health qua currentMaxHealth
         CurrentHealth += amount;  // Cũng tăng current health tương ứng
         NotifyHealthChanged();
     }
 
-    public void ReduceHealth(int damage)
+    public void ReduceHealth(float damage)
     {
         CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
         OnHealthChanged?.Invoke(GetHealthRatio());

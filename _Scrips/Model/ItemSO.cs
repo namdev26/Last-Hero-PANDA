@@ -38,8 +38,14 @@ namespace Inventory.Model
         [field: SerializeField]
         public List<ItemParameter> DefaultParametersList { get; set; }
 
+
+        [field: SerializeField]
+        public int SetId { get; set; } // Thêm ID của bộ đồ (0 nếu không thuộc bộ nào)
+
+
         [field: SerializeField]
         public EquipmentType equipmentType { get; set; } // Thêm loại trang bị
+
 
     }
     [Serializable]
