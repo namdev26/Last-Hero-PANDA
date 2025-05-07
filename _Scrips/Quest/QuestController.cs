@@ -28,9 +28,9 @@ public class QuestController : MonoBehaviour
     public int rewardAmount = 1;
 
     [Header("Quest Descriptions")]
-    [TextArea] public string[] notStartedDescription = new string[] { "Panda\nHãy thu thập {0} {1} ở phía cuối của ngôi làng...", "Panda\n...rồi quay lại đây ta sẽ có phần thưởng cho ngươi!" };
-    [TextArea] public string[] inProgressDescription = new string[] { "Đang làm nhiệm vụ: {0} ({1}/{2})" };
-    [TextArea] public string[] completedDescription = new string[] { "🎉 Nhiệm vụ đã hoàn thành. Cảm ơn ngươi!" };
+    [TextArea] public string[] notStartedDescription = new string[] { };
+    [TextArea] public string[] inProgressDescription = new string[] { };
+    [TextArea] public string[] completedDescription = new string[] { };
 
     [Header("NPC Interaction")]
     public Transform npcTransform;
@@ -69,7 +69,6 @@ public class QuestController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Bạn cần đến gần NPC để tương tác!");
                 }
             }
             else
@@ -118,7 +117,6 @@ public class QuestController : MonoBehaviour
         currentDialogueIndex = 0;
         UpdateUI();
         OnQuestStateChanged?.Invoke();
-        Debug.Log("🎉 Nhiệm vụ hoàn thành! Đã nhận phần thưởng.");
     }
 
     private bool HasEnoughItems()
@@ -144,10 +142,8 @@ public class QuestController : MonoBehaviour
             _ => notStartedDescription
         };
 
-        // Đảm bảo currentDialogueIndex không vượt quá giới hạn
         currentDialogueIndex = Mathf.Clamp(currentDialogueIndex, 0, currentDescription.Length - 1);
 
-        // Hiển thị văn bản dựa trên trạng thái
         if (currentDialogueIndex < currentDescription.Length)
         {
             string textToDisplay = currentDescription[currentDialogueIndex];
@@ -160,13 +156,11 @@ public class QuestController : MonoBehaviour
                     questDescriptionText.text = string.Format(textToDisplay, requiredItem.Name, inventoryData.GetItemCount(requiredItem), requiredAmount);
                     break;
                 case QuestState.Completed:
-                    questDescriptionText.text = textToDisplay; // Không cần format
+                    questDescriptionText.text = textToDisplay;
                     break;
             }
-            Debug.Log($"Hiển thị: {questDescriptionText.text}"); // Debug để kiểm tra
         }
 
-        // Cập nhật trạng thái nút "Tiếp"
         nextButton.interactable = currentDialogueIndex < currentDescription.Length - 1;
         acceptButton.interactable = currentState == QuestState.NotStarted;
         completeButton.interactable = currentState == QuestState.InProgress && HasEnoughItems();
@@ -201,17 +195,14 @@ public class QuestController : MonoBehaviour
     {
         if (questUI == null || acceptButton == null || completeButton == null || closeButton == null || nextButton == null || questDescriptionText == null)
         {
-            Debug.LogError("QuestController: Thiếu tham chiếu UI!");
             return false;
         }
         if (inventoryData == null || requiredItem == null || rewardItem == null)
         {
-            Debug.LogError("QuestController: Thiếu tham chiếu Inventory hoặc Item!");
             return false;
         }
         if (npcTransform == null || playerTransform == null)
         {
-            Debug.LogError("QuestController: Thiếu tham chiếu NPC hoặc Player!");
             return false;
         }
         return true;

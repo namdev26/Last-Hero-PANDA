@@ -20,7 +20,7 @@ MonoBehaviour:
   - AXBassic3
   comboAttacks:
   - damage: 15
-    knockbackForceX: 0.2
+    knockbackForceX: 0.5
     knockbackForceY: 0
     launchEnemy: 0
     attackRadius: 1

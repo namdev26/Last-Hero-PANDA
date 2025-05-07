@@ -32,7 +32,7 @@ namespace Inventory.UI
             itemImage.gameObject.SetActive(true);
 
             currentItem = item;
-            //Debug.Log($"SetData on {gameObject.name} - sprite: {(sprite != null ? sprite.name : "null")}");
+
 
         }
 

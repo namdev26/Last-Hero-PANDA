@@ -36,8 +36,8 @@ MonoBehaviour:
     hitboxActiveTime: 0.2
     hitStunDuration: 0
   - damage: 30
-    knockbackForceX: 0.1
-    knockbackForceY: 7
+    knockbackForceX: 0.2
+    knockbackForceY: 10
     launchEnemy: 1
     attackRadius: 1
     hitboxOffset: {x: 0, y: 0}

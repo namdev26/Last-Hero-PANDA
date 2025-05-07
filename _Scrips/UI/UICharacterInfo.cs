@@ -9,7 +9,6 @@ namespace Inventory.UI
         [SerializeField] private TMP_Text damageText;
         [SerializeField] private TMP_Text defenceText;
         [SerializeField] private TMP_Text speedText;
-        //[SerializeField] private Image characterPortrait; // Tùy chọn
 
         private PlayerStats playerStats;
 
@@ -34,7 +33,6 @@ namespace Inventory.UI
                 return;
             }
 
-            // Chỉ cập nhật UI nếu panel đang bật
             if (!gameObject.activeSelf)
             {
                 return;
@@ -44,14 +42,6 @@ namespace Inventory.UI
             damageText.text = $"Suc Manh: {playerStats.Damage}";
             defenceText.text = $"Kien Cuong: {playerStats.Defence}";
             speedText.text = $"Kheo Leo: {playerStats.Speed}";
-
-            // Cập nhật portrait nếu có
-            //if (characterPortrait != null)
-            //{
-            //    // characterPortrait.sprite = playerStats.PortraitSprite; // Nếu có
-            //}
-
-            //Debug.Log($"UICharacterInfo updated: Health={playerStats.Health}, Damage={playerStats.Damage}, Defence={playerStats.Defence}, Speed={playerStats.Speed}");
         }
 
         public void Show()
