@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2426b2346dec7843847dc0c2e27105f, type: 3}
+  m_Name: Tulip
+  m_EditorClassIdentifier: 
+  <IsStackable>k__BackingField: 1
+  <MaxStackSize>k__BackingField: 10
+  <Name>k__BackingField: Tulip
+  <Description>k__BackingField: "V\u1EADt ph\u1EA9m nhi\u1EC7m v\u1EE5, kh\xF4ng
+    th\u1EC3 v\u1EE9t b\u1ECF"
+  <ItemImage>k__BackingField: {fileID: 1450541671, guid: a14538b4244cac443a3d0544ab9c0f02, type: 3}
+  <DefaultParametersList>k__BackingField: []
+  <SetId>k__BackingField: 0
+  <equipmentType>k__BackingField: 6
+  <actionSFX>k__BackingField: {fileID: 0}
+  <QuestID>k__BackingField: NV1

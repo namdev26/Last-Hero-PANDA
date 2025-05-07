@@ -12,7 +12,8 @@ namespace Inventory.Model
         Armor,
         Boots,
         Accessory,
-        Cape
+        Cape,
+        Quest
     }
 
     public abstract class ItemSO : ScriptableObject

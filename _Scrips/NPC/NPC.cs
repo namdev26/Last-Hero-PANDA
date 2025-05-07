@@ -6,31 +6,36 @@ public abstract class NPC : MonoBehaviour, IInteractable
     [SerializeField] private SpriteRenderer interactSprite;
     [SerializeField] private float interactDistance = 1.5f;
     [SerializeField] private GameObject textTab;
-    private Transform playerTransform;
+    [SerializeField] private Transform playerTransform;
+
+    private bool wasWithinDistanceLastFrame = false;
 
     void Start()
     {
-        playerTransform = GameObject.Find("Player").transform;
+        if (!ValidateReferences()) return;
+
         textTab.SetActive(false);
+        interactSprite.gameObject.SetActive(false);
     }
+
     private void Update()
     {
-        if (Keyboard.current.tabKey.wasPressedThisFrame && isWhithinInteractDistance())
+        if (!ValidateReferences()) return;
+
+        bool isWithinDistance = isWhithinInteractDistance();
+
+        // Xử lý phím Tab để tương tác
+        if (Keyboard.current.tabKey.wasPressedThisFrame && isWithinDistance)
         {
             Interact();
         }
 
-        if (interactSprite.gameObject.activeSelf && !isWhithinInteractDistance())
+        // Cập nhật trạng thái interactSprite và textTab chỉ khi cần thiết
+        if (isWithinDistance != wasWithinDistanceLastFrame)
         {
-            // ở ngoài khoảng thì tắt
-            interactSprite.gameObject.SetActive(false);
-            textTab.SetActive(false);
-        }
-        else if (!interactSprite.gameObject.activeSelf && isWhithinInteractDistance())
-        {
-            // ở trong khoảng thì bật
-            interactSprite.gameObject.SetActive(true);
-            textTab.SetActive(true);
+            interactSprite.gameObject.SetActive(isWithinDistance);
+            textTab.SetActive(isWithinDistance);
+            wasWithinDistanceLastFrame = isWithinDistance;
         }
     }
 
@@ -38,8 +43,31 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     private bool isWhithinInteractDistance()
     {
+        if (playerTransform == null)
+        {
+            Debug.LogError("NPC: PlayerTransform is null! Cannot calculate distance.");
+            return false;
+        }
         return Vector2.Distance(playerTransform.position, transform.position) < interactDistance;
     }
 
-
+    private bool ValidateReferences()
+    {
+        if (playerTransform == null)
+        {
+            Debug.LogError("NPC: PlayerTransform không được gán trong Inspector!");
+            return false;
+        }
+        if (interactSprite == null)
+        {
+            Debug.LogError("NPC: InteractSprite không được gán trong Inspector!");
+            return false;
+        }
+        if (textTab == null)
+        {
+            Debug.LogError("NPC: TextTab không được gán trong Inspector!");
+            return false;
+        }
+        return true;
+    }
 }
