@@ -82,11 +82,14 @@ public class ComboAttackController : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            bool attackFromRight = transform.position.x > monster.transform.position.x;
+            // Tính toán hướng tấn công dựa trên vị trí của từng enemy cụ thể
+            bool attackFromRight = transform.position.x > enemy.transform.position.x;
+
             MonsterHealth monsterHealth = enemy.GetComponent<MonsterHealth>();
             if (monsterHealth != null)
             {
                 monsterHealth.TakeDamage(attackData.damage + playerStats.Damage, transform, attackFromRight);
+
                 if (attackData.launchEnemy)
                 {
                     Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
@@ -99,27 +102,6 @@ public class ComboAttackController : MonoBehaviour
                         enemyRb.AddForce(new Vector2(directionSign * attackData.knockbackForceX, attackData.knockbackForceY), ForceMode2D.Impulse);
                     }
                 }
-
-                // Hiệu ứng hit stun nếu có
-                //EnemyController enemyController = enemy.GetComponent<EnemyController>();
-                //if (enemyController != null)
-                //{
-                //    enemyController.ApplyHitStun(attackData.hitStunDuration);
-                //}
-
-                //// Tạo hiệu ứng hit nếu có
-                //if (attackData.hitEffect != null)
-                //{
-                //    Vector3 hitPosition = enemy.transform.position;
-                //    hitPosition.z = 0;
-                //    Instantiate(attackData.hitEffect, hitPosition, Quaternion.identity);
-                //}
-
-                //// Phát âm thanh nếu có
-                //if (attackData.hitSound != null)
-                //{
-                //    AudioSource.PlayClipAtPoint(attackData.hitSound, enemy.transform.position);
-                //}
             }
         }
     }

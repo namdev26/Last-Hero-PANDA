@@ -12,6 +12,17 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
     void Start()
     {
+        // Tự động tìm và gán player có tag "Player"
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            playerTransform = playerObj.transform;
+        }
+        else
+        {
+            Debug.LogWarning("Không tìm thấy đối tượng có tag 'Player' trong scene!");
+        }
+
         if (!ValidateReferences()) return;
 
         textTab.SetActive(false);
@@ -55,8 +66,17 @@ public abstract class NPC : MonoBehaviour, IInteractable
     {
         if (playerTransform == null)
         {
-            Debug.LogError("NPC: PlayerTransform không được gán trong Inspector!");
-            return false;
+            // Thử tìm lại player nếu chưa tìm thấy
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                playerTransform = playerObj.transform;
+            }
+            else
+            {
+                Debug.LogError("NPC: Không thể tìm thấy đối tượng Player trong scene! Hãy đảm bảo có một đối tượng với tag 'Player'.");
+                return false;
+            }
         }
         if (interactSprite == null)
         {

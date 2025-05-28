@@ -1,13 +1,26 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class BossActionManager
 {
     private BossController boss;
+    private bool canAttack = true;
+    private float minCooldown = 1.5f;  // Thời gian chờ tối thiểu giữa các đợt tấn công (giây)
+    private float maxCooldown = 3f;    // Thời gian chờ tối đa giữa các đợt tấn công (giây)
 
     public BossActionManager(BossController boss)
     {
         this.boss = boss;
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        // Random thời gian chờ trong khoảng minCooldown đến maxCooldown
+        float randomCooldown = Random.Range(minCooldown, maxCooldown);
+        yield return new WaitForSeconds(randomCooldown);
+        canAttack = true;
     }
 
     private List<(BossState state, float weight)> GetWeightedAttacks()
@@ -19,6 +32,8 @@ public class BossActionManager
             (new BossRangeAttackState(boss), 0.3f),
             (new BossDashAttackState(boss), 0.4f),
             (new BossMoveState(boss), 0.1f)
+          
+            
         };
     }
 
@@ -36,6 +51,8 @@ public class BossActionManager
 
     public void ChooseRandomAttack(float distanceToPlayer)
     {
+        if (!canAttack) return;
+
         var allAttacks = GetWeightedAttacks();
         var possibleAttacks = FilterByDistance(distanceToPlayer, allAttacks);
 
@@ -51,6 +68,7 @@ public class BossActionManager
             if (rand <= cumulative)
             {
                 boss.TransitionToState(a.state);
+                boss.StartCoroutine(AttackCooldown());
                 break;
             }
         }

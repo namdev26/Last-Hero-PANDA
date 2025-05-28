@@ -21,8 +21,11 @@ public abstract class MonsterController : MonoBehaviour
     public Transform attackPoint;
     public float attackRange;
     public LayerMask playerLayers;
-    [SerializeField] private PlayerStats playerStats;
 
+    // Không cần SerializeField nữa, sẽ tự động tìm
+    private PlayerStats playerStats;
+
+    // Các phần khác giữ nguyên...
     [Header("State Machine")]
     protected MonsterState currentState;
     protected MonsterState idleState;
@@ -34,11 +37,16 @@ public abstract class MonsterController : MonoBehaviour
     protected MonsterState flySleepState;
     protected MonsterState flyWakeUpState;
 
-
-
-
     public bool isKnocked = false;
     public float knockbackDuration = 0.2f;
+
+    public bool mustReturnToPatrolPoint = false;
+    public bool MustReturnToPatrolPoint
+    {
+        get => mustReturnToPatrolPoint;
+        set => mustReturnToPatrolPoint = value;
+    }
+
     // Properties
     public bool IsStunned => isStunned;
     public bool IsAttacking => isAttacking;
@@ -53,13 +61,6 @@ public abstract class MonsterController : MonoBehaviour
     public MonsterState FlySleepState => flySleepState;
     public MonsterState FlyWakeUpState => flyWakeUpState;
 
-
-    public bool mustReturnToPatrolPoint = false;
-    public bool MustReturnToPatrolPoint
-    {
-        get => mustReturnToPatrolPoint;
-        set => mustReturnToPatrolPoint = value;
-    }
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,12 +68,48 @@ public abstract class MonsterController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         startPos = transform.position;
 
+        // Tự động tìm PlayerStats
+        FindPlayerStats();
+
         if (rb == null) Debug.LogError($"{name}: Rigidbody2D missing!");
         if (animator == null) Debug.LogError($"{name}: Animator missing!");
         if (player == null) Debug.LogWarning($"{name}: Player not found!");
 
         InitializeStates();
         ChangeState(idleState);
+    }
+
+    private void FindPlayerStats()
+    {
+        // Cách 1: Tìm PlayerStats trên Player GameObject
+        if (player != null)
+        {
+            playerStats = player.GetComponent<PlayerStats>();
+        }
+
+        // Cách 2: Nếu không tìm thấy, tìm trong toàn bộ scene
+        if (playerStats == null)
+        {
+            playerStats = FindObjectOfType<PlayerStats>();
+        }
+
+        // Cách 3: Nếu vẫn không tìm thấy, tìm qua GameManager hoặc singleton
+        if (playerStats == null)
+        {
+            // Giả sử bạn có GameManager chứa PlayerStats
+            // GameManager gameManager = GameManager.Instance;
+            // if (gameManager != null)
+            //     playerStats = gameManager.GetPlayerStats();
+        }
+
+        if (playerStats == null)
+        {
+            Debug.LogError($"{name}: PlayerStats not found! Make sure PlayerStats component exists in the scene.");
+        }
+        else
+        {
+            Debug.Log($"{name}: Successfully found PlayerStats on {playerStats.gameObject.name}");
+        }
     }
 
     protected virtual void Update()
@@ -91,7 +128,6 @@ public abstract class MonsterController : MonoBehaviour
         currentState = newState;
         currentState?.EnterState();
     }
-
 
     public void Move(Vector2 direction, float speed)
     {
@@ -112,15 +148,38 @@ public abstract class MonsterController : MonoBehaviour
 
     public void Attack()
     {
+        // Kiểm tra null trước khi thực hiện attack
+        if (attackPoint == null)
+        {
+            Debug.LogError($"{name}: attackPoint is null! Please assign it in Inspector.");
+            return;
+        }
+
+        if (data == null)
+        {
+            Debug.LogError($"{name}: MonsterData is null! Please assign it in Inspector.");
+            return;
+        }
+
+        if (playerStats == null)
+        {
+            Debug.LogError($"{name}: PlayerStats is null! Unable to calculate damage.");
+            return;
+        }
+
         // Xác định hướng dựa trên scale của enemy
         bool attackFromRight = transform.localScale.x < 0;
 
         Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
+
         foreach (Collider2D col in hitPlayers)
         {
             PlayerHealth target = col.GetComponent<PlayerHealth>();
-            float monsterDamage = data.damage * (100 - playerStats.Defence) / 100;
-            if (target != null) target.TakeDamage(monsterDamage, attackFromRight);
+            if (target != null)
+            {
+                float monsterDamage = data.damage * (100 - playerStats.Defence) / 100;
+                target.TakeDamage(monsterDamage, attackFromRight);
+            }
         }
     }
 
@@ -140,8 +199,8 @@ public abstract class MonsterController : MonoBehaviour
     {
         if (!isKnocked)
         {
-            rb.velocity = Vector2.zero; // Reset trước khi knockback
-            rb.AddForce(force, ForceMode2D.Impulse); // Sử dụng impulse để lực mạnh tức thì
+            rb.velocity = Vector2.zero;
+            rb.AddForce(force, ForceMode2D.Impulse);
             StartCoroutine(KnockbackRoutine());
         }
     }

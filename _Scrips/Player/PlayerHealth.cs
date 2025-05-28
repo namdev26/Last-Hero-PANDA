@@ -13,7 +13,6 @@ public class PlayerHealth : MonoBehaviour, IHealth
     public float CurrentHealth;
     private float currentMaxHealth;
 
-    // Regeneration variables
     private bool isRegenerating = false;
     private float regenPercentage = 0.02f; // 2% of MaxHealth (theo set ID 3)
     private float regenDuration = 5f; // Hồi mỗi 5 giây (theo set ID 3)

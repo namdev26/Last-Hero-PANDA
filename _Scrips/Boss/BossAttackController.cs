@@ -14,6 +14,7 @@ public class BossAttackController : MonoBehaviour
     public int chainAttackDamage = 10;
     public Transform chainAttackPoint;
 
+
     //RangeAttack
     public float rangeAttackRange = 5f;
     public int rangeAttackDamage = 10;
@@ -23,8 +24,6 @@ public class BossAttackController : MonoBehaviour
     public Vector2 dashAttackRange = new Vector2(9f, 1.5f);
     public int dashAttackDamage = 10;
     public Transform dashAttackPoint;
-
-
 
     public void BasicAttack()
     {

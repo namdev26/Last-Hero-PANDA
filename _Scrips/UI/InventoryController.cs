@@ -1,4 +1,4 @@
-﻿using Inventory.Model;
+using Inventory.Model;
 using Inventory.UI;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +18,19 @@ namespace Inventory
 
         private void Start()
         {
+            // Tự động tìm inventoryUI nếu chưa được gán
+
+
+            // Tự động tìm player nếu chưa được gán
+            if (player == null)
+            {
+                GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+                if (playerObj != null)
+                {
+                    player = playerObj;
+                }
+            }
+
             if (!ValidateReferences()) return;
             PrepareUI();
             PrepareInventoryData();
@@ -25,12 +38,33 @@ namespace Inventory
 
         private bool ValidateReferences()
         {
-            if (player == null || inventoryUI == null || inventoryData == null || audioSource == null)
+            bool isValid = true;
+
+            if (player == null)
             {
-                Debug.LogError("Required references are missing in InventoryController.");
-                return false;
+                Debug.LogError("Player reference is missing in InventoryController.");
+                isValid = false;
             }
-            return true;
+
+            if (inventoryUI == null)
+            {
+                Debug.LogError("UIInventoryPage reference is missing in InventoryController.");
+                isValid = false;
+            }
+
+            if (inventoryData == null)
+            {
+                Debug.LogError("InventorySO reference is missing in InventoryController.");
+                isValid = false;
+            }
+
+            if (audioSource == null)
+            {
+                Debug.LogWarning("AudioSource reference is missing in InventoryController. Sound effects will not play.");
+                // Không đặt isValid = false vì đây không phải lỗi nghiêm trọng
+            }
+
+            return isValid;
         }
 
         private void PrepareInventoryData()
@@ -46,14 +80,47 @@ namespace Inventory
 
         private void UpdateInventoryUI(Dictionary<int, InventoryItem> inventoryState)
         {
-            inventoryUI.ResetAllItems(false);
-
-            foreach (var item in inventoryState)
+            // Kiểm tra inventoryUI đã được gán chưa, nếu chưa thử tìm lại
+            if (inventoryUI == null)
             {
-                inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+                inventoryUI = FindObjectOfType<UIInventoryPage>();
+                if (inventoryUI == null)
+                {
+                    Debug.LogError("Cannot update inventory UI: UIInventoryPage not found in scene!");
+                    return;
+                }
+                // Nếu tìm thấy, đăng ký lại các sự kiện
+                PrepareUI();
             }
 
-            RefreshEquippedItems();
+            // Kiểm tra inventoryState
+            if (inventoryState == null)
+            {
+                Debug.LogError("Cannot update inventory UI: inventoryState is null");
+                return;
+            }
+
+            try
+            {
+                if (inventoryUI != null)
+                {
+                    inventoryUI.ResetAllItems(false);
+
+                    foreach (var item in inventoryState)
+                    {
+                        if (item.Value.item != null) // Kiểm tra null cho item
+                        {
+                            inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+                        }
+                    }
+
+                    RefreshEquippedItems();
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Error updating inventory UI: {e.Message}\n{e.StackTrace}");
+            }
         }
 
         private void RefreshEquippedItems()

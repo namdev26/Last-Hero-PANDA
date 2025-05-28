@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
@@ -45,7 +45,8 @@ public class PlayerController : MonoBehaviour
     private readonly float comboResetTime = 1f; // Tăng lên để khớp với animation
 
     private PlayerState currentState;
-    private float rollCooldown = 0.1f;
+    [Header("Roll Settings")]
+    [SerializeField] private float rollCooldown = 0.7f; // Tăng thởi gian chờ giữa các lần roll
     private float lastRollTime;
     private bool pendingAttackInput = false; // Hàng đợi input chuột
     private float lastDownPressTime;
@@ -118,7 +119,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (!isAttacking)
+            {
+                ChangeState(new AXSkill1(this));
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (IsGrounded)
                 ChangeState(new JumpState(this));
@@ -129,9 +138,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastRollTime > rollCooldown)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastRollTime > rollCooldown && !IsRolling)
         {
-            if (!isAttacking)
+            if (!isAttacking && IsGrounded) // Chỉ cho phép roll khi đang đứng trên mặt đất
             {
                 lastRollTime = Time.time;
                 ChangeState(new RollState(this));
