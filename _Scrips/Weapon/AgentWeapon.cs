@@ -1,5 +1,4 @@
 ﻿using Inventory.Model;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +25,6 @@ public class AgentWeapon : MonoBehaviour
                     playerStats.RemoveStatBonus(param.itemParameter.ParameterName, param.value);
                 }
             }
-            //inventoryData.AddItem(weapon, 1, itemCurrentState);
         }
 
         this.weapon = weaponItemSO;
@@ -47,14 +45,11 @@ public class AgentWeapon : MonoBehaviour
                 }
             }
 
-            //inventoryData.AddItem(weapon, 1, itemCurrentState);
             weapon = null;
             itemCurrentState.Clear();
-            //Debug.Log("Log ở AgentWWeapon");
         }
     }
 
-    // Thêm phương thức để lấy vũ khí hiện tại
     public EquipItemSO GetCurrentWeapon()
     {
         return weapon;

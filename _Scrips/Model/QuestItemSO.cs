@@ -6,7 +6,6 @@ namespace Inventory.Model
     [CreateAssetMenu]
     public class QuestItemSO : ItemSO, IItemAction
     {
-        [field: SerializeField]
         public string ActionName => "Drop";
 
         [field: SerializeField]

@@ -35,13 +35,11 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
         bool isWithinDistance = isWhithinInteractDistance();
 
-        // Xử lý phím Tab để tương tác
         if (Keyboard.current.tabKey.wasPressedThisFrame && isWithinDistance)
         {
             Interact();
         }
 
-        // Cập nhật trạng thái interactSprite và textTab chỉ khi cần thiết
         if (isWithinDistance != wasWithinDistanceLastFrame)
         {
             interactSprite.gameObject.SetActive(isWithinDistance);

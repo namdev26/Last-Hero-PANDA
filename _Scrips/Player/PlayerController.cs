@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Rigidbody2D _rigidbody;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerStats playerStats;
-    [SerializeField] private GameObject monster;
     [SerializeField] private Collider2D playerCollider;
     [SerializeField] private Transform bloodEffectTranform;
 
@@ -18,19 +17,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float occurAfterVelocity = 1f;
     [Range(0, 0.2f)]
     [SerializeField] public float dustFormationPeriod = 0.1f;
-    //private float counter = 0f;
 
     public bool isInvincible = false;
     public float rollInvincibleTime = 0.4f;
 
     public Transform attackPoint;
-    //public Transform heliSlamPoint;
     public float attackRange;
     public LayerMask enemyLayers;
 
     public bool isAttacking = false;
-    //private float lastDownPressTime;
-    //private bool canSlam = true;
     public bool canDoubleJump { get; private set; }
     public bool IsGrounded;
     public bool InWall { get; private set; }
@@ -46,9 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerState currentState;
     [Header("Roll Settings")]
-    [SerializeField] private float rollCooldown = 0.7f; // Tăng thởi gian chờ giữa các lần roll
+    [SerializeField] private float rollCooldown = 0.7f; // Tăng thời gian chờ giữa các lần roll
     private float lastRollTime;
-    private bool pendingAttackInput = false; // Hàng đợi input chuột
     private float lastDownPressTime;
     private bool canSlam;
 
@@ -245,8 +239,7 @@ public class PlayerController : MonoBehaviour
 
     public bool HasPendingAttackInput()
     {
-        bool input = pendingAttackInput;
-        pendingAttackInput = false; // Reset sau khi sử dụng
+        bool input = false; // Đã xóa pendingAttackInput vì không sử dụng
         return input;
     }
 
@@ -255,16 +248,18 @@ public class PlayerController : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            bool attackFromRight = transform.position.x > monster.transform.position.x;
+            bool attackFromRight = transform.position.x > enemy.transform.position.x;
             BossHealth bossHealth = enemy.GetComponent<BossHealth>();
             MonsterHealth monsterHealth = enemy.GetComponent<MonsterHealth>();
             if (bossHealth != null)
             {
                 bossHealth.TakeDamage(damage + playerStats.Damage, bloodEffectTranform, attackFromRight);
+                Debug.Log("Đang đánh boss nè");
             }
             else if (monsterHealth != null)
             {
                 monsterHealth.TakeDamage(damage + playerStats.Damage, transform, attackFromRight);
+                Debug.Log("Đang đánh quái nè");
             }
         }
     }

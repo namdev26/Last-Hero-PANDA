@@ -22,6 +22,7 @@ public abstract class MonsterController : MonoBehaviour
     public float attackRange;
     public LayerMask playerLayers;
 
+
     // Không cần SerializeField nữa, sẽ tự động tìm
     private PlayerStats playerStats;
 
@@ -81,26 +82,17 @@ public abstract class MonsterController : MonoBehaviour
 
     private void FindPlayerStats()
     {
-        // Cách 1: Tìm PlayerStats trên Player GameObject
         if (player != null)
         {
             playerStats = player.GetComponent<PlayerStats>();
         }
 
-        // Cách 2: Nếu không tìm thấy, tìm trong toàn bộ scene
         if (playerStats == null)
         {
             playerStats = FindObjectOfType<PlayerStats>();
         }
 
-        // Cách 3: Nếu vẫn không tìm thấy, tìm qua GameManager hoặc singleton
-        if (playerStats == null)
-        {
-            // Giả sử bạn có GameManager chứa PlayerStats
-            // GameManager gameManager = GameManager.Instance;
-            // if (gameManager != null)
-            //     playerStats = gameManager.GetPlayerStats();
-        }
+        
 
         if (playerStats == null)
         {

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using UnityEditor.Search;
 using System.Collections.Generic;
 using System.Collections;
 public class DialogueController : MonoBehaviour
@@ -24,12 +23,10 @@ public class DialogueController : MonoBehaviour
         {
             if (!conversationEnded)
             {
-                // bắt đầu nói;
                 StartConversation(dialogueText);
             }
             else if (conversationEnded && !isTyping)
             {
-                // kết thúc nói;
                 EndConversation();
                 return;
             }
@@ -45,14 +42,8 @@ public class DialogueController : MonoBehaviour
         {
             FinishDialogueEarly();
         }
-
-
-        // cập nhật danh sách queue nói
-        //NPCDialogueText.text = p;
-
         if (paragraphs.Count == 0)
         {
-            // đánh dấu kết thúc trò chuyện, đã thực hiện hết trong queue
             conversationEnded = true;
         }
     }
@@ -66,7 +57,6 @@ public class DialogueController : MonoBehaviour
 
         NPCNameText.text = dialogueText.NPCName;
 
-        // thêm dialogueText vào queue;
 
         for (int i = 0; i < dialogueText.paragraps.Length; i++)
         {

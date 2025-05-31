@@ -42,7 +42,6 @@ public class MonsterDieState : MonsterState
         if (Random.value <= dropRate)
         {
             GameObject gold = Object.Instantiate(goldPrefab, monster.transform.position, Quaternion.identity);
-            gold.GetComponent<Gold>().amount = Random.Range(10, 120);
         }
     }
 }

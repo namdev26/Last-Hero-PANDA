@@ -109,19 +109,19 @@ public class BossAttackController : MonoBehaviour
             }
         }
     }
-    public void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(basicAttackPoint.position, basicAttackRange);
-        Gizmos.color = Color.blue;
-        if (dashAttackPoint == null) return;
-        Gizmos.DrawWireCube(dashAttackPoint.position, dashAttackRange);
-        Gizmos.color = Color.green;
-        if (rangeAttackPoint == null) return;
-        Gizmos.DrawWireSphere(rangeAttackPoint.position, rangeAttackRange);
-        Gizmos.color = Color.yellow;
-        if (chainAttackPoint == null) return;
-        Gizmos.DrawWireCube(chainAttackPoint.position, chainAttackRange);
-        Gizmos.color = Color.white;
-    }
+    //public void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(basicAttackPoint.position, basicAttackRange);
+    //    Gizmos.color = Color.blue;
+    //    if (dashAttackPoint == null) return;
+    //    Gizmos.DrawWireCube(dashAttackPoint.position, dashAttackRange);
+    //    Gizmos.color = Color.green;
+    //    if (rangeAttackPoint == null) return;
+    //    Gizmos.DrawWireSphere(rangeAttackPoint.position, rangeAttackRange);
+    //    Gizmos.color = Color.yellow;
+    //    if (chainAttackPoint == null) return;
+    //    Gizmos.DrawWireCube(chainAttackPoint.position, chainAttackRange);
+    //    Gizmos.color = Color.white;
+    //}
 }

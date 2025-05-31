@@ -24,7 +24,6 @@ public class ComboAttackController : MonoBehaviour
     private Coroutine comboWindowCoroutine;
 
 
-    [SerializeField] private MonsterController monster;
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private AttackData attackData;
     private void Start()
@@ -82,13 +81,30 @@ public class ComboAttackController : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            // Tính toán hướng tấn công dựa trên vị trí của từng enemy cụ thể
             bool attackFromRight = transform.position.x > enemy.transform.position.x;
 
             MonsterHealth monsterHealth = enemy.GetComponent<MonsterHealth>();
+            BossHealth bossHealth = enemy.GetComponent<BossHealth>();
             if (monsterHealth != null)
             {
                 monsterHealth.TakeDamage(attackData.damage + playerStats.Damage, transform, attackFromRight);
+
+                if (attackData.launchEnemy)
+                {
+                    Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
+                    if (enemyRb != null)
+                    {
+                        float knockbackDirectionX = enemy.transform.position.x - transform.position.x;
+                        float directionSign = Mathf.Sign(knockbackDirectionX);
+
+                        enemyRb.velocity = Vector2.zero; // Reset velocity trước
+                        enemyRb.AddForce(new Vector2(directionSign * attackData.knockbackForceX, attackData.knockbackForceY), ForceMode2D.Impulse);
+                    }
+                }
+            }
+            if (bossHealth != null)
+            {
+                bossHealth.TakeDamage(attackData.damage + playerStats.Damage, transform, attackFromRight);
 
                 if (attackData.launchEnemy)
                 {
